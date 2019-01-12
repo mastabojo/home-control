@@ -1,0 +1,30 @@
+body {
+    font-family: Muli-Light;
+    background-color: #12172f;
+    color: #fff;
+}
+
+@font-face {
+    font-family: Muli-Regular;
+    src: url(/resources/fonts/Muli-Regular.ttf);
+}
+
+@font-face {
+    font-family: Muli-Light;
+    src: url(/resources/fonts/Muli-Light.ttf);
+}
+
+@font-face {
+    font-family: Muli-Bold;
+    src: url(/resources/fonts/Muli-Bold.ttf);
+}
+
+a.nav-link {
+    color: grey;
+    background-color: transparent;
+}
+
+a.nav-link.active.show {
+    color: white;
+    background-color: transparent;
+}
