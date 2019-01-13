@@ -10,7 +10,7 @@ $tabs = [
     'lights',
     'weather',
     'heatpump',
-    // 'cameras',
+    'cameras',
     'settings'
 ];
  ?>
