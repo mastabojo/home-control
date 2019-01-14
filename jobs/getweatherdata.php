@@ -3,8 +3,9 @@
   This script is meant to be run periodicaly (every 10 minutes or so) by a cron job
   The openweathermap.org limit of 60 requests per minute per one API key shall not be exceeded
 */
-include_once '../env.php';
-include_once '../functions.php';
+
+include_once dirname(__DIR__) . '/env.php';
+include_once dirname(__DIR__) . '/functions.php';
 
 $lang = isset($LANGUAGE) ? $LANGUAGE : 'en';
 
