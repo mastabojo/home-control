@@ -1,7 +1,7 @@
 body {
     font-family: Muli-Light;
     background-color: #12172f;
-    color: #fff;
+    color: #ddd;
 }
 
 @font-face {
@@ -27,4 +27,20 @@ a.nav-link {
 a.nav-link.active.show {
     color: white;
     background-color: transparent;
+}
+
+#weather-pane span.temperature-display {
+    font-size: 220%;
+}
+
+#weather-pane span.updated-display {
+    font-size: 65%;
+}
+
+#status-pane span.time-display {
+    font-size: 180%;
+}
+
+#status-pane span.date-display {
+    font-size: 55%;
 }
