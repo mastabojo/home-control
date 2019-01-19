@@ -18,8 +18,11 @@ function mainLoop() {
         var currentMinute = parseInt(moment().format('m'));
         var currentSecond = parseInt(moment().format('s'));
 
+
+        // console.log(currentTime);
+
         // Status pane - current time and date
-        $('#span-time').text(currentTime);
+        $('#status-pane #span-time').text(currentTime);
         $('#span-date').text(currentDate);
 
         // check for current weather on checkPeriodWeatherCurrent offset by 7 minutes
@@ -38,8 +41,7 @@ function mainLoop() {
 
 
 
-                console.log(weatherData.weather_icon);
-                console.log(moment.unix(weatherData.calc_time).format("D.M.YYYY H:mm:ss"));
+ 
             });
         }
 

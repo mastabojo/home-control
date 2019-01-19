@@ -27,7 +27,7 @@ $tabs = [
 <body>
 
 
-<div class="container">
+<div class="container-fluid">
 
 <!-- Navigation (Tabs) -->
 <ul class="nav nav-tabs justify-content-center border-0 mt-2" id="hcTabs" role="tablist">
@@ -64,7 +64,7 @@ foreach($tabs as $key => $tab) {
 </div><!--div#main-pane -->
 </div><!--div.row -->
 
-<div class="row" style="height: 30x;">
+<div class="row" style="height: 30px;">
   <div id="status-pane" class="col-sm mt-1">
     <span id="span-time" class="time-display"></span> <span id="span-date" class="date-display"></span>
     
@@ -78,6 +78,6 @@ foreach($tabs as $key => $tab) {
 <script src="js/bootstrap.min.js"></script>
 <script src="js/moment.min.js"></script>
 <script src="js/main.js"></script>
-<script>// mainLoop();</script>
+<script>mainLoop();</script>
 </body>
 </html>

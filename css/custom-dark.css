@@ -20,7 +20,7 @@ body {
 }
 
 a.nav-link {
-    color: grey;
+    color: #888;
     background-color: transparent;
 }
 
@@ -29,11 +29,36 @@ a.nav-link.active.show {
     background-color: transparent;
 }
 
-#weather-pane span.temperature-display {
-    font-size: 220%;
+.home-panes {
+    padding: 2px;
+    margin: 3px;
+    background-color: rgba(0, 0, 120, 0.1);
 }
 
-#weather-pane span.updated-display {
+#weather-current {
+    background-color: none;
+    height: 50%;
+}
+
+#weather-forecast {
+    background-color: none;
+    height: 50%;
+}
+
+#weather-current span {
+    display: inline-block;
+}
+
+#img-icon-weather img {
+    width: 40px;
+    padding-bottom: 22px;
+}
+
+#span-temperature {
+    font-size: 320%;
+}
+
+#weather-current span.updated-display {
     font-size: 65%;
 }
 
@@ -43,4 +68,13 @@ a.nav-link.active.show {
 
 #status-pane span.date-display {
     font-size: 55%;
+}
+
+#weather-forecast .fcast-day {
+    display: inline-block;
+    
+}
+
+#weather-forecast img {
+    width: 40px;
 }

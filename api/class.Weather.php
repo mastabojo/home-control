@@ -32,6 +32,7 @@ class Weather
         $data = [];
         $data['calc_time']           = isset($owmData['dt']) ? $owmData['dt'] : -1;
         $data['city_id']             = isset($owmData['id']) ? $owmData['id'] : -1;
+        $data['city_name']           = isset($owmData['name']) ? $owmData['name'] : '';
         $data['weather_id']          = isset($owmData['weather'][0]['id']) ? $owmData['weather'][0]['id'] : -1;
         $data['weather_main']        = isset($owmData['weather'][0]['main']) ? $owmData['weather'][0]['main'] : '';
         $data['weather_description'] = isset($owmData['weather'][0]['description']) ? $owmData['weather'][0]['description'] : '';
@@ -48,14 +49,47 @@ class Weather
         $data['snow_3h']             = isset($owmData['snow']['3h']) ? $owmData['snow']['3h'] : -1;
         $data['sunrise']             = isset($owmData['sys']['sunrise']) ? $owmData['sys']['sunrise'] : -1;
         $data['sunset']              = isset($owmData['sys']['sunset']) ? $owmData['sys']['sunset'] : -1;
-        
-        // $data['url'] = $this->apiCurrentUrl;
-        // $data['DEBUG'] = dirname(__DIR__) . '/env.php';
 
         return $data;
-        // return $owmData;
     }
 
+/**
+     * Get current weather basic data from openweathermap.org
+     * @retturn array Basic weather data
+     */
+    public function getWeatherForecastDigest() 
+    {
+        // Get weather forecast data
+        $owmData = json_decode(file_get_contents($this->apiForecastUrl), true);
+
+        $data = [];
+        
+        foreach($owmData['list'] as $fcNo => $dailyForecast) {
+            
+            // day of the week for array index
+            $dayNo = date('w', $dailyForecast['dt']);
+
+            // Current hur for finding out day/night reading
+            $currentHour = date('G', $dailyForecast['dt']);
+
+            // read night temeprature only if hour falls between 0 and 2
+            if($currentHour >= 0 && $currentHour < 3) {
+                $data[$dayNo]['temperature_night'] = isset($dailyForecast['main']['temp']) ? $dailyForecast['main']['temp'] : -100.0;
+            // read day temeprature only if hour falls between 12 and 14
+            } elseif($currentHour >= 12 && $currentHour < 15) {
+                $data[$dayNo]['temperature_day'] = isset($dailyForecast['main']['temp']) ? $dailyForecast['main']['temp'] : -100.0;
+            } else {
+                continue;
+            }
+            $data[$dayNo]['calc_time'] = isset($dailyForecast['dt']) ? $dailyForecast['dt'] : -1;
+            $data[$dayNo]['weather_description'] = isset($dailyForecast['weather'][0]['description']) ? $dailyForecast['weather'][0]['description'] : '';
+            $data[$dayNo]['weather_icon'] = isset($dailyForecast['weather'][0]['icon']) ? $dailyForecast['weather'][0]['icon'] : '';
+        }
+
+        return $data;
+    }
+
+    
     /**
      * Get current weather detailed data (complete last record from the weather_current table)
      */

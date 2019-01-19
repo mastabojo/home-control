@@ -3,42 +3,92 @@ include_once dirname(__DIR__) . '/functions.php';
 include_once dirname(__DIR__) . '/api/class.Weather.php';
 
 $Weather = new Weather;
-$w = $Weather->getWeatherCurrentDigest();
+$wcurr = $Weather->getWeatherCurrentDigest();
+$wfcst = $Weather->getWeatherForecastDigest();
+
+$days = ['Nedelja', 'Ponedeljek', 'Torek', 'Sreda', 'Četrtek', 'Petek', 'Sobota'];
+// add day names to forecast data
+foreach($wfcst as $key => $fcData) {
+  // $dayOfWeek = date('w', $fcData['calc_time']);
+  $wfcst[$key]['short_day_name'] = substr($days[$key], 0, 3);
+}
 ?>
-<!-- div class="container" -->
 
-  <div class="row" style="height: 186px;">
-    <div id="weather-pane" class="col-sm border rounded border-dark mr-1 mb-1">
-      <img id="img-icon-weather" src="/img/weather-icons/<?php echo $w['weather_icon'];?>.svg" class="align-top">
-      <span id="span-temperature" class="temperature-display"><?php echo round($w['temperature']);?>&deg;</span>
-      <span class="updated-display">Updated: </span><span id="span-updated" class="updated-display"><?php echo date('d.m.Y H:i:s', $w['calc_time']);?></span>
-    </div>
-    <div id="heat-pump-pane" class="col-sm border rounded border-dark ml-1 mb-1">
-      Heat pump
-    </div>
-  </div>
+<div class="row" style="height: 186px;">
+<div id="weather-pane" class="home-panes col-sm border rounded border-dark mr-1 mb-1">
 
-  <div class="row" style="height: 186px;">
-    <div id="blinds-pane" class="col-sm border rounded border-dark mr-1 mt-1">
-      Blinds
-    </div>
-    <div id="lights-pane" class="col-sm border rounded border-dark ml-1 mt-1">
-      Lights
-    </div>
-  </div>
+<div id="weather-current" class="row align-items-end">
+
+<div class="col">
+
+
+<div class="row no-gutters">
+
+<div class="col-8">
+<span  id="img-icon-weather"><img src="/img/weather-icons/dark/<?php echo $wcurr['weather_icon'];?>.svg"></span>&nbsp;&nbsp;
+<span id="span-temperature" class="temperature-display"><?php echo round($wcurr['temperature']);?>&deg;</span>&nbsp;
+<span id="span-city_name"><?php echo $wcurr['city_name'];?></span>
+</div><!-- .col -->
+
+<div class="col text-right">
+<span class="updated-display">Zadnji podatki:</span><span id="span-updated" class="updated-display"><?php echo date('d.m H:i', $wcurr['calc_time']);?></span>
+</div><!-- .col -->
+
+</div><!-- .row -->
+
+</div><!-- .col -->
+
+</div><!-- #weather-current -->
+
+
+<div id="weather-forecast" class="row align-items-end">
+<div class="col text-right">
+
+<div class="row no-gutters align-items-end">
+<?php
+foreach($wfcst as $key => $fc) {
+  echo '<div class="col text-center">';
+  echo "<div id=\"fcast-day-{$key}\" class=\"fcast-day\">";
+  echo "{$fc['short_day_name']}<br>";
+
+  echo round($fc['temperature_day']) . ' (' . round($fc['temperature_night']) . ')<br>';
+
+  echo "<img src=\"/img/weather-icons/dark/{$fc['weather_icon']}.svg\">";
+  echo '</div><!-- .fcast-day -->';
+  echo '</div><!-- .col -->';
+}
+?>
+
+</div><!-- .row -->
+
+</div><!-- .col -->
+
+</div><!-- #weather-forecast -->
+
+</div><!-- #weather-pane -->
+
+<div id="heat-pump-pane" class="home-panes col-sm border rounded border-dark ml-1 mb-1">
+Toplotna črpalka
+</div>
+</div>
+
+<div class="row" style="height: 186px;">
+<div id="blinds-pane" class="home-panes col-sm border rounded border-dark mr-1 mt-1">
+Rolete
+</div>
+<div id="lights-pane" class="home-panes col-sm border rounded border-dark ml-1 mt-1">
+Luči
+</div>
+</div>
 
  
 <?php /*
-<div class="row" style="height: 150px;">
-  <div class="col-sm border rounded border-secondary m-1">
-      <h4>DEBUG</h4>
+<div class="row" style="height: 800px;" class="color:white; font-size: 9px;">
+<div class="col-sm border rounded border-secondary m-1">
+<h4>DEBUG</h4>
     
-<?php
-// echo(print_r($w, 1));
-?>
+<?php echo('<pre>' . print_r($wfcst, 1) . '</pre>'); ?>
 
-  </div>
-</div>
+</div><!-- .col -->
+</div><!-- .row -->
 */?>
-
-<!-- /div -->
