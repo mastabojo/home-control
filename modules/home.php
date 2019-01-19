@@ -31,7 +31,7 @@ foreach($wfcst as $key => $fcData) {
 </div><!-- .col -->
 
 <div class="col text-right">
-<span class="updated-display">Zadnji podatki:</span><span id="span-updated" class="updated-display"><?php echo date('d.m H:i', $wcurr['calc_time']);?></span>
+<span class="updated-display">Zadnji podatki:</span><span id="span-updated" class="updated-display"><?php echo date('d.m. H:i', $wcurr['calc_time']);?></span>
 </div><!-- .col -->
 
 </div><!-- .row -->
@@ -112,7 +112,52 @@ Toplotna črpalka
 
 </div>
 <div id="lights-pane" class="home-panes col-sm border rounded border-dark ml-1 mt-1">
-Luči
+
+<!-- Lights - row 1 -->
+<div class="row no-gutters align-items-end">
+
+<!-- lights - col 1 -->
+<div class="col text-center">
+<img src="img/light-icons/<?php echo $theme; ?>/icon-light-off.svg">
+</div><!-- .col -->
+
+<!-- lights - col 2 -->
+<div class="col text-center">
+<img src="img/light-icons/<?php echo $theme; ?>/icon-light-off.svg">
+</div><!-- .col -->
+
+<!-- lights - col 3 -->
+<div class="col text-center">
+<img src="img/light-icons/<?php echo $theme; ?>/icon-light-off.svg">
+</div><!-- .col -->
+
+</div><!-- .row -->
+
+<!-- Lights - row 2 -->
+<div class="row no-gutters align-items-center">
+
+<!-- lights - col 1 -->
+<div class="col text-center">
+Dnevni prostor
+</div><!-- .col -->
+
+<!-- lights - col 2 -->
+<div class="col text-center">
+Hodnik
+</div><!-- .col -->
+
+<!-- lights - col 3 -->
+<div class="col text-center">
+Vhod
+</div><!-- .col -->
+
+</div><!-- .row -->
+
+
+
+
+
+
 </div>
 </div>
 
