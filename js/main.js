@@ -18,9 +18,6 @@ function mainLoop() {
         var currentMinute = parseInt(moment().format('m'));
         var currentSecond = parseInt(moment().format('s'));
 
-
-        // console.log(currentTime);
-
         // Status pane - current time and date
         $('#status-pane #span-time').text(currentTime);
         $('#span-date').text(currentDate);
@@ -32,16 +29,7 @@ function mainLoop() {
                 var weatherData = JSON.parse(data);
                 $("#img-icon-weather").attr("src", "/img/weather-icons/" + weatherData.weather_icon + ".svg");
                 $("#span-temperature").html(Math.round(weatherData.temperature));
-                $("#span-updated").html(moment.unix(weatherData.calc_time).format("D.M.YYYY H:mm:ss"));
-
-
-
-
-
-
-
-
- 
+                $("#span-updated").html(moment.unix(weatherData.calc_time).format("D.M.YY H:mm"));
             });
         }
 
