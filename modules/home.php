@@ -25,7 +25,7 @@ foreach($wfcst as $key => $fcData) {
 <div class="row no-gutters">
 
 <div class="col-8">
-<span  id="img-icon-weather"><img src="/img/weather-icons/dark/<?php echo $wcurr['weather_icon'];?>.svg"></span>&nbsp;&nbsp;
+<span  id="img-icon-weather"><img src="/img/weather-icons/<?php echo $theme . '/' . $wcurr['weather_icon'];?>.svg"></span>&nbsp;&nbsp;
 <span id="span-temperature" class="temperature-display"><?php echo round($wcurr['temperature']);?>&deg;</span>&nbsp;
 <span id="span-city_name"><?php echo $wcurr['city_name'];?></span>
 </div><!-- .col -->
@@ -50,15 +50,12 @@ foreach($wfcst as $key => $fc) {
   echo '<div class="col text-center">';
   echo "<div id=\"fcast-day-{$key}\" class=\"fcast-day\">";
   echo "{$fc['short_day_name']}<br>";
-
   echo round($fc['temperature_day']) . ' (' . round($fc['temperature_night']) . ')<br>';
-
-  echo "<img src=\"/img/weather-icons/dark/{$fc['weather_icon']}.svg\">";
+  echo "<img src=\"/img/weather-icons/{$theme}/{$fc['weather_icon']}.svg\">";
   echo '</div><!-- .fcast-day -->';
   echo '</div><!-- .col -->';
 }
 ?>
-
 </div><!-- .row -->
 
 </div><!-- .col -->
@@ -74,7 +71,45 @@ Toplotna črpalka
 
 <div class="row" style="height: 186px;">
 <div id="blinds-pane" class="home-panes col-sm border rounded border-dark mr-1 mt-1">
-Rolete
+
+<!-- Shutters - row 1 (roll automatic and manual up) -->
+<div class="row no-gutters align-items-end">
+
+<!-- Shutters - col 1 (roll automatic up) -->
+<div class="col text-center">
+<img src="img/shutter-icons/<?php echo $theme; ?>/icon-sht-up-1-auto.svg">&nbsp;
+<img src="img/shutter-icons/<?php echo $theme; ?>/icon-sht-up-1-auto.svg">&nbsp;
+<img src="img/shutter-icons/<?php echo $theme; ?>/icon-sht-up-2-auto.svg">
+</div><!-- .col -->
+
+<!-- Shutters - col 2 (roll manual up) -->
+<div class="col text-center">
+<img src="img/shutter-icons/<?php echo $theme; ?>/icon-sht-up-1-manual.svg">&nbsp;
+<img src="img/shutter-icons/<?php echo $theme; ?>/icon-sht-up-1-manual.svg">&nbsp;
+<img src="img/shutter-icons/<?php echo $theme; ?>/icon-sht-up-2-manual.svg">
+</div><!-- .col -->
+
+</div><!-- .row -->
+
+<!-- Shutters - row 2 (roll automatic and manual down) -->
+<div class="row no-gutters align-items-start">
+  
+<!-- Shutters - col 1 (roll automatic up) -->
+<div class="col text-center">
+<img src="img/shutter-icons/<?php echo $theme; ?>/icon-sht-down-1-auto.svg">&nbsp;
+<img src="img/shutter-icons/<?php echo $theme; ?>/icon-sht-down-1-auto.svg">&nbsp;
+<img src="img/shutter-icons/<?php echo $theme; ?>/icon-sht-down-2-auto.svg">
+</div><!-- .col -->
+
+<!-- Shutters - col 2 (roll manual up) -->
+<div class="col text-center">
+<img src="img/shutter-icons/<?php echo $theme; ?>/icon-sht-down-1-manual.svg">&nbsp;
+<img src="img/shutter-icons/<?php echo $theme; ?>/icon-sht-down-1-manual.svg">&nbsp;
+<img src="img/shutter-icons/<?php echo $theme; ?>/icon-sht-down-2-manual.svg">
+</div><!-- .col -->
+
+</div><!-- .row -->
+
 </div>
 <div id="lights-pane" class="home-panes col-sm border rounded border-dark ml-1 mt-1">
 Luči

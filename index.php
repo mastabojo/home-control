@@ -2,7 +2,7 @@
 define('NL', "\n");
 include 'env.php';
 
-$style = 'dark';
+$theme = 'dark';
 
 $tabs = [
     'home',
@@ -22,7 +22,7 @@ $tabs = [
     <title>Home control</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" href="css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" media="screen" href="css/custom-<?php echo $style;?>.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/custom-<?php echo $theme;?>.css">
 </head>
 <body>
 
