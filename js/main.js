@@ -33,6 +33,9 @@ function mainLoop() {
             });
         }
 
+        // Heat pump hourly chart 
+        var hourlyConsumption = [38, 37, 39];
+
         // check for current weather on checkPeriodWeatherCurrent offset by 3 minutes
         if((currentHour % checkPeriodWeatherForecast)  == 0 && currentMinute == 3 && currentSecond == 0) {
             console.log('Weather forecast checked on ' + currentTime);
