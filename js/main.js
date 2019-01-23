@@ -7,7 +7,11 @@ function mainLoop() {
     setInterval(function() {
 
         // check interval for current weather data (in minutes)
-        var checkPeriodWeatherCurrent = 10;
+        // var checkPeriodWeatherCurrent = 10;
+        
+        // DEBUG VALUE
+        var checkPeriodWeatherCurrent = 20;
+        
         // check interval for 5 day weather forecast (in hours)
         var checkPeriodWeatherForecast = 2;
 
@@ -24,22 +28,42 @@ function mainLoop() {
 
         // check for current weather on checkPeriodWeatherCurrent offset by 7 minutes
         if((currentMinute - 7) % checkPeriodWeatherCurrent == 0 && currentSecond == 0) {
-            console.log('Current weather checked on ' + currentTime);
-            $.get("/jobs/getweatherdata.php?req=true", function(data) {
+            // console.log('Current weather checked on ' + currentTime);
+            // read from database
+            // $.get("/jobs/getweatherdata.php?req=true", function(data) {
+            // read from weather provider API
+            $.get("../api/getweather.php?type=current", function(data) {
                 var weatherData = JSON.parse(data);
                 $("#img-icon-weather").attr("src", "/img/weather-icons/" + weatherData.weather_icon + ".svg");
-                $("#span-temperature").html(Math.round(weatherData.temperature));
+                $("#span-temperature").html(Math.round(weatherData.temperature) + '&deg;');
                 $("#span-updated").html(moment.unix(weatherData.calc_time).format("D.M.YY H:mm"));
+            });
+        }
+
+        // check for weather forecast on checkPeriodWeatherForecast offset by 3 minutes
+        if((currentHour % checkPeriodWeatherForecast)  == 0 && currentMinute == 3 && currentSecond == 0) {
+        
+        // DEBUG
+        // if(currentSecond % 20 == 0) {
+            console.log('Weather forecast checked on ' + currentTime);
+            $.get("../api/getweather.php?type=forecast", function(data) {
+                var weatherData = JSON.parse(data);
+                // console.log(weatherData);
+                // console.log(weatherData[Object.keys(weatherData)[0]]);
+
+                var dayNames = {'00' : "Ned", '01' : "Pon", '02' : "Tor", '03' : "Sre", '04' : "Čet", '05' : "Pet", '06' : "Sob"};
+
+                for(day in weatherData) {
+                    var shortDayName = dayNames[day];
+                    $("#fcast-day-" + day + " .short-day-name").html(shortDayName);
+                    $("#fcast-day-" + day + " .temperature")
+                    .html(Math.round(weatherData[day]['temperature_day']) + '&deg; (' + Math.round(weatherData[day]['temperature_night']) + '&deg;)');
+                }
             });
         }
 
         // Heat pump hourly chart 
         var hourlyConsumption = [38, 37, 39];
-
-        // check for current weather on checkPeriodWeatherCurrent offset by 3 minutes
-        if((currentHour % checkPeriodWeatherForecast)  == 0 && currentMinute == 3 && currentSecond == 0) {
-            console.log('Weather forecast checked on ' + currentTime);
-        }
 
     }, 1000);
 }

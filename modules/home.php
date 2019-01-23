@@ -1,16 +1,15 @@
 <?php
 include_once dirname(__DIR__) . '/functions.php';
-include_once dirname(__DIR__) . '/api/class.Weather.php';
+include_once dirname(__DIR__) . '/api/class.WeatherOWM.php';
 
-$Weather = new Weather;
+$Weather = new WeatherOWM;
 $wcurr = $Weather->getWeatherCurrentDigest();
 $wfcst = $Weather->getWeatherForecastDigest();
 
 $days = ['Nedelja', 'Ponedeljek', 'Torek', 'Sreda', 'Četrtek', 'Petek', 'Sobota'];
 // add day names to forecast data
 foreach($wfcst as $key => $fcData) {
-  // $dayOfWeek = date('w', $fcData['calc_time']);
-  $wfcst[$key]['short_day_name'] = substr($days[$key], 0, 3);
+  $wfcst[$key]['short_day_name'] = substr($days[$wfcst[$key]['day_no']], 0, 3);
 }
 ?>
 
@@ -48,9 +47,9 @@ foreach($wfcst as $key => $fcData) {
 <?php
 foreach($wfcst as $key => $fc) {
   echo '<div class="col text-center">';
-  echo "<div id=\"fcast-day-{$key}\" class=\"fcast-day\">";
-  echo "{$fc['short_day_name']}<br>";
-  echo round($fc['temperature_day']) . ' (' . round($fc['temperature_night']) . ')<br>';
+  echo '<div id="fcast-day-' . $key . '" class="fcast-day">';
+  echo "<span class=\"short-day-name\">{$fc['short_day_name']}</span><br>";
+  echo '<span class="temperature">' . round($fc['temperature_day']) . '&deg; (' . round($fc['temperature_night']) . '&deg;)</span><br>';
   echo "<img src=\"/img/weather-icons/{$theme}/{$fc['weather_icon']}.svg\">";
   echo '</div><!-- .fcast-day -->';
   echo '</div><!-- .col -->';
@@ -65,7 +64,7 @@ foreach($wfcst as $key => $fc) {
 </div><!-- #weather-pane -->
 
 <div id="heat-pump-pane" class="home-panes col-sm border rounded border-dark ml-1 mb-1">
-Toplotna črpalka
+Dnevna poraba
 </div>
 </div>
 
