@@ -9,7 +9,7 @@ $wfcst = $Weather->getWeatherForecastDigest();
 $days = ['Nedelja', 'Ponedeljek', 'Torek', 'Sreda', 'Četrtek', 'Petek', 'Sobota'];
 // add day names to forecast data
 foreach($wfcst as $key => $fcData) {
-  $wfcst[$key]['short_day_name'] = substr($days[$wfcst[$key]['day_no']], 0, 3);
+  $wfcst[$key]['short_day_name'] = mb_substr($days[$wfcst[$key]['day_no']], 0, 3);
 }
 ?>
 
