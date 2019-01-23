@@ -59,8 +59,9 @@ class WeatherOWM extends Weather
     /**
      * Get current weather basic data from openweathermap.org
      * @retturn array Basic weather data
+     * THIS IS OLD VERSION. SEE THE REFACTORED VERSION BELOW
      */
-    public function getWeatherForecastDigest() 
+    public function getWeatherForecastDigest_OLD() 
     {
         // Get weather forecast data
         $owmData = json_decode(file_get_contents($this->apiForecastUrl), true);
@@ -96,6 +97,83 @@ class WeatherOWM extends Weather
             }
         }
 
+        return $data;
+    }
+
+    /**
+     * Refactored: Get current weather basic data from openweathermap.org
+     * @retturn array Basic weather data
+     */
+    public function getWeatherForecastDigest() 
+    {
+        // Get weather forecast data
+        $owmData = json_decode(file_get_contents($this->apiForecastUrl), true);
+
+        $todayNo = date('w');
+        
+        $currentDayNo = 0;
+        $currentHighestTemperature = -100.0;
+        $currentLowestTemperature = 100.0;
+
+        $dataKey = -1;
+        // get timestamps where highest and lowest temepratures occur for each day
+        foreach($owmData['list'] as $fcNo => $dailyForecast) {
+            
+            // day of the week for array index
+            $dayNo = date('w', $dailyForecast['dt']);
+
+            // skip forecast for today
+            if($dayNo == $todayNo) {
+                continue;
+            }
+
+            // when day changes set the default criteria and array index
+            if($dayNo != $currentDayNo) {
+                $currentDayNo = $dayNo;
+                $currentHighestTemperature = -100.0;
+                $currentLowestTemperature = 100.0;
+                $dataKey++;
+            }
+
+            // add timestamps for highest temperatures to the $highest array
+            if($dailyForecast['main']['temp'] > $currentHighestTemperature) {
+                $currentHighestTemperature = $dailyForecast['main']['temp'];
+                $highestArr[$dataKey] = $dailyForecast['dt'];
+            }
+
+            // add timestamps for lowest temperatures to the $lowest array
+            if($dailyForecast['main']['temp'] < $currentLowestTemperature) {
+                $currentLowestTemperature = $dailyForecast['main']['temp'];
+                $lowestArr[$dataKey] = $dailyForecast['dt'];
+            }
+        }
+
+        $data = [];
+        $dataKey = 0;
+        // iterate through main forecast array and scrap data for timestamps for highest/lowest temperatures
+        foreach($owmData['list'] as $fcNo => $dailyForecast) {
+            
+            if(in_array($dailyForecast['dt'], $highestArr)) {
+                $data[$dataKey]['day_no'] = date('w', $dailyForecast['dt']);
+                $data[$dataKey]['temperature_day'] = isset($dailyForecast['main']['temp']) ? $dailyForecast['main']['temp'] : -100.0;
+                $data[$dataKey]['weather_description'] = isset($dailyForecast['weather'][0]['description']) ? $dailyForecast['weather'][0]['description'] : '';
+                $data[$dataKey]['weather_icon'] = isset($dailyForecast['weather'][0]['icon']) ? $dailyForecast['weather'][0]['icon'] : '';
+                // $tempNightTS = $lowestArr[$dataKey];
+                // $data[$dataKey]['temperature_night'] = Stempnight;
+                $dataKey++;
+            }
+
+            for($i = 0; $i < 40; $i++) {
+                if(!isset($lowestArr[$dataKey])) {
+                    continue;
+                }
+                if(isset($owmData['list'][$i]['dt']) && $owmData['list'][$i]['dt'] == $lowestArr[$dataKey]) {
+                    $data[$dataKey]['temperature_night'] = isset($owmData['list'][$i]['main']['temp']) ? $owmData['list'][$i]['main']['temp'] : -100.0;
+                }
+            }
+
+        }
+        
         return $data;
     }
 

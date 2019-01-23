@@ -6,4 +6,4 @@ $Weather = new WeatherOWM;
 $weather = $Weather->getWeatherForecastDigest();
 
 var_export($weather);
-echo "\n\n";
+// echo "\n\n";
