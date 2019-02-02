@@ -106,3 +106,5 @@ venv.bak/
 ### Home control
 env.php
 storage/
+.vscode/
+

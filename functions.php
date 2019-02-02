@@ -24,6 +24,24 @@ function getDB($host, $database, $user, $pass) {
     }
 }
 
+function callPyScript($script, $params = null, $isSudo = false) {
+	$pythonPath = '/usr/bin/';
+	$command  = $isSudo ? 'sudo -u www-data ' : '';
+	$command .= $pythonPath . 'python3 ';
+	$command .= $_SERVER['DOCUMENT_ROOT'] . "/py/{$script}";
+	if($params) {
+		$command .= " $params";
+	}
+	logError($command);
+	shell_exec($command);
+}
+
+/**
+ * Function for error logging
+ */
+function logError($message, $comment = null) {
+	error_log($message . ($comment ? " [$comment]" : ''));
+}
 
 // Debugging
 function D($var, $comment = false, $die = true) {

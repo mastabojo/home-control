@@ -76,17 +76,11 @@ Dnevna poraba
 
 <!-- Shutters - col 1 (roll automatic up) -->
 <div class="col text-center">
-<img src="img/shutter-icons/<?php echo $theme; ?>/icon-sht-up-1-auto.svg">&nbsp;
-<img src="img/shutter-icons/<?php echo $theme; ?>/icon-sht-up-1-auto.svg">&nbsp;
-<img src="img/shutter-icons/<?php echo $theme; ?>/icon-sht-up-2-auto.svg">
+<img src="img/shutter-icons/<?php echo $theme; ?>/icon-sht-up-1-auto.svg" id="shutter-auto-left-up">
+<img src="img/shutter-icons/<?php echo $theme; ?>/icon-sht-up-1-auto.svg" id="shutter-auto-right-up">
+<img src="img/shutter-icons/<?php echo $theme; ?>/icon-sht-up-2-auto.svg" id="shutter-auto-both-up">
 </div><!-- .col -->
 
-<!-- Shutters - col 2 (roll manual up) -->
-<div class="col text-center">
-<img src="img/shutter-icons/<?php echo $theme; ?>/icon-sht-up-1-manual.svg">&nbsp;
-<img src="img/shutter-icons/<?php echo $theme; ?>/icon-sht-up-1-manual.svg">&nbsp;
-<img src="img/shutter-icons/<?php echo $theme; ?>/icon-sht-up-2-manual.svg">
-</div><!-- .col -->
 
 </div><!-- .row -->
 
@@ -95,17 +89,11 @@ Dnevna poraba
   
 <!-- Shutters - col 1 (roll automatic up) -->
 <div class="col text-center">
-<img src="img/shutter-icons/<?php echo $theme; ?>/icon-sht-down-1-auto.svg">&nbsp;
-<img src="img/shutter-icons/<?php echo $theme; ?>/icon-sht-down-1-auto.svg">&nbsp;
-<img src="img/shutter-icons/<?php echo $theme; ?>/icon-sht-down-2-auto.svg">
+<img src="img/shutter-icons/<?php echo $theme; ?>/icon-sht-down-1-auto.svg" id="shutter-auto-left-down">
+<img src="img/shutter-icons/<?php echo $theme; ?>/icon-sht-down-1-auto.svg" id="shutter-auto-right-down">
+<img src="img/shutter-icons/<?php echo $theme; ?>/icon-sht-down-2-auto.svg" id="shutter-auto-both-down">
 </div><!-- .col -->
 
-<!-- Shutters - col 2 (roll manual up) -->
-<div class="col text-center">
-<img src="img/shutter-icons/<?php echo $theme; ?>/icon-sht-down-1-manual.svg">&nbsp;
-<img src="img/shutter-icons/<?php echo $theme; ?>/icon-sht-down-1-manual.svg">&nbsp;
-<img src="img/shutter-icons/<?php echo $theme; ?>/icon-sht-down-2-manual.svg">
-</div><!-- .col -->
 
 </div><!-- .row -->
 

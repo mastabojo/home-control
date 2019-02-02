@@ -68,3 +68,14 @@ function mainLoop() {
     }, 1000);
 }
 
+// operate shutters (blinds)
+$("#blinds-pane img").on("click", function() {
+    
+    var data = {"action": $(this).attr("id")};
+    $.post('../api/doshutters.php', data, function() {
+        console.log(data);
+    });
+
+});
+
+

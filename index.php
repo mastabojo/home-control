@@ -43,10 +43,6 @@ foreach($tabs as $key => $tab) {
 
 
 
-
-
-
-
 <div class="row" style="height: 380x;">
   <div id="main-pane" class="col-sm">
       
@@ -54,7 +50,7 @@ foreach($tabs as $key => $tab) {
 <div class="tab-content" id="hcTabContent">
 <?php
 foreach($tabs as $key => $tab) {
-    $active = $key == 0 ? ' active' : '';
+    $active = $key == 0 ? ' active show' : '';
     echo "<div class=\"tab-pane fade{$active}\" id=\"{$tab}\" role=\"tabpanel\" aria-labelledby=\"{$tab}-tab\">";
     include "modules/{$tab}.php";
     echo "</div>" . NL;
