@@ -6,17 +6,17 @@ body {
 
 @font-face {
     font-family: Muli-Regular;
-    src: url(/resources/fonts/Muli-Regular.ttf);
+    src: url(/fonts/Muli-Regular.ttf);
 }
 
 @font-face {
     font-family: Muli-Light;
-    src: url(/resources/fonts/Muli-Light.ttf);
+    src: url(/fonts/Muli-Light.ttf);
 }
 
 @font-face {
     font-family: Muli-Bold;
-    src: url(/resources/fonts/Muli-Bold.ttf);
+    src: url(/fonts/Muli-Bold.ttf);
 }
 
 a.nav-link {
