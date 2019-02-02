@@ -1,4 +1,13 @@
 <?php
+session_start();
+
+// check if valid user
+if(!isset($_SESSION['userlevel']) || $_SESSION['userlevel'] < 1 || !isset($_SESSION['loggedin'])) {
+    session_destroy();
+    header('location: /index.php');
+    exit();
+}
+
 define('NL', "\n");
 
 $BASEPATH = dirname(__DIR__) . DIRECTORY_SEPARATOR;

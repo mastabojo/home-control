@@ -50,3 +50,16 @@ $qry['cities'] .= "CREATE TABLE `cities` (
 foreach($qry as $q) {
     echo $q . "\n\n";
 }
+
+// Create hccusers table
+$qry['hccusers'] = '';
+$qry['hccusers'] .= $dropTablesIfExists ? "DROP TABLE IF EXISTS hccusers;\n" : '';
+$qry['hccusers'] = "CREATE TABLE `hccusers` (
+    `userid` int(11) NOT NULL AUTO_INCREMENT,
+    `username` varchar(40) NOT NULL,
+    `passwrd` varchar(80) NOT NULL,
+    `userlevel` smallint(6) NOT NULL,
+    `firstname` varchar(40) NOT NULL,
+    `lastname` varchar(40) NOT NULL,
+    PRIMARY KEY (`userid`)
+   ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1";
