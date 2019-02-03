@@ -1,9 +1,8 @@
 <?php
-
+session_start();
 
 if(isset($_POST['input-username']) && !empty($_POST['input-username']) && isset($_POST['input-password']) && !empty($_POST['input-password'])) {
     
-    session_start();
     require '../lib/functions.php';
     require '../env.php';
     
@@ -15,17 +14,23 @@ if(isset($_POST['input-username']) && !empty($_POST['input-username']) && isset(
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         // $DEBUG = print_r($row, 1);
         if(password_verify($_POST['input-password'], $row['passwrd'])) {
-            $_SESION['user'] = [
+            $_SESSION['user'] = [
                 'username'  => $row['username'],
                 'firstname' => $row['firstname'],
                 'lastname'  => $row['lastname'],
                 'userlevel' => $row['userlevel'],
                 'loggedin'  => time()
             ];
+            $_POST = [];
             header('location: main.php');
             exit();
+        } else {
+            $_POST = [];
+            session_destroy();
         }
     } catch (PDOException $e) {
+        $_POST = [];
+        session_destroy();
         throw new PDOException($e->getMessage(), (int)$e->getCode());
         error_log("Error logging in user {$_POST['input-username']}: " . $e->getMessage());
     }

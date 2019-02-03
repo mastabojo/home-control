@@ -2,7 +2,7 @@
 session_start();
 
 // check if valid user
-if(!isset($_SESSION['userlevel']) || $_SESSION['userlevel'] < 1 || !isset($_SESSION['loggedin'])) {
+if(!isset($_SESSION['user']['userlevel']) || $_SESSION['user']['userlevel'] < 1 || !isset($_SESSION['user']['loggedin'])) {
     session_destroy();
     header('location: /index.php');
     exit();
