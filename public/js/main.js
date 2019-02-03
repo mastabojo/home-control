@@ -78,4 +78,17 @@ $("#blinds-pane img").on("click", function() {
 
 });
 
+function getHeatPumpchart(period, data, options) {
 
+    // get the daily data
+    $get("../api/getHpChartData.php");
+    console.log("THE CHART");
+
+    var ctx = document.getElementById("hp-daily").getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: data,
+        options: options
+    });
+
+}

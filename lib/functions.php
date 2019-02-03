@@ -37,6 +37,24 @@ function callPyScript($script, $params = null, $isSudo = false) {
 }
 
 /**
+ * Get timestamp for current timezone
+ *  
+ */
+function getTimezonedTs($ts = null, $timezone = 'Europe/Ljubljana') {
+	
+	$ts = $ts ? $ts : time();
+
+	switch($timezone) {
+		case 'Europe/Ljubljana':
+			$timeOffset = 3600; break;
+		default: 
+			$timeOffset = 3600; break;
+	}
+	$timeOffset = 3600;
+	return $ts + $timeOffset;
+}
+
+/**
  * Function for error logging
  */
 function logError($message, $comment = null) {

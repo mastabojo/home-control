@@ -83,7 +83,9 @@ foreach($tabs as $key => $tab) {
 <script src="js/popper.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="js/moment.min.js"></script>
+<script src="js/Chart.min.js"></script>
 <script src="js/main.js"></script>
 <script>mainLoop();</script>
+<script>getHeatPumpchart();</script>
 </body>
 </html>

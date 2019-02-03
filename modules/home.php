@@ -64,9 +64,23 @@ foreach($wfcst as $key => $fc) {
 </div><!-- #weather-pane -->
 
 <div id="heat-pump-pane" class="home-panes col-sm border rounded border-dark ml-1 mb-1">
-Dnevna poraba
-</div>
-</div>
+
+<canvas id="hp-daily" width="200" height="100" style="background-color: grey;"></canvas>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div><!-- #heat-pump-pane -->
+</div><!-- .row -->
 
 <div class="row" style="height: 186px;">
 <div id="blinds-pane" class="home-panes col-sm border rounded border-dark mr-1 mt-1">
