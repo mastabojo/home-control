@@ -37,21 +37,18 @@ function callPyScript($script, $params = null, $isSudo = false) {
 }
 
 /**
- * Get timestamp for current timezone
- *  
+ * Get timestamps for beginning of the day and end of the day for given timezone
+ * @return array beginning timestamp and ending timestamp for a given day (or today)
  */
-function getTimezonedTs($ts = null, $timezone = 'Europe/Ljubljana') {
+function getDayStartAndEndTs($ts = null, $timezone = 'Europe/Ljubljana') {
 	
-	$ts = $ts ? $ts : time();
+	// To DO: set timezones
 
-	switch($timezone) {
-		case 'Europe/Ljubljana':
-			$timeOffset = 3600; break;
-		default: 
-			$timeOffset = 3600; break;
-	}
-	$timeOffset = 3600;
-	return $ts + $timeOffset;
+	// if no timestamp, get timestamps for today
+	$ts = $ts != null ? $ts : time();
+	$beginOfDay = DateTime::createFromFormat('Y-m-d H:i:s', (new DateTime())->setTimestamp($ts)->format('Y-m-d 00:00:00'))->getTimestamp() + 1;
+	$endOfDay = DateTime::createFromFormat('Y-m-d H:i:s', (new DateTime())->setTimestamp($ts)->format('Y-m-d 23:59:59'))->getTimestamp();
+	return [$beginOfDay, $endOfDay];
 }
 
 /**
