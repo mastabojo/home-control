@@ -52,6 +52,20 @@ function getDayStartAndEndTs($ts = null, $timezone = 'Europe/Ljubljana') {
 }
 
 /**
+ * Get easter start timestamp for given year taking into account local timezone
+ * Taken from https://secure.php.net/manual/en/function.easter-date.php
+ */
+function getEasterDatetime($year) {
+	// get first spring day timestamp (21.3.) 
+	$base = new DateTime("$year-03-21");
+	// PHPs own function to get number of days till Easter after first spring day
+	$days = easter_days($year);
+	// return the date
+    return $base->add(new DateInterval("P{$days}D"));
+}
+
+
+/**
  * Function for error logging
  */
 function logError($message, $comment = null) {

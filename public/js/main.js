@@ -63,7 +63,7 @@ function mainLoop() {
         }
 
         // Heat pump hourly chart 
-        var hourlyConsumption = [38, 37, 39];
+        // getHeatPumpchart();
 
     }, 1000);
 }
@@ -78,17 +78,19 @@ $("#blinds-pane img").on("click", function() {
 
 });
 
-function getHeatPumpchart(period, data, options) {
+function getHeatPumpchart() {
 
     // get the daily data
-    $get("../api/getHpChartData.php");
+    $.get("../../api/getHpChartData.php", function(data) {
+        console.log(data);
+    });
     console.log("THE CHART");
 
     var ctx = document.getElementById("hp-daily").getContext('2d');
     var myChart = new Chart(ctx, {
-        type: 'bar',
-        data: data,
-        options: options
+        // type: 'bar',
+        // data: data,
+        // options: options
     });
 
 }

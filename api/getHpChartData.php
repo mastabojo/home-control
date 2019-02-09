@@ -49,15 +49,19 @@ foreach($rows as $key => $row) {
     }
 }
 
-// get averages for each hour
+// Get averages for each hour
 // code better method for averages, this one is not appropriate
 foreach($hourlyReadings as $hour => $readings) {
-    $hourlyAverages[$hour] = (max($readings) - min($readings)) / count($readings);
+    $hourlyAverages[$hour] = count($readings) > 0 ? round((max($readings) - min($readings)) / count($readings), 2) : 0;
 }
 
-// get total daily readings
-$DailyTotalReadings = $dailyLast - $dailyFirst;
-$dailyAverage =  $DailyTotalReadings / count($rows);
+// Get total daily readings
+$dailyTotalConsumption = round($dailyLast - $dailyFirst, 2);
+$dailyAverageConsumption = count($rows) > 0 ? round($dailyTotalConsumption / count($rows), 2) : 0;
 
-print_r($hourlyAverages);
-print_r('Total daily readings: ' . $DailyTotalReadings . "($dailyLast - $dailyFirst)" . ', daily average: ' . $dailyAverage . "\n\n");
+// return JSON encoded data
+echo json_encode([
+    'dailyTotalConsumption' => $dailyTotalConsumption,
+    'dailyAverageConsumption' => $dailyAverageConsumption,
+    'hourlyAverages' => $hourlyAverages,
+], JSON_FORCE_OBJECT);

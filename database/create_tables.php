@@ -1,5 +1,20 @@
 <?php
+include '../env.php';
+include '../lib/functions.php';
+
+$DB = getDB($DB_HOST, $DB_NAME, $DB_USER, $DB_PASS);
+
+// drop tables if exist before creating (data will be lost)
 $dropTablesIfExists = true;
+
+// uncomment tables to be created
+$createTables = [
+    // 'weather_current',
+    // 'weather_forecast',
+    // 'cities',
+    // 'heat_pump_readings',
+    // 'hccusers'
+];
 
 // Create table current_weather
 $qry['weather_current']  = '';
@@ -26,7 +41,7 @@ $qry['weather_current'] .= "CREATE TABLE `weather_current` (
     `sunset` int(11) NOT NULL,
     PRIMARY KEY (`id`),
     KEY `curent_weather_time` (`calc_time`)
-   ) ENGINE=InnoDB DEFAULT CHARSET=utf8";
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8";
 
 // Create table for weather forecasts - it will store JSON reading in TEXT fields
 $qry['weather_forecast']  = '';
@@ -35,7 +50,7 @@ $qry['weather_forecast'] .= "CREATE TABLE `weather_forecast` (
     `forecast_id` int(11) NOT NULL AUTO_INCREMENT,
     `forecast_json` text CHARACTER SET utf8 NOT NULL,
     PRIMARY KEY (`forecast_id`)
-   ) ENGINE=InnoDB DEFAULT CHARSET=latin1";
+    ) ENGINE=InnoDB DEFAULT CHARSET=latin1";
 
 // Create cities table (city data from openweathermap.org)
 $qry['cities']  = '';
@@ -45,11 +60,19 @@ $qry['cities'] .= "CREATE TABLE `cities` (
     `city_name` varchar(64) CHARACTER SET utf8 NOT NULL,
     `city_country` varchar(8) CHARACTER SET utf8 NOT NULL,
     PRIMARY KEY (`city_id`)
-   ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='City data from openweathermap.org'";
+    ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='City data from openweathermap.org'";
 
-foreach($qry as $q) {
-    echo $q . "\n\n";
-}
+// Create heat_pump_readings table
+$qry['heat_pump_readings'] = '';
+$qry['heat_pump_readings'] .= $dropTablesIfExists ? "DROP TABLE IF EXISTS heat_pump_readings;\n" : '';
+$qry['heat_pump_readings'] = "CREATE TABLE `heat_pump_readings` (
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `heat_pump_id` tinyint(4) NOT NULL,
+    `read_time` int(11) NOT NULL,
+    `read_kwh` float NOT NULL,
+    `tariff` enum('vt','mt','et','') NOT NULL DEFAULT 'vt',
+    PRIMARY KEY (`id`)
+   ) ENGINE=InnoDB AUTO_INCREMENT=4987 DEFAULT CHARSET=latin1";
 
 // Create hccusers table
 $qry['hccusers'] = '';
@@ -63,3 +86,25 @@ $qry['hccusers'] = "CREATE TABLE `hccusers` (
     `lastname` varchar(40) NOT NULL,
     PRIMARY KEY (`userid`)
    ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1";
+   
+// Create holidays table
+$qry['holiday_dates'] = '';
+$qry['holiday_dates'] .= $dropTablesIfExists ? "DROP TABLE IF EXISTS holiday_dates;\n" : '';
+$qry['holiday_dates'] = "CREATE TABLE `holiday_dates` (
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `country_code` char(3) NOT NULL,
+    `holiday_date` char(5) NOT NULL,
+    `holiday_name` varchar(64) CHARACTER SET utf8 COLLATE utf8_slovenian_ci NOT NULL,
+    `non_working_day` enum('y','n') NOT NULL DEFAULT 'y',
+    PRIMARY KEY (`id`)
+   ) ENGINE=InnoDB DEFAULT CHARSET=utf8";
+
+// Create selected tables
+foreach($qry as $key => $q) {
+    // create only selected tables present in the $createTables array
+    if(in_array($key, $createTables)) {
+        echo $q . "\n\n";
+        $stmt = $DB->prepare($q);
+        $stmt->execute();
+    }
+}
