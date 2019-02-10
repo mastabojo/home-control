@@ -41,7 +41,7 @@ $qry['weather_current'] .= "CREATE TABLE `weather_current` (
     `sunset` int(11) NOT NULL,
     PRIMARY KEY (`id`),
     KEY `curent_weather_time` (`calc_time`)
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8";
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
 
 // Create table for weather forecasts - it will store JSON reading in TEXT fields
 $qry['weather_forecast']  = '';
@@ -50,7 +50,7 @@ $qry['weather_forecast'] .= "CREATE TABLE `weather_forecast` (
     `forecast_id` int(11) NOT NULL AUTO_INCREMENT,
     `forecast_json` text CHARACTER SET utf8 NOT NULL,
     PRIMARY KEY (`forecast_id`)
-    ) ENGINE=InnoDB DEFAULT CHARSET=latin1";
+    ) ENGINE=InnoDB DEFAULT CHARSET=latin1;";
 
 // Create cities table (city data from openweathermap.org)
 $qry['cities']  = '';
@@ -60,7 +60,7 @@ $qry['cities'] .= "CREATE TABLE `cities` (
     `city_name` varchar(64) CHARACTER SET utf8 NOT NULL,
     `city_country` varchar(8) CHARACTER SET utf8 NOT NULL,
     PRIMARY KEY (`city_id`)
-    ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='City data from openweathermap.org'";
+    ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='City data from openweathermap.org';";
 
 // Create heat_pump_readings table
 $qry['heat_pump_readings'] = '';
@@ -72,7 +72,7 @@ $qry['heat_pump_readings'] = "CREATE TABLE `heat_pump_readings` (
     `read_kwh` float NOT NULL,
     `tariff` enum('vt','mt','et','') NOT NULL DEFAULT 'vt',
     PRIMARY KEY (`id`)
-   ) ENGINE=InnoDB AUTO_INCREMENT=4987 DEFAULT CHARSET=latin1";
+   ) ENGINE=InnoDB AUTO_INCREMENT=4987 DEFAULT CHARSET=latin1;";
 
 // Create hccusers table
 $qry['hccusers'] = '';
@@ -85,7 +85,7 @@ $qry['hccusers'] = "CREATE TABLE `hccusers` (
     `firstname` varchar(40) NOT NULL,
     `lastname` varchar(40) NOT NULL,
     PRIMARY KEY (`userid`)
-   ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1";
+   ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;";
    
 // Create holidays table
 $qry['holiday_dates'] = '';
@@ -97,7 +97,16 @@ $qry['holiday_dates'] = "CREATE TABLE `holiday_dates` (
     `holiday_name` varchar(64) CHARACTER SET utf8 COLLATE utf8_slovenian_ci NOT NULL,
     `non_working_day` enum('y','n') NOT NULL DEFAULT 'y',
     PRIMARY KEY (`id`)
-   ) ENGINE=InnoDB DEFAULT CHARSET=utf8";
+   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
+
+// Create CPU temperature log table
+$qry['cpu_temperature_log'] = '';
+$qry['cpu_temperature_log'] .= $dropTablesIfExists ? "DROP TABLE IF EXISTS cpu_temperature_log;\n" : '';
+$qry['cpu_temperature_log'] = 
+"CREATE TABLE `cpu_temperature_log` (
+    `read_time` int(11) NOT NULL,
+    `cpu_temperature` int(11) NOT NULL
+   ) ENGINE=InnoDB DEFAULT CHARSET=latin1;";
 
 // Create selected tables
 foreach($qry as $key => $q) {

@@ -5,7 +5,7 @@
 */
 
 include_once dirname(__DIR__) . '/env.php';
-include_once dirname(__DIR__) . '/functions.php';
+include_once dirname(__DIR__) . '/lib/functions.php';
 
 $lang = isset($LANGUAGE) ? $LANGUAGE : 'en';
 
