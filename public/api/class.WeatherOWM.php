@@ -7,8 +7,10 @@ include(dirname(__DIR__) . '/api/class.Weather.php');
 class WeatherOWM extends Weather
 {
     public function __construct() {
+        
+        parent::__construct();
 
-        include dirname(__DIR__) . '/env.php';
+        include $this->baseDir . '/env.php';
 
         $this->apiCurrentUrl  = "http://api.openweathermap.org/data/2.5/weather?id={$OPENWEATHERMAP_CITY_ID}&units=metric&lang={$LANGUAGE}&APPID={$OPENWEATHERMAP_API_KEY}";
         $this->apiForecastUrl = "http://api.openweathermap.org/data/2.5/forecast?id={$OPENWEATHERMAP_CITY_ID}&units=metric&lang={$LANGUAGE}&APPID={$OPENWEATHERMAP_API_KEY}";

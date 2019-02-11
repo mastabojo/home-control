@@ -66,7 +66,7 @@ function mainLoop() {
             // CPU temperature
             $.get("../api/getCpuTemperature.php", function(data) {
                 var tempObj = JSON.parse(data);
-                $('#span-cpu-temperature').html(tempObj.min_cpu_temperature + '/' + tempObj.max_cpu_temperature);
+                $('#span-cpu-temperature').html(tempObj.min_cpu_temperature + '&deg;/' + tempObj.max_cpu_temperature + '&deg;');
             });
         }
 

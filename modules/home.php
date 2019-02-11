@@ -1,6 +1,6 @@
 <?php
 include_once $BASEPATH . 'lib/functions.php';
-include_once $BASEPATH . 'api/class.WeatherOWM.php';
+include_once $BASEPATH . 'public/api/class.WeatherOWM.php';
 
 $Weather = new WeatherOWM;
 $wcurr = $Weather->getWeatherCurrentDigest();

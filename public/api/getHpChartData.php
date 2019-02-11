@@ -1,7 +1,9 @@
 <?php
 
-include_once dirname(__DIR__) . '/env.php';
-include_once dirname(__DIR__) . '/lib/functions.php';
+$baseDir = dirname(__DIR__, 2);
+
+include_once $baseDir . '/env.php';
+include_once $baseDir . '/lib/functions.php';
 
 $lang = isset($LANGUAGE) ? $LANGUAGE : 'en';
 

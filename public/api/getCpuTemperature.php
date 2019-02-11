@@ -4,8 +4,10 @@
  * Read surrent CPU from the system and mx/min/avg from the database
  */
 
-include_once '../../env.php';
-include_once '../../lib//functions.php';
+$baseDir = dirname(__DIR__, 2);
+
+include_once $baseDir . '/env.php';
+include_once $baseDir . '/lib/functions.php';
 
 $cpuTemperatureInfoPath = '/sys/class/thermal/thermal_zone0/temp';
 
@@ -28,7 +30,11 @@ try {
     $stmt->execute();
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    echo json_encode($row, JSON_FORCE_OBJECT);
+    if(isset($row) && !empty($row)) {
+        echo json_encode($row, JSON_FORCE_OBJECT);
+    } else {
+        '{"min_cpu_temperature": -200, "max_cpu_temperature": -100}';
+    }
     exit();
 
 } catch(Exception $e) {
