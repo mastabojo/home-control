@@ -31,9 +31,9 @@ try {
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if(isset($row) && !empty($row)) {
-        echo json_encode($row, JSON_FORCE_OBJECT);
+        echo json_encode(array_merge(['cpu_temperature' => $cpuTemperature], $row), JSON_FORCE_OBJECT);
     } else {
-        '{"min_cpu_temperature": -200, "max_cpu_temperature": -100}';
+        "{'cpu_temperature': $cpuTemperature, 'min_cpu_temperature': -200, 'max_cpu_temperature': -100}";
     }
     exit();
 

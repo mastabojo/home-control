@@ -65,7 +65,7 @@ foreach($wfcst as $key => $fc) {
 
 <div id="heat-pump-pane" class="home-panes col-sm border rounded border-dark ml-1 mb-1">
 
-<canvas id="hp-daily" width="200" height="100" style="background-color: grey;"></canvas>
+<canvas id="hp-daily" width="200" height="88" style="background-color: grey;"></canvas>
 
 
 
