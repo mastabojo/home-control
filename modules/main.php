@@ -84,7 +84,7 @@ foreach($tabs as $key => $tab) {
 </div><!-- .col -->
 
 <div class="col text-right">
-CPU: <span id="span-cpu-temperature" class="temperature display">0&deg;</span>
+<span class="cpu-data-display">CPU</span>: <span id="span-cpu-data" class="cpu-data-display">0&deg;</span>
 </div><!-- .col -->
 
 </div><!-- .row -->

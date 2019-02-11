@@ -57,20 +57,21 @@ function mainLoop() {
         }
 
         // do these common task every x minutes on tenth second
-        // if(currentMinute % checkPeriodCommonTasks == 0 && currentSecond == 10) {
-        if(currentSecond) {
+        if(currentMinute % checkPeriodCommonTasks == 0 && currentSecond == 10) {
 
             // Heat pump hourly chart 
             // getHeatPumpchart();
-
-            // CPU temperature
-            $.get("../api/getCpuTemperature.php", function(data) {
-                var tempObj = JSON.parse(data);
-                $('#span-cpu-temperature').html(tempObj.cpu_temperature + '&deg; (' + tempObj.min_cpu_temperature + '&deg;/' + tempObj.max_cpu_temperature + '&deg;)');
-            });
         }
 
+        // do these task every 2 seconds
+        if(currentSecond % 2 == 0) {
 
+            // CPU data
+            $.get("../api/getCpuData.php", function(data) {
+                var tempObj = JSON.parse(data);
+                $('#span-cpu-data').html(tempObj.cpu_load + "% " + tempObj.cpu_temperature + '&deg; (' + tempObj.min_cpu_temperature + '&deg;/' + tempObj.max_cpu_temperature + '&deg;)');
+            });
+        }
 
     }, 1000);
 }
