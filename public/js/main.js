@@ -7,17 +7,17 @@ function mainLoop() {
     setInterval(function() {
 
         // check interval for current weather data (in minutes)
-        // var checkPeriodWeatherCurrent = 10;
-        
-        // DEBUG VALUE
         var checkPeriodWeatherCurrent = 20;
         
         // check interval for 5 day weather forecast (in hours)
         var checkPeriodWeatherForecast = 2;
 
+        // check interval for common tasks (in minutes)
+        var checkPeriodCommonTasks = 2
+
         var currentTime = moment().format('H:mm:ss');
         var currentDate = moment().format('dddd, D.M.YYYY');
-        var dayOfWeek = moment().day();
+        // var dayOfWeek = moment().day();
         var currentHour = parseInt(moment().format('H'));
         var currentMinute = parseInt(moment().format('m'));
         var currentSecond = parseInt(moment().format('s'));
@@ -28,9 +28,6 @@ function mainLoop() {
 
         // check for current weather on checkPeriodWeatherCurrent offset by 7 minutes
         if((currentMinute - 7) % checkPeriodWeatherCurrent == 0 && currentSecond == 0) {
-            // console.log('Current weather checked on ' + currentTime);
-            // read from database
-            // $.get("/jobs/getweatherdata.php?req=true", function(data) {
             // read from weather provider API
             $.get("../api/getweather.php?type=current", function(data) {
                 var weatherData = JSON.parse(data);
@@ -42,9 +39,6 @@ function mainLoop() {
 
         // check for weather forecast on checkPeriodWeatherForecast offset by 3 minutes
         if((currentHour % checkPeriodWeatherForecast)  == 0 && currentMinute == 3 && currentSecond == 0) {
-        
-        // DEBUG
-        // if(currentSecond % 20 == 0) {
             console.log('Weather forecast checked on ' + currentTime);
             $.get("../api/getweather.php?type=forecast", function(data) {
                 var weatherData = JSON.parse(data);
@@ -62,8 +56,21 @@ function mainLoop() {
             });
         }
 
-        // Heat pump hourly chart 
-        // getHeatPumpchart();
+        // do these common task every x minutes on tenth second
+        // if(currentMinute % checkPeriodCommonTasks == 0 && currentSecond == 10) {
+        if(currentSecond) {
+
+            // Heat pump hourly chart 
+            // getHeatPumpchart();
+
+            // CPU temperature
+            $.get("../api/getCpuTemperature.php", function(data) {
+                var tempObj = JSON.parse(data);
+                $('#span-cpu-temperature').html(tempObj.min_cpu_temperature + '/' + tempObj.max_cpu_temperature);
+            });
+        }
+
+
 
     }, 1000);
 }
@@ -81,7 +88,7 @@ $("#blinds-pane img").on("click", function() {
 function getHeatPumpchart() {
 
     // get the daily data
-    $.get("../../api/getHpChartData.php", function(data) {
+    $.get("../api/getHpChartData.php", function(data) {
         console.log(data);
     });
     console.log("THE CHART");

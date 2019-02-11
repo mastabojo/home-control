@@ -37,7 +37,7 @@ $q['holiday_dates'] = "INSERT INTO holiday_dates (country_code, holiday_date, ho
     ('SI', '11-01', 'Dan spomina na mrtve', 'y'),
     ('SI', '11-23', 'Dan Rudolfa Maistra', 'n'),
     ('SI', '12-25', 'Božič', 'y'),
-    ('SI', '12-26', 'Dan samostojnosti in enotnosti', 'y')";
+    ('SI', '12-26', 'Dan samostojnosti in enotnosti', 'y');";
 
 // Seed selected tables
 foreach($qry as $key => $q) {

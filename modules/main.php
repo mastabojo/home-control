@@ -71,9 +71,26 @@ foreach($tabs as $key => $tab) {
 </div><!--div.row -->
 
 <div class="row" style="height: 30px;">
-  <div id="status-pane" class="col-sm mt-1">
-    <span id="span-time" class="time-display"></span> <span id="span-date" class="date-display"></span>
-    
+<div id="status-pane" class="col-sm mt-1">
+
+
+
+
+
+<div class="row no-gutters align-items-center">
+
+<div class="col">
+<span id="span-time" class="time-display"></span> <span id="span-date" class="date-display"></span>
+</div><!-- .col -->
+
+<div class="col">
+CPU: <span id="span-cpu-temperature" class="temperature display">0&deg;</span>
+</div><!-- .col -->
+
+</div><!-- .row -->
+
+
+
   </div><!--div#status-pane -->
 </div><!--div.row -->
 
