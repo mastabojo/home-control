@@ -4,9 +4,11 @@
  * Run this script from crontab (root)
  */
 
+include dirname(__DIR__) . '/env.php';
+
 $cpuTemperatureInfoPath = '/sys/class/thermal/thermal_zone0/temp';
 
-$criticalTemp = 82000;
+$criticalTemp = isset($MAX_CPU_TEMPERATURE) ? $MAX_CPU_TEMPERATURE * 1000 : 80000;
 
 // Read CPU temeperature form the system file
 $cpuTemperature = intval(file($cpuTemperatureInfoPath)[0]);
