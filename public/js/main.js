@@ -56,11 +56,12 @@ function mainLoop() {
             });
         }
 
-        // do these common task every x minutes on tenth second
-        if(currentMinute % checkPeriodCommonTasks == 0 && currentSecond == 10) {
+        // do this task every x minutes on tenth second
+        // if(currentMinute % checkPeriodCommonTasks == 0 && currentSecond == 10) {
+        if(currentSecond % 3 == 0) {
 
             // Heat pump hourly chart 
-            // getHeatPumpchart();
+            getHeatPumpchart();
         }
 
         // do these task every 2 seconds
@@ -93,6 +94,7 @@ function getHeatPumpchart() {
         console.log(data);
     });
     console.log("THE CHART");
+    onsole.log(data);
 
     var ctx = document.getElementById("hp-daily").getContext('2d');
     var myChart = new Chart(ctx, {
