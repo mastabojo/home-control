@@ -29,6 +29,7 @@ GPIO_REL_RIGHT_UP = 4
 GPIO_REL_RIGHT_DOWN = 17
 
 # Set GPIOs for all relays
+GPIO.cleanup()
 GPIO.setup(GPIO_REL_LEFT_UP, GPIO.OUT)
 GPIO.setup(GPIO_REL_LEFT_DOWN, GPIO.OUT)
 GPIO.setup(GPIO_REL_RIGHT_DOWN, GPIO.OUT)
@@ -102,8 +103,12 @@ while 1:
             # take a nap (for loop)
             time.sleep(1)
 
+        # cleanup after the loop
+        GPIO.cleanup()
+
     # Ctrl+C exits the loop
     except (KeyboardInterrupt, SystemExit):
+        GPIO.cleanup()
         logger.info('Program exited by keyboard interrupt')
         # logger.info(traceback.format_exc())
         break
