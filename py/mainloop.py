@@ -20,7 +20,8 @@ logger.addHandler(handler)
 logger.setLevel(logging.INFO)
 
 # GPIO numbers
-### GPIO.setmode(GPIO.BCM)
+###[RPI] 
+GPIO.setmode(GPIO.BCM)
 GPIO_REL_LEFT_UP = 2 
 GPIO_REL_LEFT_DOWN = 3
 GPIO_REL_RIGHT_UP = 4
