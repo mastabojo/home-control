@@ -50,6 +50,17 @@ Name[en_US]=AutoChromium
 Name=AutoChromium
 Comment=Start Chromium when GNOME starts
 ```
+## Install and enable Unclutter_
+
+Install and enable _unclutter_ to hide mouse cursor.
+
+```
+sudo apt-get install unclutter
+```
+Add this to the end of `~/.config/lxsession/LXDE-pi/autostart`:
+```
+@unclutter -idle 0
+```
 
 # Links
 
