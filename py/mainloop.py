@@ -7,7 +7,8 @@ command format: {"mode": "auto | manual", "side": "left | right | both", "direct
 '''
 
 import sys, json, time
-# import RPi.GPIO as GPIO
+###[RPI] 
+import RPi.GPIO as GPIO
 import logging
 import traceback
 
