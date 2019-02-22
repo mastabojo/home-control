@@ -27,18 +27,13 @@ GPIO_REL_LEFT_UP = 2
 GPIO_REL_LEFT_DOWN = 3
 GPIO_REL_RIGHT_UP = 4
 GPIO_REL_RIGHT_DOWN = 17
+allGPIOs = [GPIO_REL_LEFT_UP, GPIO_REL_LEFT_DOWN, GPIO_REL_RIGHT_DOWN, GPIO_REL_RIGHT_UP]
 
 # Set GPIOs for all relays
-GPIO.setup(GPIO_REL_LEFT_UP, GPIO.OUT)
-GPIO.setup(GPIO_REL_LEFT_DOWN, GPIO.OUT)
-GPIO.setup(GPIO_REL_RIGHT_DOWN, GPIO.OUT)
-GPIO.setup(GPIO_REL_RIGHT_UP, GPIO.OUT)
+GPIO.setup(allGPIOs, GPIO.OUT)
+
 # Switch all relays off
-GPIO.cleanup()
-GPIO.output(GPIO_REL_LEFT_UP, GPIO.HIGH)
-GPIO.output(GPIO_REL_LEFT_DOWN, GPIO.HIGH)
-GPIO.output(GPIO_REL_RIGHT_UP, GPIO.HIGH)
-GPIO.output(GPIO_REL_RIGHT_DOWN, GPIO.HIGH)
+GPIO.output(allGPIOs, GPIO.HIGH)
 
 cmdFileName = "commandqueue.txt"
 counter = 0
@@ -67,7 +62,7 @@ while 1:
 
         # convert line to json
         action = json.loads(line)
-        shutterTravelTime = maxShutterTravelTime / int(action['timeDivider'])
+        shutterTravelTime = int(maxShutterTravelTime / int(action['timeDivider']))
 
         # both left and right roller shutter
         if action['side'] == 'both':
@@ -85,6 +80,7 @@ while 1:
             logger.info('Wrong -side- argument: ' + action['side'])
             break
 
+        # Internal loop for operating shutters
         for t in range(0, shutterTravelTime):
             # print("TIME: " + str(t))
             # on first iterration switch the relay(s) ON

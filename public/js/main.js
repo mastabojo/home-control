@@ -58,14 +58,14 @@ function mainLoop() {
 
         // do this task every x minutes on tenth second
         // if(currentMinute % checkPeriodCommonTasks == 0 && currentSecond == 10) {
-        if(currentSecond % 3 == 0) {
+        if(currentSecond % 60 == 0) {
 
             // Heat pump hourly chart 
             getHeatPumpchart();
         }
 
-        // do these task every 2 seconds
-        if(currentSecond % 2 == 0) {
+        // do these task every n seconds
+        if(currentSecond % 5 == 0) {
 
             // CPU data
             $.get("../api/getCpuData.php", function(data) {
@@ -79,22 +79,23 @@ function mainLoop() {
 
 // operate shutters (blinds)
 $("#blinds-pane img").on("click", function() {
-    
-    var data = {"action": $(this).attr("id")};
-    $.post('../api/doshutters.php', data, function() {
-        console.log(data);
-    });
-
+    var clicked = $(this);
+    attrSrcOff = $(this).attr("src");
+    attrSrcOn = attrSrcOff.replace("-off", "-on");
+    // simulate on and off
+    clicked.attr("src", attrSrcOn);
+    setTimeout(function() {$(clicked).attr("src", attrSrcOff);}, 1000);
+    // Send post data
+    var data = {"action": $(this).attr("id"), "timeDivider": 2};
+    $.post('../api/doshutters.php', data);
 });
 
 function getHeatPumpchart() {
 
     // get the daily data
     $.get("../api/getHpChartData.php", function(data) {
-        console.log(data);
+        // console.log(data);
     });
-    console.log("THE CHART");
-    onsole.log(data);
 
     var ctx = document.getElementById("hp-daily").getContext('2d');
     var myChart = new Chart(ctx, {

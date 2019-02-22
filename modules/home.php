@@ -90,9 +90,9 @@ foreach($wfcst as $key => $fc) {
 
 <!-- Shutters - col 1 (roll automatic up) -->
 <div class="col text-center">
-<img src="img/shutter-icons/<?php echo $theme; ?>/icon-sht-up-1-auto.svg" id="shutter-auto-left-up">
-<img src="img/shutter-icons/<?php echo $theme; ?>/icon-sht-up-1-auto.svg" id="shutter-auto-right-up">
-<img src="img/shutter-icons/<?php echo $theme; ?>/icon-sht-up-2-auto.svg" id="shutter-auto-both-up">
+<img src="img/shutter-icons/<?php echo $theme; ?>/icon-sht-up-1-auto-off.svg" id="shutter-auto-left-up">
+<img src="img/shutter-icons/<?php echo $theme; ?>/icon-sht-up-1-auto-off.svg" id="shutter-auto-right-up">
+<img src="img/shutter-icons/<?php echo $theme; ?>/icon-sht-up-2-auto-off.svg" id="shutter-auto-both-up">
 </div><!-- .col -->
 
 
@@ -103,9 +103,9 @@ foreach($wfcst as $key => $fc) {
   
 <!-- Shutters - col 1 (roll automatic up) -->
 <div class="col text-center">
-<img src="img/shutter-icons/<?php echo $theme; ?>/icon-sht-down-1-auto.svg" id="shutter-auto-left-down">
-<img src="img/shutter-icons/<?php echo $theme; ?>/icon-sht-down-1-auto.svg" id="shutter-auto-right-down">
-<img src="img/shutter-icons/<?php echo $theme; ?>/icon-sht-down-2-auto.svg" id="shutter-auto-both-down">
+<img src="img/shutter-icons/<?php echo $theme; ?>/icon-sht-down-1-auto-off.svg" id="shutter-auto-left-down">
+<img src="img/shutter-icons/<?php echo $theme; ?>/icon-sht-down-1-auto-off.svg" id="shutter-auto-right-down">
+<img src="img/shutter-icons/<?php echo $theme; ?>/icon-sht-down-2-auto-off.svg" id="shutter-auto-both-down">
 </div><!-- .col -->
 
 

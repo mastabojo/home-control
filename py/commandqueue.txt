@@ -1,0 +1,1 @@
+{"mode":"auto","side":"both","direction":"down","timeDivider":1}

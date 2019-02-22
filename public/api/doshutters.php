@@ -3,7 +3,9 @@
  * Script for calling python script using Javascript/Ajax
  */
 
-include_once dirname(__DIR__) . '/functions.php';
+$rootPath = dirname(__DIR__, 2);
+
+include_once "{$rootPath}/lib/functions.php";
 
 $allowedActions = [
     'shutter-auto-left-up', 'shutter-auto-right-up', 'shutter-auto-both-up', 
@@ -12,16 +14,30 @@ $allowedActions = [
     'shutter-manual-left-down', 'shutter-manual-right-down', 'shutter-manual-both-down'
 ];
 
- if(!isset($_POST['action']) || !in_array($_POST['action'], $allowedActions)) {
+if(!isset($_POST['action']) || !in_array($_POST['action'], $allowedActions)) {
     logError("Wrong command for shutters");
     exit();
- } else {
-    $action = explode('-', trim($_POST['action']));
-    $mode = $action[1];
-    $side =  $action[2];
-    $direction = $action[3];
- }
+}
 
- $args = json_encode(["mode" => $mode, "side" => $side, "direction" => $direction], JSON_NUMERIC_CHECK);
+$action = explode('-', trim($_POST['action']));
+$mode = $action[1];
+$side =  $action[2];
+$direction = $action[3];
+$timeDivider = isset($_POST['timeDivider']) && ($_POST['timeDivision'] >= 1 && $_POST['timeDivider'] <= 4) ? (int) $_POST['timeDivider'] : 1;
 
-callPyScript("shutters.py '$args'");
+$args = json_encode(["mode" => $mode, "side" => $side, "direction" => $direction, "timeDivider" => $timeDivider], JSON_NUMERIC_CHECK);
+
+// Write command into the command queue file
+$cmdFileName = "{$rootPath}/py/commandqueue.txt";
+if(!$handle = fopen($cmdFileName, 'w')) {
+   logError("Cannot open file ($cmdFileName)") ;
+   exit;
+}
+if(fwrite($handle, $args) === FALSE) {
+   logError("Cannot write to file ($cmdFileName)");
+   exit;
+}
+fclose($handle);
+
+// This script is not needed anymore, the mainloop.py does the work
+// callPyScript("shutters.py '$args'");
