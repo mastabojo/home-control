@@ -77,16 +77,43 @@ function mainLoop() {
     }, 1000);
 }
 
+// set shutters time divider 
+// 1 - shutters travel whole way
+// 2 - shutters travel half way
+$("#blinds-pane img.shutter-divider").on("click", function() {
+    // Divider to be used
+    var clickedDivider = $(this).attr("src").split("-")[4];
+    $(".shutter-divider").each(function(i) {
+        tempArr = $(this).attr("src").split("-");
+        // console.log(tempArr);
+        tempDivider = tempArr[4];
+        if(tempDivider == clickedDivider) {
+            tempArr[5] = "on.svg";
+        } else {
+            tempArr[5] = "off.svg";
+        }
+        $(this).attr("src", tempArr.join("-"));
+    });
+});
+
 // operate shutters (blinds)
-$("#blinds-pane img").on("click", function() {
+$("#blinds-pane img.shutter-action").on("click", function() {
     var clicked = $(this);
     attrSrcOff = $(this).attr("src");
     attrSrcOn = attrSrcOff.replace("-off", "-on");
+    // Get time divider
+    timeDivider = 1;
+    $(".shutter-divider").each(function(i) {
+        tempArr = $(this).attr("src").split("-");
+        if(tempArr[5].split(".")[0] == "on") {
+            timeDivider = tempArr[4];
+        }
+    });
     // simulate on and off
     clicked.attr("src", attrSrcOn);
     setTimeout(function() {$(clicked).attr("src", attrSrcOff);}, 1000);
     // Send post data
-    var data = {"action": $(this).attr("id"), "timeDivider": 2};
+    var data = {"action": $(this).attr("id"), "timeDivider": timeDivider};
     $.post('../api/doshutters.php', data);
 });
 

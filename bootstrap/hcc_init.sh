@@ -1,6 +1,6 @@
 #!/bin/sh
 # hcc_init.sh
-# Starts from cron
+# Starts from rc.local
 # Does some initial tasks on boot
 
 # Start the main loop for Python scripts

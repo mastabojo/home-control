@@ -65,7 +65,7 @@ foreach($wfcst as $key => $fc) {
 
 <div id="heat-pump-pane" class="home-panes col-sm border rounded border-dark ml-1 mb-1">
 
-<canvas id="hp-daily" width="200" height="88" style="background-color: grey;"></canvas>
+<canvas id="hp-daily" width="200" height="88" style="background-color: none;"></canvas>
 
 
 
@@ -90,9 +90,10 @@ foreach($wfcst as $key => $fc) {
 
 <!-- Shutters - col 1 (roll automatic up) -->
 <div class="col text-center">
-<img src="img/shutter-icons/<?php echo $theme; ?>/icon-sht-up-1-auto-off.svg" id="shutter-auto-left-up">
-<img src="img/shutter-icons/<?php echo $theme; ?>/icon-sht-up-1-auto-off.svg" id="shutter-auto-right-up">
-<img src="img/shutter-icons/<?php echo $theme; ?>/icon-sht-up-2-auto-off.svg" id="shutter-auto-both-up">
+<img src="img/shutter-icons/<?php echo $theme; ?>/icon-sht-divider-1-on.svg" class="shutter-divider" id="shutter-divider-1">
+<img src="img/shutter-icons/<?php echo $theme; ?>/icon-sht-up-1-auto-off.svg" class="shutter-action" id="shutter-auto-left-up">
+<img src="img/shutter-icons/<?php echo $theme; ?>/icon-sht-up-1-auto-off.svg" class="shutter-action" id="shutter-auto-right-up">
+<img src="img/shutter-icons/<?php echo $theme; ?>/icon-sht-up-2-auto-off.svg" class="shutter-action" id="shutter-auto-both-up">
 </div><!-- .col -->
 
 
@@ -103,9 +104,10 @@ foreach($wfcst as $key => $fc) {
   
 <!-- Shutters - col 1 (roll automatic up) -->
 <div class="col text-center">
-<img src="img/shutter-icons/<?php echo $theme; ?>/icon-sht-down-1-auto-off.svg" id="shutter-auto-left-down">
-<img src="img/shutter-icons/<?php echo $theme; ?>/icon-sht-down-1-auto-off.svg" id="shutter-auto-right-down">
-<img src="img/shutter-icons/<?php echo $theme; ?>/icon-sht-down-2-auto-off.svg" id="shutter-auto-both-down">
+<img src="img/shutter-icons/<?php echo $theme; ?>/icon-sht-divider-2-off.svg" class="shutter-divider" id="shutter-divider-2">
+<img src="img/shutter-icons/<?php echo $theme; ?>/icon-sht-down-1-auto-off.svg" class="shutter-action" id="shutter-auto-left-down">
+<img src="img/shutter-icons/<?php echo $theme; ?>/icon-sht-down-1-auto-off.svg" class="shutter-action" id="shutter-auto-right-down">
+<img src="img/shutter-icons/<?php echo $theme; ?>/icon-sht-down-2-auto-off.svg" class="shutter-action" id="shutter-auto-both-down">
 </div><!-- .col -->
 
 
