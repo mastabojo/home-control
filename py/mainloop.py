@@ -25,11 +25,11 @@ logger.info('Started main loop')
 # GPIO numbers
 ###[RPI] 
 GPIO.setmode(GPIO.BCM)
-GPIO_REL_LEFT_UP = 2 
-GPIO_REL_LEFT_DOWN = 3
-GPIO_REL_RIGHT_UP = 4
-GPIO_REL_RIGHT_DOWN = 17
-allGPIOs = [GPIO_REL_LEFT_UP, GPIO_REL_LEFT_DOWN, GPIO_REL_RIGHT_DOWN, GPIO_REL_RIGHT_UP]
+GPIO_REL_LEFT_UP = 17
+GPIO_REL_LEFT_DOWN = 4
+GPIO_REL_RIGHT_UP = 2
+GPIO_REL_RIGHT_DOWN = 3
+allGPIOs = [GPIO_REL_LEFT_UP, GPIO_REL_LEFT_DOWN, GPIO_REL_RIGHT_UP, GPIO_REL_RIGHT_DOWN]
 
 # Set GPIOs for all relays
 GPIO.setup(allGPIOs, GPIO.OUT)
@@ -47,7 +47,7 @@ while 1:
         # first take a little nap / count sheep
         time.sleep(1)
 
-        # See if there are any new commands
+        # See if there are any new commands, read them and erase them
         cmdFile = open(cmdFileName, "r+")
         line = cmdFile.readline()
         cmdFile.seek(0) 
@@ -68,11 +68,13 @@ while 1:
         if action['side'] == 'both':
             gpio1 = eval('GPIO_REL_LEFT_' + action['direction'].upper())
             gpio2 = eval('GPIO_REL_RIGHT_' + action['direction'].upper())
+            logger.info('GPIOs SET FOR ACTION: ' + str(gpio1) + ' AND ' + str(gpio1))
             gpioList = [gpio1, gpio2]
 
         # only left or right shutter
         elif action['side'] in ['left', 'right']:
             gpio1 = eval('GPIO_REL_' + action['side'].upper() + '_' + action['direction'].upper())
+            logger.info('GPIO SET FOR ACTION: ' + str(gpio1))
             gpioList = [gpio1]
 
         # non-existent shutters
@@ -87,26 +89,36 @@ while 1:
             if t == 0:
                 ###[RPI] 
                 GPIO.output(gpioList, GPIO.LOW)
-                # print("SHUTTERS: " + action['side'] + " - SWITCHED ON")
+                logger.info("SHUTTERS: " + action['side'] + " - SWITCHED ON")
                 pass
             # on last iterration switch the relay(s) OFF
             if t == shutterTravelTime - 1:
                 ###[RPI] 
                 GPIO.output(gpioList, GPIO.HIGH)
-                # print("SHUTTERS: " + action['side'] + " - SWITCHED OFF")
+                logger.info("SHUTTERS: " + action['side'] + " - SWITCHED OFF")
                 pass
 
             # take a nap (for loop)
             time.sleep(1)
 
-        # cleanup after the loop
+        # switch all relays off
         GPIO.output(gpioList, GPIO.HIGH)
 
-    # Ctrl+C exits the loop
-    except (KeyboardInterrupt, SystemExit):
+    except IOError:
+        logger.info('An error occured trying to read the file ' + cmdFileName)
         GPIO.cleanup()
+        break
+   
+    except EOFError:
+        logger.info('An EOF error occured')
+        GPIO.cleanup()
+        break
+
+    # Ctrl+C exits the loop
+    except (KeyboardInterrupt):
         logger.info('Program exited by keyboard interrupt')
         # logger.info(traceback.format_exc())
+        GPIO.cleanup()
         break
 
 print "\n\n"
