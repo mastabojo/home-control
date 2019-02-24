@@ -20,7 +20,7 @@ handler.setFormatter(formatter)
 logger.addHandler(handler)
 logger.setLevel(logging.INFO)
 
-logger.info('Started main loop'])
+logger.info('Started main loop')
 
 # GPIO numbers
 ###[RPI] 
@@ -75,7 +75,7 @@ while 1:
             gpio1 = eval('GPIO_REL_' + action['side'].upper() + '_' + action['direction'].upper())
             gpioList = [gpio1]
 
-        # non-existant shutters
+        # non-existent shutters
         else: 
             logger.info('Wrong -side- argument: ' + action['side'])
             break
