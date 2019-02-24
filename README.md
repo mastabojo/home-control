@@ -35,6 +35,10 @@ Foolowing weather services are planned to be used:
 - Apixu (https://www.apixu.com/)
 - Arso (http://meteo.arso.gov.si/met/sl/service/, https://github.com/zejn/arsoapi)
 
+## Bootstrapping the app
+The `bootstrap/hcc_init.sh` file must be made executable and added to the `/etc/rc.local` file to start some application scripts.
+
+
 # Useful tips
 
 ## Start Chrominum in kiosk mode
