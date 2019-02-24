@@ -23,7 +23,7 @@ $action = explode('-', trim($_POST['action']));
 $mode = $action[1];
 $side =  $action[2];
 $direction = $action[3];
-$timeDivider = isset($_POST['timeDivider']) && ($_POST['timeDivision'] >= 1 && $_POST['timeDivider'] <= 4) ? (int) $_POST['timeDivider'] : 1;
+$timeDivider = isset($_POST['timeDivider']) && ($_POST['timeDivider'] >= 1 && $_POST['timeDivider'] <= 4) ? (int) $_POST['timeDivider'] : 1;
 
 $args = json_encode(["mode" => $mode, "side" => $side, "direction" => $direction, "timeDivider" => $timeDivider], JSON_NUMERIC_CHECK);
 
