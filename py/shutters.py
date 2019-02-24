@@ -28,16 +28,15 @@ action = json.loads(sys.argv[1])
 
 # GPIO numbers
 GPIO.setmode(GPIO.BCM)
-GPIO_REL_LEFT_UP = 2 
-GPIO_REL_LEFT_DOWN = 3
-GPIO_REL_RIGHT_UP = 4
-GPIO_REL_RIGHT_DOWN = 17
-allGPIOs = [GPIO_REL_LEFT_UP, GPIO_REL_LEFT_DOWN, GPIO_REL_RIGHT_DOWN, GPIO_REL_RIGHT_UP]
+GPIO_REL_LEFT_UP = 17
+GPIO_REL_LEFT_DOWN = 4
+GPIO_REL_RIGHT_UP = 2
+GPIO_REL_RIGHT_DOWN = 3
+allGPIOs = [GPIO_REL_LEFT_UP, GPIO_REL_LEFT_DOWN, GPIO_REL_RIGHT_UP, GPIO_REL_RIGHT_DOWN]
 
 # Time it takes shutters to fully open/close (seconds)
 maxShutterTravelTime = 16
-shutterTravelTime = int (maxShutterTravelTime / int action['diretimeDividerction'])
-
+shutterTravelTime = int(maxShutterTravelTime / int(action['timeDivider']))
 
 # Set GPIOs for all relays
 GPIO.setup(allGPIOs, GPIO.OUT)
@@ -53,9 +52,13 @@ try:
         gpio2 = eval('GPIO_REL_RIGHT_' + action['direction'].upper())
         gpioList = [gpio1, gpio2]
 
+        print('RUNNING: ' + str(gpio1) + ' AND + ' str(gpio12))
+
     elif action['side'] in ['left', 'right']:
         gpio1 = eval('GPIO_REL_' + action['side'].upper() + '_' + action['direction'].upper())
         gpioList = [gpio1]
+
+        print('RUNNING: ' + str(gpio1))
 
     else:
         error = True

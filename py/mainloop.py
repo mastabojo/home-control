@@ -20,6 +20,8 @@ handler.setFormatter(formatter)
 logger.addHandler(handler)
 logger.setLevel(logging.INFO)
 
+logger.info('Started main loop'])
+
 # GPIO numbers
 ###[RPI] 
 GPIO.setmode(GPIO.BCM)
@@ -36,7 +38,6 @@ GPIO.setup(allGPIOs, GPIO.OUT)
 GPIO.output(allGPIOs, GPIO.HIGH)
 
 cmdFileName = "commandqueue.txt"
-counter = 0
 
 # Time it takes shutters to fully open/close (seconds)
 maxShutterTravelTime = 16
@@ -45,7 +46,6 @@ while 1:
     try:
         # first take a little nap / count sheep
         time.sleep(1)
-        counter = counter + 1
 
         # See if there are any new commands
         cmdFile = open(cmdFileName, "r+")
@@ -100,7 +100,7 @@ while 1:
             time.sleep(1)
 
         # cleanup after the loop
-        GPIO.cleanup()
+        GPIO.output(gpioList, GPIO.HIGH)
 
     # Ctrl+C exits the loop
     except (KeyboardInterrupt, SystemExit):

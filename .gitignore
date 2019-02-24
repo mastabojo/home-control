@@ -105,6 +105,6 @@ venv.bak/
 
 ### Home control
 env.php
-storage/
 .vscode/
 database/
+py/commandqueue.txt
