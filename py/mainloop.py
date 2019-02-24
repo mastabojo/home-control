@@ -121,4 +121,9 @@ while 1:
         GPIO.cleanup()
         break
 
+    except:
+        logger.info('Program exited - reason unknown')
+        # logger.info(traceback.format_exc())
+        GPIO.cleanup()
+        break
 print "\n\n"
