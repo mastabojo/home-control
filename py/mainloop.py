@@ -40,7 +40,7 @@ GPIO.output(allGPIOs, GPIO.HIGH)
 cmdFileName = "commandqueue.txt"
 
 # Time it takes shutters to fully open/close (seconds)
-maxShutterTravelTime = 16
+maxShutterTravelTime = 18
 
 while 1:
     try:
