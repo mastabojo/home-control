@@ -8,7 +8,7 @@ class WeatherARSO extends Weather
 {
     public function __construct() {
 
-        include dirname(__DIR__) . '/env.php';
+        include dirname(__DIR__, 2) . '/env.php';
 
         $this->apiCurrentUrl  = "http://meteo.arso.gov.si/uploads/probase/www/observ/surface/text/sl/observation_LJUBL-ANA_BEZIGRAD_latest.xml";
         $this->apiForecastUrl = "http://meteo.arso.gov.si/uploads/probase/www/fproduct/text/sl/forecast_SI_OSREDNJESLOVENSKA_latest.xml";
@@ -20,25 +20,20 @@ class WeatherARSO extends Weather
      */
     public function getWeatherCurrentDigest() 
     {
-
-
         // Get weather data
-        $arsoData = new SimpleXMLElement(file_get_contents($this->apiCurrentUrl));
+        // $arsoData = new SimpleXMLElement(file_get_contents($this->apiCurrentUrl));
+        $arsoData = new SimpleXMLElement($this->apiCurrentUrl, 0, true);
 
-        // die(print_r($arsoData, 1) . "\n");
-        // die('-- ' . $arsoData->metData->tsUpdated . "\n");
-
-    
         $data = [];
         $data['calc_time']           = isset($arsoData->metData->tsUpdated) ? strtotime((string) $arsoData->metData->tsUpdated) : -1;
-        // $data['calc_time']        = isset($arsoData->metData->tsUpdated_UTC) ? date_create_from_format('Y-m-d H:i:s', (string) $arsoData->metData->tsUpdated_UTC) : -1;
         $data['city_id']             = -1;
         $data['city_name']           = isset($arsoData->metData->domain_longTitle) ? (string) $arsoData->metData->domain_longTitle : '';
         $data['weather_id']          = -1;
         $data['weather_main']        = '';
         $data['weather_description'] = isset($arsoData->metData->nn_shortText) ? (string) $arsoData->metData->nn_shortText : '';
-        $data['weather_icon']        = isset($arsoData->metData->nn_icon) ? $this->getWeatherIcon((string) $arsoData->metData->nn_icon) : '';
-        $data['temperature']         = isset($arsoData->metData->t_degreesC) ? (float) $arsoData->metData->t_degreesC + 10.0 : -100.0;
+        $data['weather_icon']        = isset($arsoData->metData->nn_icon) ? $this->getWeatherIcon((string) $arsoData->metData->nn_icon) : 
+                                       (isset($arsoData->metData->wwsyn_icon) ? $arsoData->metData->wwsyn_icon : '');
+        $data['temperature']         = isset($arsoData->metData->t_degreesC) ? (float) $arsoData->metData->t_degreesC : -100.0;
         $data['pressure']            = isset($arsoData->metData->p) ? (integer) $arsoData->metData->p : -1;
         $data['humidity']            = isset($arsoData->metData->rh) ? (int) $arsoData->metData->rh : -1;
         $data['wind_speed']          = isset($arsoData->metData->ff_val_kmh) ? (int) $arsoData->metData->ff_val_kmh : -1;
@@ -50,8 +45,6 @@ class WeatherARSO extends Weather
         $data['snow_3h']             = isset($arsoData->metData->snow) ? (int) $arsoData->metData->snow : -1;
         $data['sunrise']             = isset($arsoData->metData->sunrise) ? strtotime((string) $arsoData->metData->sunrise) : -1;
         $data['sunset']              = isset($arsoData->metData->sunset) ? strtotime((string) $arsoData->metData->sunset) : -1;
-
-        // print_r(json_decode($arsoData, true));
 
         return $data;
     }
@@ -65,18 +58,36 @@ class WeatherARSO extends Weather
         return json_encode($this->getWeatherCurrentDigest(), JSON_FORCE_OBJECT);
     }
 
-    
     /**
-     * Refactored: Get current weather basic data from openweathermap.org
-     * @retturn array Basic weather data
+     * Get weather forecast data from ARSO (arso.gov.si)
+     * @retturn array Weather forecast data
      */
     public function getWeatherForecastDigest() 
     {
         // Get weather forecast data
-  
-        $data = [];
+        $arsoData = new SimpleXMLElement($this->apiForecastUrl, 0, true);
 
-        
+        $data = [];
+        $dataKey = -1;
+
+        foreach($arsoData->metData as $key => $metData) {
+
+            // skip current day
+            if($dataKey == -1) {
+                $dataKey++;
+                continue;
+            }
+
+            $validDate = new DateTime((string) $metData->valid_UTC);
+
+            $data[$dataKey]['day_no'] = $validDate->format("w");
+            $data[$dataKey]['temperature_day'] = (string) $metData->txsyn;
+            $data[$dataKey]['temperature_night'] = (string) $metData->tnsyn;
+            $data[$dataKey]['weather_description'] = (string) $metData->nn_shortText;
+            $data[$dataKey]['weather_icon'] = $this->getWeatherIcon((string) $metData->nn_icon, $validDate->getTimestamp());
+            $dataKey++;
+        }
+
         return $data;
     }
 
@@ -94,12 +105,16 @@ class WeatherARSO extends Weather
      */
     public function getWeatherCurrentDetailed()
     {
-        // Get weather forecast
-        $data = json_decode(file_get_contents($this->apiForecastUrl), true);
+        // Get current weather
+        return "...";
+
     }
 
-    protected function getWeatherIcon($name, $ts = null) {
-        
+    protected function getWeatherIcon($name, $ts = null) 
+    {
+        if($name == '') {
+            return '00dn'; // no icon
+        }
         // day or night icon
         $hour = $ts == null ? date('H') : date('H', $ts);
         $dayPart = $hour >= 5 && $hour < 17 ? 'd' : 'n';
@@ -130,6 +145,6 @@ class WeatherARSO extends Weather
             'heavySN'    => '13' . $dayPart
         ];
 
-        return $iconNames[$name]; 
+        return isset($iconNames[$name]) ? $iconNames[$name] : '00dn'; 
     }
 }

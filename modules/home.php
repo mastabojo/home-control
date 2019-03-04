@@ -1,8 +1,8 @@
 <?php
 include_once $BASEPATH . 'lib/functions.php';
-include_once $BASEPATH . 'public/api/class.WeatherOWM.php';
+include_once $BASEPATH . "public/api/class.WeatherARSO.php";
 
-$Weather = new WeatherOWM;
+$Weather = new WeatherARSO;
 $wcurr = $Weather->getWeatherCurrentDigest();
 $wfcst = $Weather->getWeatherForecastDigest();
 
