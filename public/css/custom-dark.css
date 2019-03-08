@@ -1,4 +1,5 @@
 body {
+    overflow: hidden;
     font-family: Muli-Light;
     background-color: #12172f;
     color: #ddd;
@@ -66,7 +67,7 @@ a.nav-link.active.show {
 }
 
 #weather-current span.updated-display {
-    font-size: 65%;
+    font-size: 75%;
 }
 
 #heat-pump-pane #span-main-time {
