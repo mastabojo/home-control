@@ -29,9 +29,12 @@ function mainLoop() {
         $('#status-pane #span-time').text(currentTime);
         $('#span-date').text(currentDate);
 
-        // Heat pump pane - TEMPORARY: current time and date
-        $('#heat-pump-pane #span-main-time').text(currentTimeShort);
-        $('#heat-pump-pane #span-main-date').text(currentDateShort);
+        // every minute update main time and date display
+        if(currentSecond == 0) {
+            // Heat pump pane - TEMPORARY: current time and date
+            $('#heat-pump-pane #span-main-time').text(currentTimeShort);
+            $('#heat-pump-pane #span-main-date').text(currentDateShort);
+        }
 
         // check for current weather on checkPeriodWeatherCurrent offset by 7 minutes
         if((currentMinute - 7) % checkPeriodWeatherCurrent == 0 && currentSecond == 0) {
@@ -68,7 +71,7 @@ function mainLoop() {
         if(currentSecond % 60 == 0) {
 
             // Heat pump hourly chart 
-            getHeatPumpchart();
+            // getHeatPumpchart();
         }
 
         // do these task every n seconds
@@ -79,6 +82,16 @@ function mainLoop() {
                 var tempObj = JSON.parse(data);
                 $('#span-cpu-data').html(tempObj.cpu_load + "% " + tempObj.cpu_temperature + '&deg; (' + tempObj.min_cpu_temperature + '&deg;/' + tempObj.max_cpu_temperature + '&deg;)');
             });
+        }
+
+        // Automatically open and close shutters at preset time
+        var shuttersUpTime = "6:48:00";
+        var shuttersDownTime = "18:16:00";
+        if(currentTime == shuttersUpTime) {
+            $.post('../api/doshutters.php', {"action": "shutter-auto-both-up", "timeDivider": 1});
+        }
+        if(currentTime == shuttersDownTime) {
+            $.post('../api/doshutters.php', {"action": "shutter-auto-both-down", "timeDivider": 1});
         }
 
     }, 1000);
@@ -131,12 +144,12 @@ function getHeatPumpchart() {
         // console.log(data);
     });
 
-    var ctx = document.getElementById("hp-daily").getContext('2d');
-    var myChart = new Chart(ctx, {
+    // var ctx = document.getElementById("hp-daily").getContext('2d');
+    // var myChart = new Chart(ctx, {
         // type: 'bar',
         // data: data,
         // options: options
-    });
+    // });
 
 }
 
