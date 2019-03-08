@@ -63,17 +63,26 @@ foreach($wfcst as $key => $fc) {
 
 </div><!-- #weather-pane -->
 
-<div id="heat-pump-pane" class="home-panes col-sm border rounded border-dark ml-1 mb-1">
+<div id="heat-pump-pane" class="home-panes col-sm border rounded border-dark ml-1 mb-1 align-items-center">
 
+<?php /*
 <canvas id="hp-daily" width="200" height="88" style="background-color: none;"></canvas>
+*/?>
 
 
 
 
+<div class="row">
+<div class="col text-center">
+<span id="span-main-time" class="align-middle"></span>
+</div><!-- .col -->
+</div><!-- .row -->
 
-
-
-
+<div class="row">
+<div class="col text-center">
+<span id="span-main-date" class="align-middle"></span>
+</div><!-- .col -->
+</div><!-- .row -->
 
 
 

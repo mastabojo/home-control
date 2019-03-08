@@ -15,8 +15,11 @@ function mainLoop() {
         // check interval for common tasks (in minutes)
         var checkPeriodCommonTasks = 2
 
+        moment.locale('sl');
         var currentTime = moment().format('H:mm:ss');
         var currentDate = moment().format('dddd, D.M.YYYY');
+        var currentTimeShort = moment().format('H:mm');
+        var currentDateShort = moment().format('dddd, D.M.YYYY');
         // var dayOfWeek = moment().day();
         var currentHour = parseInt(moment().format('H'));
         var currentMinute = parseInt(moment().format('m'));
@@ -25,6 +28,10 @@ function mainLoop() {
         // Status pane - current time and date
         $('#status-pane #span-time').text(currentTime);
         $('#span-date').text(currentDate);
+
+        // Heat pump pane - TEMPORARY: current time and date
+        $('#heat-pump-pane #span-main-time').text(currentTimeShort);
+        $('#heat-pump-pane #span-main-date').text(currentDateShort);
 
         // check for current weather on checkPeriodWeatherCurrent offset by 7 minutes
         if((currentMinute - 7) % checkPeriodWeatherCurrent == 0 && currentSecond == 0) {
@@ -132,3 +139,4 @@ function getHeatPumpchart() {
     });
 
 }
+

@@ -69,6 +69,16 @@ a.nav-link.active.show {
     font-size: 65%;
 }
 
+#heat-pump-pane #span-main-time {
+    font-size:85px;
+    font-weight: bold;
+}
+
+#heat-pump-pane #span-main-date {
+    font-size:25px;
+    font-weight: bold;
+}
+
 #status-pane span.time-display {
     font-size: 180%;
 }
