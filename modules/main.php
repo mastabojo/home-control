@@ -18,13 +18,24 @@ $theme = 'dark';
 
 $tabs = [
     'home',
-     'blinds',
+    'blinds',
     'lights',
     'weather',
     'heatpump',
     'cameras',
-    'settings'
+    'system'
 ];
+
+$tabTitles = [
+    'home' => 'začetek',
+    'blinds' => 'rolete',
+    'lights' => 'luči',
+    'weather' => 'vreme',
+    'heatpump' => 'ogrevanje',
+    'cameras' => 'kamere',
+    'system' => 'sistem'
+];
+
  ?>
 <!DOCTYPE html>
 <html>
@@ -38,7 +49,6 @@ $tabs = [
 </head>
 <body>
 
-
 <div class="container-fluid">
 
 <!-- Navigation (Tabs) -->
@@ -48,7 +58,9 @@ foreach($tabs as $key => $tab) {
     $active = $key == 0 ? ' active show' : '';
     echo '<li class="nav-item ">';
     echo "<a class=\"nav-link{$active} border-0\" id=\"{$tab}-tab\" data-toggle=\"tab\" ";
-    echo "href=\"#{$tab}\" role=\"tab\" aria-controls=\"{$tab}\" aria-selected=\"true\">{$tab}</a></li>" . NL;
+    echo "href=\"#{$tab}\" role=\"tab\" aria-controls=\"{$tab}\" aria-selected=\"true\">";
+    echo isset($tabTitles[$tab]) ? $tabTitles[$tab] : $tab;
+    echo "</a></li>" . NL;
 }
 ?>
 </ul>
