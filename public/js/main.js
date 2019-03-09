@@ -85,12 +85,12 @@ function mainLoop() {
         }
 
         // Automatically open and close shutters at preset time
-        var shuttersUpTime = "6:48:00";
-        var shuttersDownTime = "18:16:00";
-        if(currentTime == shuttersUpTime) {
+        var shuttersUpTime = "6:24:00";
+        var shuttersDownTime = "18:10:00";
+        if(String(currentTime) == shuttersUpTime) {
             $.post('../api/doshutters.php', {"action": "shutter-auto-both-up", "timeDivider": 1});
         }
-        if(currentTime == shuttersDownTime) {
+        if(String(currentTime) == shuttersDownTime) {
             $.post('../api/doshutters.php', {"action": "shutter-auto-both-down", "timeDivider": 1});
         }
 
