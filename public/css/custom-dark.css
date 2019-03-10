@@ -118,11 +118,15 @@ a.nav-link.active.show {
     cursor: pointer;
 }
 
-
 #lights-pane .row {
     height: 50%;
 }
 
 #lights-pane .row img {
     width: 60px;
+}
+
+.weather-frame {
+    width: 700px;
+    height: 380px;
 }
