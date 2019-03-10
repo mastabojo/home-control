@@ -1,5 +1,8 @@
 <?php
 $theme = 'dark';
+
+$arsoUrl = 'http://vreme.arso.gov.si/napoved/Ljubljana/graf';
+
 $windyUrl = "https://embed.windy.com/embed2.html
 ?lat=46.048
 &lon=14.505
@@ -25,12 +28,13 @@ $windyUrl = "https://embed.windy.com/embed2.html
 
 <div class="col">
 
+<img src="/img/weather-icons/arso-weather.svg" style="width:60px;"><br><br>
 <img src="/img/weather-icons/windy-weather.svg" style="width:60px;">
 
 </div><!-- .col -->
 
 <div class="col">
-<iframe width="680" height="374" src="<?php echo $windyUrl;?>" frameborder="0"></iframe> 
+<iframe width="680" height="374" src="<?php echo $arsoUrl;?>" frameborder="0"></iframe> 
 </div><!-- .col -->
 
 </div><!-- .row -->

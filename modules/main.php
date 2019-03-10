@@ -15,23 +15,25 @@ $BASEPATH = dirname(__DIR__) . DIRECTORY_SEPARATOR;
 include $BASEPATH . 'env.php';
 
 $theme = 'dark';
+// Icons or text for tab titles
+$tabTitleIcons = false;
 
 $tabs = [
     'home',
-    'blinds',
+    'shutters',
     'lights',
     'weather',
-    'heatpump',
+    'heating',
     'cameras',
     'system'
 ];
 
 $tabTitles = [
     'home' => 'začetek',
-    'blinds' => 'rolete',
+    'shutters' => 'rolete',
     'lights' => 'luči',
     'weather' => 'vreme',
-    'heatpump' => 'ogrevanje',
+    'heating' => 'ogrevanje',
     'cameras' => 'kamere',
     'system' => 'sistem'
 ];
@@ -59,7 +61,12 @@ foreach($tabs as $key => $tab) {
     echo '<li class="nav-item ">';
     echo "<a class=\"nav-link{$active} border-0\" id=\"{$tab}-tab\" data-toggle=\"tab\" ";
     echo "href=\"#{$tab}\" role=\"tab\" aria-controls=\"{$tab}\" aria-selected=\"true\">";
-    echo isset($tabTitles[$tab]) ? $tabTitles[$tab] : $tab;
+
+    if($tabTitleIcons) {
+        echo "<img src=\"/img/tab-icons/{$theme}/{$tab}-off.svg\" style=\"width: 16px;\">";
+    } else {
+        echo isset($tabTitles[$tab]) ? $tabTitles[$tab] : $tab;
+    }
     echo "</a></li>" . NL;
 }
 ?>
@@ -82,7 +89,7 @@ foreach($tabs as $key => $tab) {
 </div><!--div#main-pane -->
 </div><!--div.row -->
 
-<div class="row" style="height: 30px;">
+<div class="row" style="height: 24px;">
 <div id="status-pane" class="col-sm mt-1">
 
 
