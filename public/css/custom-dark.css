@@ -126,7 +126,15 @@ a.nav-link.active.show {
     width: 60px;
 }
 
-.weather-frame {
-    width: 700px;
-    height: 380px;
+#weather-display {
+    border: 1px solid grey;
+}
+
+.weather-display-icon {
+    padding: 0 0 28px 0;
+}
+
+.weather-display-icon img {
+    width: 54px;
+    margin: 3px;
 }

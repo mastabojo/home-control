@@ -153,3 +153,15 @@ function getHeatPumpchart() {
 
 }
 
+// Weather pane - load weather display from selected provider into iframe
+$(".weather-display-icons").on("click", function(e) {
+    var weatherProviders = {
+        "arso": "http://vreme.arso.gov.si/napoved/Ljubljana/graf#zoom=50",
+        "open": "https://openweathermap.org/weathermap?basemap=map&cities=true&layer=temperature&lat=46.0732&lon=14.7574&zoom=10",
+        "windy": "https://embed.windy.com/embed2.html?lat=46.048&lon=14.505&zoom=11&level=surface&overlay=temp&menu=&message=true&marker=&calendar=&pressure=&type=map&location=coordinates&detail=&detailLat=50.090&detailLon=14.420&metricWind=m%2Fs&metricTemp=%C2%B0C&radarRange=-1",
+        "accu": "https://www.accuweather.com/en/si/ljubljana/299198/daily-weather-forecast/299198"
+    };
+    var selectedProvider = e.target.id;
+    // set src attribute of iframe
+    $("#weather-display").attr("src", weatherProviders[selectedProvider]);
+});
