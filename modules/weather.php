@@ -25,7 +25,8 @@ $windyUrl = "https://embed.windy.com/embed2.html
 &metricTemp=%C2%B0C
 &radarRange=-1";
 
-$accuUrl = "https://www.accuweather.com/en/si/ljubljana/299198/daily-weather-forecast/299198";
+// $accuUrl = "https://www.accuweather.com/en/si/ljubljana/299198/daily-weather-forecast/299198";
+$accuUrl = "https://www.accuweather.com/en/si/sostro/1560826/daily-weather-forecast/1560826";
 ?>
 
 <div class="row">
