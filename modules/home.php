@@ -94,35 +94,38 @@ foreach($wfcst as $key => $fc) {
 <div class="row" style="height: 186px;">
 <div id="blinds-pane" class="home-panes col-sm border rounded border-dark mr-1 mt-1">
 
-<!-- Shutters - row 1 (roll automatic and manual up) -->
+<!-- Shutters - row 1 (roll left/right/both up) -->
 <div class="row no-gutters align-items-end">
-
-<!-- Shutters - col 1 (roll automatic up) -->
 <div class="col text-center">
 <img src="img/shutter-icons/<?php echo $theme; ?>/icon-sht-divider-1-on.svg" class="shutter-divider" id="shutter-divider-1">
 <img src="img/shutter-icons/<?php echo $theme; ?>/icon-sht-up-1-auto-off.svg" class="shutter-action" id="shutter-auto-left-up">
 <img src="img/shutter-icons/<?php echo $theme; ?>/icon-sht-up-1-auto-off.svg" class="shutter-action" id="shutter-auto-right-up">
 <img src="img/shutter-icons/<?php echo $theme; ?>/icon-sht-up-2-auto-off.svg" class="shutter-action" id="shutter-auto-both-up">
 </div><!-- .col -->
-
-
 </div><!-- .row -->
 
-<!-- Shutters - row 2 (roll automatic and manual down) -->
+<!-- Shutters - row 2 (roll left/right/both down) -->
 <div class="row no-gutters align-items-start">
-  
-<!-- Shutters - col 1 (roll automatic up) -->
 <div class="col text-center">
 <img src="img/shutter-icons/<?php echo $theme; ?>/icon-sht-divider-2-off.svg" class="shutter-divider" id="shutter-divider-2">
 <img src="img/shutter-icons/<?php echo $theme; ?>/icon-sht-down-1-auto-off.svg" class="shutter-action" id="shutter-auto-left-down">
 <img src="img/shutter-icons/<?php echo $theme; ?>/icon-sht-down-1-auto-off.svg" class="shutter-action" id="shutter-auto-right-down">
 <img src="img/shutter-icons/<?php echo $theme; ?>/icon-sht-down-2-auto-off.svg" class="shutter-action" id="shutter-auto-both-down">
 </div><!-- .col -->
-
-
 </div><!-- .row -->
 
-</div>
+<!-- Shutters - row 3 (roll by timer - show times) -->
+<div class="row no-gutters align-items-start">
+<div class="col text-center">
+  <div class="home-shutters-auto-info">
+  <i class="fa fa-angle-double-up"></i>&nbsp;<span id="home-shutters-auto-up"></span>&nbsp;&nbsp;
+  <i class="fa fa-angle-double-down"></i>&nbsp;<span id="home-shutters-auto-down"></span>
+  </div>
+</div><!-- .col -->
+</div><!-- .row -->
+
+</div><!-- #blinds-pane -->
+
 <div id="lights-pane" class="home-panes col-sm border rounded border-dark ml-1 mt-1">
 
 <!-- Lights - row 1 -->

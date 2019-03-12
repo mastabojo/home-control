@@ -15,6 +15,10 @@ function mainLoop() {
         // check interval for common tasks (in minutes)
         var checkPeriodCommonTasks = 2
 
+        // default shutter opening and closing times
+        var shuttersUpTime = "6:21:00";
+        var shuttersDownTime = "18:30:00";
+
         moment.locale('sl');
         var currentTime = moment().format('H:mm:ss');
         var currentDate = moment().format('dddd, D.M.YYYY');
@@ -24,6 +28,7 @@ function mainLoop() {
         var currentHour = parseInt(moment().format('H'));
         var currentMinute = parseInt(moment().format('m'));
         var currentSecond = parseInt(moment().format('s'));
+        var dayNames = {'00' : "Ned", '01' : "Pon", '02' : "Tor", '03' : "Sre", '04' : "Čet", '05' : "Pet", '06' : "Sob"};
 
         // Status pane - current time and date
         $('#status-pane #span-time').text(currentTime);
@@ -52,11 +57,7 @@ function mainLoop() {
             console.log('Weather forecast checked on ' + currentTime);
             $.get("../api/getweather.php?type=forecast", function(data) {
                 var weatherData = JSON.parse(data);
-                // console.log(weatherData);
-                // console.log(weatherData[Object.keys(weatherData)[0]]);
-
-                var dayNames = {'00' : "Ned", '01' : "Pon", '02' : "Tor", '03' : "Sre", '04' : "Čet", '05' : "Pet", '06' : "Sob"};
-
+                // var dayNames = {'00' : "Ned", '01' : "Pon", '02' : "Tor", '03' : "Sre", '04' : "Čet", '05' : "Pet", '06' : "Sob"};
                 for(day in weatherData) {
                     var shortDayName = dayNames[day];
                     $("#fcast-day-" + day + " .short-day-name").html(shortDayName);
@@ -82,11 +83,22 @@ function mainLoop() {
                 var tempObj = JSON.parse(data);
                 $('#span-cpu-data').html(tempObj.cpu_load + "% " + tempObj.cpu_temperature + '&deg; (' + tempObj.min_cpu_temperature + '&deg;/' + tempObj.max_cpu_temperature + '&deg;)');
             });
+
+            // update shutters open and close times with programmed or sunrise/sunset times from local storage if any exist
+            if(localStorage.getItem('shuttersUpTime') != null && localStorage.getItem('shuttersDownTime') != null) {
+                shuttersUpTime = localStorage.getItem('shuttersUpTime');
+                shuttersDownTime = localStorage.getItem('shuttersDownTime');
+            } else if(localStorage.getItem('sunrise') != null && localStorage.getItem('sunrise') != null) {
+                shuttersUpTime =  localStorage.getItem('sunrise');
+                shuttersDownTime = localStorage.getItem('sunset');
+                // Roll shutters down some 30 minutes after sunset
+                shuttersDownTime = moment(shuttersDownTime, "H:mm:ss").add(30, 'minutes').format("H:mm:ss");
+            }
+            $("span#home-shutters-auto-up").text(shuttersUpTime);
+            $("span#home-shutters-auto-down").text(shuttersDownTime);
         }
 
-        // Automatically open and close shutters at preset time
-        var shuttersUpTime = "6:24:00";
-        var shuttersDownTime = "18:10:00";
+        // open / close shutters on set times
         if(String(currentTime) == shuttersUpTime) {
             $.post('../api/doshutters.php', {"action": "shutter-auto-both-up", "timeDivider": 1});
         }
@@ -94,7 +106,29 @@ function mainLoop() {
             $.post('../api/doshutters.php', {"action": "shutter-auto-both-down", "timeDivider": 1});
         }
 
+        // once a day arround 2 am when all is quiet update the local storage from the database ( sunrise time, sunset time)
+        if(String(currentTime) == "20:58:14") {
+            updateLocalStorage(function(data) {
+                storageData = JSON.parse(data);
+                localStorage.setItem('sunrise', moment.unix(storageData.sunrise).format("H:mm:ss"));
+                localStorage.setItem('sunset', moment.unix(storageData.sunset).format("H:mm:ss"));
+            });
+        }
+
     }, 1000);
+}
+
+// Function to be called to update local storage with data from database
+function updateLocalStorage(callBack) {
+    $.ajax({
+        url: "../api/updateLocalStorage.php",
+        type: "POST",
+        dataType: "text",
+        cache: false,
+        success: function (data) {
+          callBack(data);
+        }
+    });
 }
 
 // set shutters time divider 
