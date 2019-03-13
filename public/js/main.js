@@ -91,8 +91,8 @@ function mainLoop() {
             } else if(localStorage.getItem('sunrise') != null && localStorage.getItem('sunrise') != null) {
                 shuttersUpTime =  localStorage.getItem('sunrise');
                 shuttersDownTime = localStorage.getItem('sunset');
-                // Roll shutters down some 30 minutes after sunset
-                shuttersDownTime = moment(shuttersDownTime, "H:mm:ss").add(30, 'minutes').format("H:mm:ss");
+                // Roll shutters down some 20 minutes after sunset
+                shuttersDownTime = moment(shuttersDownTime, "H:mm:ss").add(20, 'minutes').format("H:mm:ss");
             }
             $("span#home-shutters-auto-up").text(shuttersUpTime);
             $("span#home-shutters-auto-down").text(shuttersDownTime);
@@ -198,4 +198,10 @@ $(".weather-display-icons").on("click", function(e) {
     var selectedProvider = e.target.id;
     // set src attribute of iframe
     $("#weather-display").attr("src", weatherProviders[selectedProvider]);
+});
+
+// System pane - 
+$(".system-tab img").on("click", function() {
+    var data = {"cmd": $(this).attr("id")};
+    $.post('../api/system_commands.php', data);
 });
