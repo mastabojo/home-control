@@ -107,7 +107,7 @@ function mainLoop() {
         }
 
         // once a day arround 2 am when all is quiet update the local storage from the database ( sunrise time, sunset time)
-        if(String(currentTime) == "20:56:00") {
+        if(String(currentTime) == "2:00:05") {
             updateLocalStorage(function(data) {
                 storageData = JSON.parse(data);
                 localStorage.setItem('sunrise', moment.unix(storageData.sunrise).format("H:mm" + ":00"));
