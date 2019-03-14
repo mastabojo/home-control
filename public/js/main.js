@@ -94,8 +94,8 @@ function mainLoop() {
                 // Roll shutters down some 20 minutes after sunset
                 shuttersDownTime = moment(shuttersDownTime, "H:mm:ss").add(20, 'minutes').format("H:mm:ss");
             }
-            $("span#home-shutters-auto-up").text(shuttersUpTime);
-            $("span#home-shutters-auto-down").text(shuttersDownTime);
+            $("span#home-shutters-auto-up").text(moment(shuttersUpTime, "H:mm:ss").format("H:mm"));
+            $("span#home-shutters-auto-down").text(moment(shuttersDownTime, "H:mm:ss").format("H:mm"));
         }
 
         // open / close shutters on set times
@@ -107,11 +107,11 @@ function mainLoop() {
         }
 
         // once a day arround 2 am when all is quiet update the local storage from the database ( sunrise time, sunset time)
-        if(String(currentTime) == "20:58:14") {
+        if(String(currentTime) == "20:56:00") {
             updateLocalStorage(function(data) {
                 storageData = JSON.parse(data);
-                localStorage.setItem('sunrise', moment.unix(storageData.sunrise).format("H:mm:ss"));
-                localStorage.setItem('sunset', moment.unix(storageData.sunset).format("H:mm:ss"));
+                localStorage.setItem('sunrise', moment.unix(storageData.sunrise).format("H:mm" + ":00"));
+                localStorage.setItem('sunset', moment.unix(storageData.sunset).format("H:mm") + ":00");
             });
         }
 
