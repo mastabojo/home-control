@@ -15,7 +15,7 @@
    viewBox="0 0 21.166666 21.166667"
    version="1.1"
    id="svg8"
-   inkscape:version="0.92.1 r15371"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)"
    sodipodi:docname="btn-exit-browser.svg">
   <defs
      id="defs2">
@@ -100,17 +100,17 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="3.959798"
-     inkscape:cx="37.562022"
+     inkscape:cx="-4.6118465"
      inkscape:cy="71.685403"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
      showguides="true"
      inkscape:guide-bbox="true"
-     inkscape:window-width="1639"
-     inkscape:window-height="1026"
-     inkscape:window-x="41"
-     inkscape:window-y="24"
+     inkscape:window-width="1879"
+     inkscape:window-height="1052"
+     inkscape:window-x="1961"
+     inkscape:window-y="0"
      inkscape:window-maximized="1"
      units="px" />
   <metadata
@@ -121,7 +121,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -133,7 +133,7 @@
     <ellipse
        ry="9.3739071"
        rx="9.373908"
-       style="fill:none;stroke:#333333;stroke-width:2.41885161;stroke-miterlimit:4;stroke-dasharray:none"
+       style="fill:none;stroke:#b3b3b3;stroke-width:2.41882081;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        cy="286.41666"
        cx="10.583333"
        id="icon-circle"

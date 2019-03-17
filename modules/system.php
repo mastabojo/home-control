@@ -6,6 +6,12 @@ $pathToSystemIcons = "/img/system-icons/{$theme}/";
 <div class="system-tab">
 
 <div class="row  align-items-center justify-content-center" style="height: 360px;">
+
+<div class="col text-center">
+<img id="refresh-browser" src="<?php echo $pathToSystemIcons;?>btn-refresh-browser.svg"><br>
+Osveži
+</div><!-- .col -->
+
 <div class="col text-center">
 <img id="exit-browser" src="<?php echo $pathToSystemIcons;?>btn-exit-browser.svg"><br>
 Zapri

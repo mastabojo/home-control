@@ -201,6 +201,11 @@ $(".weather-display-icons").on("click", function(e) {
 
 // System pane - 
 $(".system-tab img").on("click", function() {
-    var data = {"cmd": $(this).attr("id")};
-    $.post('../api/system_commands.php', data);
+    var cmd = $(this).attr("id");
+    if(cmd == "refresh-browser") {
+        window.location.reload(true);
+    } else {
+        var data = {"cmd": $(this).attr("id")};
+        $.post('../api/system_commands.php', data);       
+    }
 });

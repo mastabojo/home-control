@@ -14,7 +14,7 @@
    viewBox="0 0 21.166666 21.166667"
    version="1.1"
    id="svg8"
-   inkscape:version="0.92.1 r15371"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)"
    sodipodi:docname="btn-shutdown.svg">
   <defs
      id="defs2" />
@@ -26,17 +26,17 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="5.7673176"
-     inkscape:cx="4.4638438"
+     inkscape:cx="-24.492425"
      inkscape:cy="48.267495"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
      showguides="true"
      inkscape:guide-bbox="true"
-     inkscape:window-width="1639"
-     inkscape:window-height="1026"
-     inkscape:window-x="41"
-     inkscape:window-y="24"
+     inkscape:window-width="1879"
+     inkscape:window-height="1052"
+     inkscape:window-x="1961"
+     inkscape:window-y="0"
      inkscape:window-maximized="1"
      units="px" />
   <metadata
@@ -57,7 +57,7 @@
      id="layer1"
      transform="translate(0,-275.83332)">
     <path
-       style="fill:none;stroke:#333333;stroke-width:2.41884708;stroke-miterlimit:4;stroke-dasharray:none"
+       style="fill:none;stroke:#b3b3b3;stroke-width:2.41884708;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="m 12.803046,277.30668 c 4.105673,0.99695 7.154182,4.69732 7.154181,9.10974 -2e-6,5.17719 -4.196837,9.37413 -9.373894,9.37413 -5.1770563,0 -9.3738932,-4.19694 -9.3738948,-9.37413 -1.4e-6,-4.38143 3.00584,-8.06078 7.0678364,-9.08834"
        id="icon-circle"
        inkscape:connector-curvature="0" />
