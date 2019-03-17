@@ -1,10 +1,11 @@
 body {
     overflow: hidden;
-    font-family: Muli-Light;
-    background-color: #12172f;
+    font-family: Ubuntu-Light;
+    background-color: hsl(230, 45%, 13%);
     color: #ddd;
 }
 
+/*
 @font-face {
     font-family: Muli-Regular;
     src: url(/fonts/Muli-Regular.ttf);
@@ -19,6 +20,24 @@ body {
     font-family: Muli-Bold;
     src: url(/fonts/Muli-Bold.ttf);
 }
+*/
+
+
+@font-face {
+    font-family: Ubuntu-Regular;
+    src: url(/fonts/Ubuntu-Regular.ttf);
+}
+
+@font-face {
+    font-family: Ubuntu-Light;
+    src: url(/fonts/Ubuntu-Light.ttf);
+}
+
+@font-face {
+    font-family: Ubuntu-Bold;
+    src: url(/fonts/Ubuntu-Bold.ttf);
+}
+
 
 a.nav-link {
     color: #888;
@@ -72,12 +91,12 @@ a.nav-link.active.show {
 
 #heat-pump-pane #span-main-time {
     font-size:85px;
-    font-weight: bold;
+    font-weight: light;
 }
 
 #heat-pump-pane #span-main-date {
     font-size:25px;
-    font-weight: bold;
+    font-weight: light;
 }
 
 #status-pane span.time-display {
@@ -119,7 +138,7 @@ a.nav-link.active.show {
 }
 */
 
-#blinds-pane img {
+#blinds-pane img, #shutters img {
     padding: 14px;
     cursor: pointer;
 }

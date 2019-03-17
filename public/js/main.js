@@ -2,22 +2,22 @@
 / Main Javascript file
 */
 
+// check interval for current weather data (in minutes)
+var checkPeriodWeatherCurrent = 20;
+
+// check interval for 5 day weather forecast (in hours)
+var checkPeriodWeatherForecast = 2;
+
+// check interval for common tasks (in minutes)
+var checkPeriodCommonTasks = 2
+
+// default shutter opening and closing times
+var shuttersUpTime = "6:21:00";
+var shuttersDownTime = "18:30:00";
+
 function mainLoop() {
 
     setInterval(function() {
-
-        // check interval for current weather data (in minutes)
-        var checkPeriodWeatherCurrent = 20;
-        
-        // check interval for 5 day weather forecast (in hours)
-        var checkPeriodWeatherForecast = 2;
-
-        // check interval for common tasks (in minutes)
-        var checkPeriodCommonTasks = 2
-
-        // default shutter opening and closing times
-        var shuttersUpTime = "6:21:00";
-        var shuttersDownTime = "18:30:00";
 
         moment.locale('sl');
         var currentTime = moment().format('H:mm:ss');
@@ -54,7 +54,6 @@ function mainLoop() {
 
         // check for weather forecast on checkPeriodWeatherForecast offset by 3 minutes
         if((currentHour % checkPeriodWeatherForecast)  == 0 && currentMinute == 3 && currentSecond == 0) {
-            console.log('Weather forecast checked on ' + currentTime);
             $.get("../api/getweather.php?type=forecast", function(data) {
                 var weatherData = JSON.parse(data);
                 // var dayNames = {'00' : "Ned", '01' : "Pon", '02' : "Tor", '03' : "Sre", '04' : "Čet", '05' : "Pet", '06' : "Sob"};
