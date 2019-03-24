@@ -15,6 +15,9 @@ var checkPeriodCommonTasks = 2
 var shuttersUpTime = "6:21:00";
 var shuttersDownTime = "18:30:00";
 
+// Get info on moon phases
+getMoonPhaseInfo();
+
 function mainLoop() {
 
     setInterval(function() {
@@ -114,6 +117,12 @@ function mainLoop() {
             });
         }
 
+        // Twice a day update moon phase info
+        if(String(currentTime) == "3:00:15" || String(currentTime) == "15:00:15") {
+            getMoonPhaseInfo();
+        }
+        
+
     }, 1000);
 }
 
@@ -184,6 +193,29 @@ function getHeatPumpchart() {
         // options: options
     // });
 
+}
+
+function getMoonPhaseInfo() {
+    var iconPath = "/img/lunar-phase-icons/dark/";
+    $.get("../api/getMoonPhaseInfo.php", function(data) {
+        var moonPhaseData = JSON.parse(data);
+        $("#moon-phase-icon").attr("src", iconPath + "moon-" + moonPhaseData.phaseID + ".svg");
+        // $("#span-when-full-moon").text(moonPhaseData.daysUntilNextFullMoon);
+        // $("#span-when-new-moon").text(moonPhaseData.daysUntilNextNewMoon);
+        if(moonPhaseData.nextFullMoonDateTS < moonPhaseData.nextNewMoonDateTS) {
+            $("#img-moon-phase-icon-1").attr("src", iconPath + "moon-4.svg");
+            $("#span-moon-phase-info-1").text(moment.unix(moonPhaseData.nextFullMoonDateTS).format("D.M.") + " (" + moonPhaseData.daysUntilNextFullMoon + ")");
+            $("#img-moon-phase-icon-2").attr("src", iconPath + "moon-0.svg");
+            $("#span-moon-phase-info-2").text(moment.unix(moonPhaseData.nextNewMoonDateTS).format("D.M.") + " (" + moonPhaseData.daysUntilNextNewMoon + ")");
+        } else {
+            $("#img-moon-phase-icon-1").attr("src", iconPath + "moon-0.svg");
+            $("#span-moon-phase-info-1").text(moment.unix(moonPhaseData.nextNewMoonDateTS).format("D.M.") + " (" + moonPhaseData.daysUntilNextNewMoon + ")");
+            $("#img-moon-phase-icon-2").attr("src", iconPath + "moon-4.svg");
+            $("#span-moon-phase-info-2").text(moment.unix(moonPhaseData.nextFullMoonDateTS).format("D.M.") + " (" + moonPhaseData.daysUntilNextFullMoon + ")");
+        }
+    });
+
+    
 }
 
 // Weather pane - load weather display from selected provider into iframe

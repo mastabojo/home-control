@@ -179,11 +179,11 @@ Vhod
  
 <?php /*
 <div class="row" style="height: 800px;" class="color:white; font-size: 9px;">
-<div class="col-sm border rounded border-secondary m-1">
+<div class="col-sm border rounded border-secondary m-1" id="debug-cell-1">
+<br><br>
 <h4>DEBUG</h4>
-    
-<?php echo('<pre>' . print_r($wfcst, 1) . '</pre>'); ?>
 
 </div><!-- .col -->
 </div><!-- .row -->
+
 */?>

@@ -94,15 +94,21 @@ foreach($tabs as $key => $tab) {
 <div class="row" style="height: 24px;">
 <div id="status-pane" class="col-sm mt-1">
 
-
-
-
-
 <div class="row no-gutters align-items-center">
 
 <div class="col">
 <span id="span-time" class="time-display"></span> <span id="span-date" class="date-display"></span>
 </div><!-- .col -->
+
+
+<div class="col text-right">
+<img id="moon-phase-icon" src="/img/lunar-phase-icons/dark/moon-none.svg">&nbsp;&nbsp;&nbsp;
+<img src="/img/lunar-phase-icons/dark/moon-4.svg" id="img-moon-phase-icon-1">&nbsp;<span id="span-moon-phase-info-1"></span>&nbsp;
+<img src="/img/lunar-phase-icons/dark/moon-0.svg" id="img-moon-phase-icon-2">&nbsp;<span id="span-moon-phase-info-2"></span>
+</div><!-- .col -->
+
+
+
 
 <div class="col text-right">
 <span class="cpu-data-display">CPU</span>: <span id="span-cpu-data" class="cpu-data-display">0&deg;</span>
