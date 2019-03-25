@@ -24,7 +24,7 @@ function mainLoop() {
 
         moment.locale('sl');
         var currentTime = moment().format('H:mm:ss');
-        var currentDate = moment().format('dddd, D.M.YYYY');
+        var currentDate = moment().format('ddd, D.M.YYYY');
         var currentTimeShort = moment().format('H:mm');
         var currentDateShort = moment().format('dddd, D.M.YYYY');
         // var dayOfWeek = moment().day();
