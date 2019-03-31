@@ -55,7 +55,7 @@ class WeatherARSO extends Weather
      */
     public function getWeatherCurrentDigestJSON() 
     {
-        return json_encode($this->getWeatherCurrentDigest(), JSON_FORCE_OBJECT);
+        return json_encode($this->getWeatherCurrentDigest(), JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
     }
 
     /**

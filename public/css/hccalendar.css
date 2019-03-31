@@ -1,0 +1,96 @@
+#hc-calendar {
+    font-family: Ubuntu, Arial, san-serif;
+    font-size: 80%;
+    width: 770px;
+}
+
+#hc-calendar table {
+    border-collapse: collapse;
+    width: 100%;
+    border: 1px solid #fff;
+}
+
+/* Day labels */
+#hc-calendar table thead tr th {
+    font-weight: normal;
+    color: #ccc;
+    background-color: #888;
+    border-right: 1px solid #fff;
+}
+
+/* Navigation row */
+#hc-calendar table thead tr td {
+    background-color: rgba(240, 240, 240, 0.5);
+    vertical-align: top;
+}
+
+/* Navigation row links */
+#hc-calendar table thead tr td a,
+#hc-calendar table thead tr td a:visited {
+    text-decoration: none;
+    color: #eee;
+}
+
+#hc-calendar table thead tr td a:hover {
+    text-decoration: underline;
+    color: #444;
+}
+
+#hc-calendar table tbody tr td, 
+#hc-calendar table thead tr th {
+    border: 1px solid #ddd;
+}
+
+/* Navigation links - Prev link */
+#hc-calendar table thead tr td:first-child {
+    text-align: left;
+}
+
+/* Navigation links - Year, Month */
+#hc-calendar table thead tr td:nth-child(2) {
+    text-align: center;
+}
+
+/* Navigation links - Next link */
+#hc-calendar table thead tr td:last-child {
+    text-align: right;
+}
+
+/* Calendar days */
+#hc-calendar table tbody tr td {
+    width: 14.29%;
+    height: 60px;
+    font-size: 80%;
+    vertical-align: top;
+}
+
+#hc-calendar table thead tr th:last-child {
+    border-right: 0 solid #ddd;
+}
+
+#hc-calendar .non-work-day {
+    background-color: rgba(220, 220, 220, 0.2);
+}
+
+#hc-calendar img {
+    width: 14px;
+}
+
+#hc-calendar .icon-trashcan-yellow {
+    background-image: url('/img/event-icons/dark/icon-trashcan-yellow.svg');
+}
+
+#hc-calendar .icon-trashcan-brown {
+    background-image: url('/img/event-icons/dark/icon-trashcan-brown.svg');
+}
+
+#hc-calendar .icon-trashcan-black {
+    background-image: url('/img/event-icons/dark/icon-trashcan-black.svg');
+}
+
+#hc-calendar .icon-trashcan-yellow,
+#hc-calendar .icon-trashcan-brown,
+#hc-calendar .icon-trashcan-black {
+    background-repeat: no-repeat;
+    background-position: 92% 8%;
+}

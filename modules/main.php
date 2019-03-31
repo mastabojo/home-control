@@ -22,9 +22,10 @@ $tabs = [
     'home',
     'shutters',
     'lights',
+    'calendar',
     'weather',
     'heating',
-    'cameras',
+    // 'cameras',
     'system'
 ];
 
@@ -32,9 +33,10 @@ $tabTitles = [
     'home' => 'začetek',
     'shutters' => 'rolete',
     'lights' => 'luči',
+    'calendar' => 'koledar',
     'weather' => 'vreme',
     'heating' => 'ogrevanje',
-    'cameras' => 'kamere',
+    // 'cameras' => 'kamere',
     'system' => 'sistem'
 ];
 
@@ -50,6 +52,7 @@ $tabTitles = [
     <!-- link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" type="text/css" rel="stylesheet" -->
     <link rel="stylesheet" type="text/css" media="screen" href="css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" media="screen" href="css/custom-<?php echo $theme;?>.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/hccalendar.css">
 </head>
 <body>
 

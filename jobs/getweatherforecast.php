@@ -5,24 +5,16 @@
 */
 
 include_once dirname(__DIR__) . '/env.php';
-include_once dirname(__DIR__) . '/functions.php';
+include_once dirname(__DIR__) . '/lib/functions.php';
+include_once dirname(__DIR__) . '/public/api/class.WeatherARSO.php';
 
-$lang = isset($LANGUAGE) ? $LANGUAGE : 'en';
-
-// City ID
-$owmCityId = isset($OPENWEATHERMAP_CITY_ID) ? $OPENWEATHERMAP_CITY_ID : 3196359; // Defaults to Ljubljana
-
-// API call for 5 days / 3 houly forecast
-// https://openweathermap.org/forecast5
-$owmUrlForecast = 'http://api.openweathermap.org/data/2.5/forecast?id=' . $owmCityId . '&units=metric&lang=' . $lang . '&APPID=' . $OPENWEATHERMAP_API_KEY;
-
-// Get forecast for 5 days
-$owmDataJSON = file_get_contents($owmUrlForecast);
+$w = new WeatherARSO();
+$dataJSON = $w->getWeatherCurrentDigestJSON();
 
 // if it is an ajax request return JSON
 if(isset($_GET['req']) && $_GET['req'] == 'true') {
 
-    echo $owmDataJSON;
+    echo $dataJSON;
     exit();
 
 // If it is not an ajax request store the weather data into database
@@ -41,7 +33,7 @@ if(isset($_GET['req']) && $_GET['req'] == 'true') {
     $stmt = $DB->prepare($q);
     try {
         $stmt->execute([
-            'forecast_json' => isset($owmDataJSON) ? $owmDataJSON : '',
+            'forecast_json' => isset($dataJSON) ? $dataJSON : ''
         ]);
     } catch (PDOException $e) {
         throw new PDOException($e->getMessage(), (int)$e->getCode());
