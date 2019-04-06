@@ -7,7 +7,7 @@ if(!defined('NL')) {
 class HcCalendar {  
 
     protected $dayLabels = array('Mon','Tue','Wed','Thu','Fri','Sat','Sun');
-    protected $MonthLabels = array('Jan','Feb','Mar','Apr','Maj','Jun','Jul', 'Avg', 'Sep', 'Okt', 'Nov', 'Dec');
+    protected $monthLabels = array('Januar','Februar','Marec','April','Maj','Junij','Julij', 'Avgust', 'September', 'Oktober', 'November', 'December');
     protected $currentYear = 0;
     protected $currentMonth = 0;
     protected $currentDay = 0;
@@ -19,6 +19,11 @@ class HcCalendar {
 
     public function __construct(){     
         $this->naviHref = htmlentities($_SERVER['PHP_SELF']);
+
+        // Set day labels in selected language
+        $this->setDayLabels(['Pon','Tor','Sre','Čet','Pet','Sob','Ned']);
+
+        $this->setMonthLabels($labels);
     }
         
     /**
@@ -78,6 +83,8 @@ class HcCalendar {
     */
     private function showDay($cellNumber)
     {
+        $today = date('Y-m-d');
+        
         if($this->currentDay == 0) {
             $firstDayOfTheWeek = date('N', strtotime($this->currentYear . '-' . $this->currentMonth . '-01'));
             if(intval($cellNumber) == intval($firstDayOfTheWeek)) {
@@ -115,8 +122,10 @@ class HcCalendar {
         return '<td' . 
             // ID attribute for only for current month days
             ($this->currentDate != null ? ' id="d-' . $this->currentDate . '"' : '') . 
+            ' class="' .
+            ($this->currentDate == $today ? 'today ' : '') .
             // Saturdays and Sundays
-            ((intval($cellNumber) % 7 == 6 || intval($cellNumber) % 7 == 0) ? ' class="non-work-day' : ' class="work-day') . " $iconClass" . '">' .
+            ((intval($cellNumber) % 7 == 6 || intval($cellNumber) % 7 == 0) ? 'non-work-day' : 'work-day') . " $iconClass" . '">' .
             $cellContent . '</td>';
     }
      
@@ -130,15 +139,19 @@ class HcCalendar {
         $preMonth = $this->currentMonth == 1 ? 12 : intval($this->currentMonth) - 1;
         $preYear = $this->currentMonth == 1 ? intval($this->currentYear) - 1 : $this->currentYear;
 
+        $currentMonthName = $this->monthLabels[$this->currentMonth];
         return '<tr>' . NL . 
         '<td colspan="2">' . NL .
-        '<a class="prev" href="' . $this->naviHref . '?month=' . sprintf('%02d',$preMonth) . '&year=' . $preYear . '">Prev</a>' . NL .
+        // Navigation currently disabled
+        // '<a class="prev" href="' . $this->naviHref . '?month=' . sprintf('%02d',$preMonth) . '&year=' . $preYear . '">Prev</a>' . NL .
         '</td>' . NL . 
         '<td colspan="3">' .
-        '<span class="title">' . date('Y | M', strtotime($this->currentYear . '-' . $this->currentMonth . '-1')) . '</span>' . NL .
+        // '<span class="title">' . date('Y | M', strtotime($this->currentYear . '-' . $this->currentMonth . '-1')) . '</span>' . NL .
+        '<span class="title">' . $this->monthLabels[intval($this->currentMonth) - 1] . ' ' . $this->currentYear . '</span>' . NL .
         '</td>' . NL .
         '<td colspan="2">' . NL .
-        '<a class="next" href="' . $this->naviHref . '?month=' . sprintf("%02d", $nextMonth) . '&year=' . $nextYear . '">Next</a>' . NL .
+        // Navigation currently disabled
+        // '<a class="next" href="' . $this->naviHref . '?month=' . sprintf("%02d", $nextMonth) . '&year=' . $nextYear . '">Next</a>' . NL .
         '</td>' . NL . '</tr>';
     }
 
@@ -209,6 +222,16 @@ class HcCalendar {
     {
         if(!empty($labels) && is_array($labels) && count($labels) == 7) {
             $this->dayLabels = $labels;
+        }
+    }
+
+        /**
+     * Set day labels in any language
+     */
+    public function setMonthLabels($labels)
+    {
+        if(!empty($labels) && is_array($labels) && count($labels) <= 31) {
+            $this->monthLabels = $labels;
         }
     }
 }

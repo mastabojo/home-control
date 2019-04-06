@@ -94,3 +94,8 @@
     background-repeat: no-repeat;
     background-position: 92% 8%;
 }
+
+#hc-calendar .today {
+    border: 2px solid  #ffe680;
+    background-color: rgba(255, 230, 128, 0.3);
+}

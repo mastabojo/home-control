@@ -24,7 +24,7 @@ $q['holiday_dates'] = "INSERT INTO holiday_dates (country_code, holiday_date, ho
     ('SI', '01-01', 'Novo leto', 'y'),
     ('SI', '01-02', 'Novo leto', 'y'),
     ('SI', '02-08', 'Prešernov dan', 'y'), 
-    ('SI', '04-07', 'Dan upora proti okupatorju', 'y'),
+    ('SI', '04-27', 'Dan upora proti okupatorju', 'y'),
     ('SI', '05-01', 'Praznik dela', 'y'),
     ('SI', '05-02', 'Praznik dela', 'y'),
     ('SI', '06-08', 'Dan Primoža Trubarja', 'n'),
