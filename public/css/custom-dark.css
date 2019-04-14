@@ -128,16 +128,6 @@ a.nav-link.active.show {
     font-size: 80%;
 }
 
-/*
-#blinds-pane .row:nth-of-type(1) {
-    padding-bottom: 5px;
-}
-
-#blinds-pane .row:nth-of-type(2) {
-    padding-top: 5px;
-}
-*/
-
 #blinds-pane img, #shutters img {
     padding: 14px;
     cursor: pointer;

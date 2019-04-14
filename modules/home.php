@@ -28,7 +28,8 @@ foreach($wfcst as $key => $fcData) {
 </div><!-- .col -->
 
 <div class="col text-right">
-<span class="updated-display"><?php echo $l->Get("last_weather_data");?>:</span><span id="span-updated" class="updated-display"><?php echo date('d.m. H:i', $wcurr['calc_time']);?></span>
+<span class="updated-display"><?php echo $l->Get("last_weather_data"), ' (', $WEATHER_PROVIDER, ')';?>:</span><br>
+<span id="span-updated" class="updated-display"><?php echo date('d.m. H:i', $wcurr['calc_time']);?></span>
 </div><!-- .col -->
 
 </div><!-- .row -->
