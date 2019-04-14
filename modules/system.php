@@ -9,22 +9,22 @@ $pathToSystemIcons = "/img/system-icons/{$theme}/";
 
 <div class="col text-center">
 <img id="refresh-browser" src="<?php echo $pathToSystemIcons;?>btn-refresh-browser.svg"><br>
-Osveži
+<?php echo $l->Get("system_refresh");?>
 </div><!-- .col -->
 
 <div class="col text-center">
 <img id="exit-browser" src="<?php echo $pathToSystemIcons;?>btn-exit-browser.svg"><br>
-Zapri
+<?php echo $l->Get("system_exit_browser");?>
 </div><!-- .col -->
 
 <div class="col text-center">
 <img id="reboot" src="<?php echo $pathToSystemIcons;?>btn-reboot.svg"><br>
-Ponovni zagon
+<?php echo $l->Get("system_reboot");?>
 </div><!-- .col -->
 
 <div class="col text-center">
 <img id="shutdown" src="<?php echo $pathToSystemIcons;?>btn-shutdown.svg"><br>
-Izklop
+<?php echo $l->Get("system_shutdown");?>
 </div><!-- .col -->
 
 </div><!-- .row -->

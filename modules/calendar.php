@@ -6,17 +6,17 @@ include_once $baseDir . "/public/api/class.HcCalendar.php";
 include_once $baseDir . "/public/api/class.CalendarHolidays.php";
 include_once $baseDir . "/public/api/class.GarbageCollection.php";
 
-$dayLabels = ['Pon', 'Tor', 'Sre', 'Čet', 'Pet', 'Sob', 'Ned'];
-
 $eventiconsPath = '/public/img/event-icons/dark/';
 
 $calendar = new HcCalendar();
-$calendar->setDayLabels($dayLabels);
+$calendar->setDayLabels($l->Get("day_names_short"));
+$calendar->setMonthLabels($l->Get("month_names"));
 
 
-
+// All the events for selected month
 $events = [];
 
+// Holidays for selected month
 $h = new CalendarHolidays();
 $holidayDates = $h->getHolidayDates();
 
@@ -25,6 +25,7 @@ foreach($holidayDates as $hDate => $hData) {
     $events[$hDate][0]['event_non_workday'] = $hData['non_workday'];
 }
 
+// Garbage collection dates for selected month
 $g = new GarbageCollection();
 $garbageCollectionDates = $g->getAllDates();
 

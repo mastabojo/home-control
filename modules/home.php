@@ -6,10 +6,9 @@ $Weather = new WeatherARSO;
 $wcurr = $Weather->getWeatherCurrentDigest();
 $wfcst = $Weather->getWeatherForecastDigest();
 
-$days = ['Nedelja', 'Ponedeljek', 'Torek', 'Sreda', 'Četrtek', 'Petek', 'Sobota'];
 // add day names to forecast data
 foreach($wfcst as $key => $fcData) {
-  $wfcst[$key]['short_day_name'] = mb_substr($days[$wfcst[$key]['day_no']], 0, 3);
+  $wfcst[$key]['short_day_name'] = $l->Get("day_names_short")[$key];
 }
 ?>
 
@@ -20,7 +19,6 @@ foreach($wfcst as $key => $fcData) {
 
 <div class="col">
 
-
 <div class="row no-gutters">
 
 <div class="col-8">
@@ -30,7 +28,7 @@ foreach($wfcst as $key => $fcData) {
 </div><!-- .col -->
 
 <div class="col text-right">
-<span class="updated-display">Zadnji podatki:</span><span id="span-updated" class="updated-display"><?php echo date('d.m. H:i', $wcurr['calc_time']);?></span>
+<span class="updated-display"><?php echo $l->Get("last_weather_data");?>:</span><span id="span-updated" class="updated-display"><?php echo date('d.m. H:i', $wcurr['calc_time']);?></span>
 </div><!-- .col -->
 
 </div><!-- .row -->
@@ -38,7 +36,6 @@ foreach($wfcst as $key => $fcData) {
 </div><!-- .col -->
 
 </div><!-- #weather-current -->
-
 
 <div id="weather-forecast" class="row align-items-end">
 <div class="col text-right">
@@ -153,17 +150,17 @@ foreach($wfcst as $key => $fc) {
 
 <!-- lights - col 1 -->
 <div class="col text-center">
-Dnevni prostor
+<?php echo $l->Get('lights_room_01');?>
 </div><!-- .col -->
 
 <!-- lights - col 2 -->
 <div class="col text-center">
-Hodnik
+<?php echo $l->Get('lights_room_02');?>
 </div><!-- .col -->
 
 <!-- lights - col 3 -->
 <div class="col text-center">
-Vhod
+<?php echo $l->Get('lights_room_03');?>
 </div><!-- .col -->
 
 </div><!-- .row -->

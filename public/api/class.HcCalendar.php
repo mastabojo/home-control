@@ -7,7 +7,7 @@ if(!defined('NL')) {
 class HcCalendar {  
 
     protected $dayLabels = array('Mon','Tue','Wed','Thu','Fri','Sat','Sun');
-    protected $monthLabels = array('Januar','Februar','Marec','April','Maj','Junij','Julij', 'Avgust', 'September', 'Oktober', 'November', 'December');
+    protected $monthLabels = array('January','February','March','April','May','June','July', 'August', 'September', 'October', 'November', 'December');
     protected $currentYear = 0;
     protected $currentMonth = 0;
     protected $currentDay = 0;
@@ -23,7 +23,7 @@ class HcCalendar {
         // Set day labels in selected language
         $this->setDayLabels(['Pon','Tor','Sre','Čet','Pet','Sob','Ned']);
 
-        $this->setMonthLabels($labels);
+        // $this->setMonthLabels($labels);
     }
         
     /**
@@ -84,6 +84,7 @@ class HcCalendar {
     private function showDay($cellNumber)
     {
         $today = date('Y-m-d');
+        $iconClass = '';
         
         if($this->currentDay == 0) {
             $firstDayOfTheWeek = date('N', strtotime($this->currentYear . '-' . $this->currentMonth . '-01'));
@@ -95,8 +96,6 @@ class HcCalendar {
         if(($this->currentDay != 0) && ($this->currentDay <= $this->daysInMonth)) {
             $this->currentDate = date('Y-m-d', strtotime($this->currentYear . '-' . $this->currentMonth . '-' . ($this->currentDay)));
             $cellContent = $this->currentDay;
-            
-            $iconClass = '';
 
             if(isset($this->events[$this->currentDate])) {
 
@@ -104,7 +103,8 @@ class HcCalendar {
                     
                     if(array_key_exists('event_icon', $ev)) {
                         $iconClass = rtrim($ev['event_icon'], '.svg');
-                        // $cellContent .= "<img src=\"{$this->eventIconsPath}{$ev['event_icon']}\">";
+                    } else {
+                        $iconClass = '';
                     }
                     
                     if(array_key_exists('event_text', $ev)) {
@@ -139,7 +139,7 @@ class HcCalendar {
         $preMonth = $this->currentMonth == 1 ? 12 : intval($this->currentMonth) - 1;
         $preYear = $this->currentMonth == 1 ? intval($this->currentYear) - 1 : $this->currentYear;
 
-        $currentMonthName = $this->monthLabels[$this->currentMonth];
+        // $currentMonthName = $this->monthLabels[$this->currentMonth];
         return '<tr>' . NL . 
         '<td colspan="2">' . NL .
         // Navigation currently disabled
@@ -156,7 +156,7 @@ class HcCalendar {
     }
 
     /**
-    * create calendar week labels
+    * create calendar day labels
     */
     private function createLabels()
     {

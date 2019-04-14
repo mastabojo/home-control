@@ -1,10 +1,16 @@
 <?php
 session_start();
 
+$BASEPATH = dirname(__DIR__, 1) . DIRECTORY_SEPARATOR;
+require $BASEPATH . 'lib/functions.php';
+require $BASEPATH . 'env.php';
+include $BASEPATH . "public/api/class.Lang.php";
+
+$l = new Lang($LANGUAGE);
+
 if(isset($_POST['input-username']) && !empty($_POST['input-username']) && isset($_POST['input-password']) && !empty($_POST['input-password'])) {
     
-    require '../lib/functions.php';
-    require '../env.php';
+
     
     $DB = getDB($DB_HOST, $DB_NAME, $DB_USER, $DB_PASS);
     $q = "SELECT userid, username, passwrd, userlevel, firstname, lastname FROM hccusers WHERE username=:username LIMIT 1";
@@ -12,7 +18,7 @@ if(isset($_POST['input-username']) && !empty($_POST['input-username']) && isset(
     try {
         $stmt->execute([':username' => trim($_POST['input-username'])]);
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        // $DEBUG = print_r($row, 1);
+
         if(password_verify($_POST['input-password'], $row['passwrd'])) {
             $_SESSION['user'] = [
                 'username'  => $row['username'],
@@ -52,13 +58,13 @@ if(isset($_POST['input-username']) && !empty($_POST['input-username']) && isset(
 <div class="container">
 
 <form class="form-signin" method="post" action="index.php">
-<h2 class="form-signin-heading">Prijavi se</h2>
-<label for="input-username" class="sr-only">Ime</label>
-<input type="text" name="input-username" id="input-username" class="form-control" placeholder="Ime" required autofocus>
-<label for="input-password" class="sr-only">Geslo</label>
-<input type="password" name="input-password" id="input-password" class="form-control" placeholder="Geslo" required>
+<h2 class="form-signin-heading"><?php echo $l->Get("login_title");?></h2>
+<label for="input-username" class="sr-only"><?php echo $l->Get("username");?></label>
+<input type="text" name="input-username" id="input-username" class="form-control" placeholder="<?php echo $l->Get("username");?>" required autofocus>
+<label for="input-password" class="sr-only"><?php echo $l->Get("password");?></label>
+<input type="password" name="input-password" id="input-password" class="form-control" placeholder="<?php echo $l->Get("password");?>" required>
 
-<button class="btn btn-lg btn-primary btn-block" type="submit">Prijava</button>
+<button class="btn btn-lg btn-primary btn-block" type="submit"><?php echo $l->Get("login_button");?></button>
 </form>
 
 </div> <!-- /container -->

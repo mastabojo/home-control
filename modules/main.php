@@ -13,6 +13,9 @@ define('NL', "\n");
 $BASEPATH = dirname(__DIR__) . DIRECTORY_SEPARATOR;
 
 include $BASEPATH . 'env.php';
+include $BASEPATH . "public/api/class.Lang.php";
+
+$l = new Lang($LANGUAGE);
 
 $theme = 'dark';
 // Icons or text for tab titles
@@ -30,14 +33,14 @@ $tabs = [
 ];
 
 $tabTitles = [
-    'home' => 'začetek',
-    'shutters' => 'rolete',
-    'lights' => 'luči',
-    'calendar' => 'koledar',
-    'weather' => 'vreme',
-    'heating' => 'ogrevanje',
-    // 'cameras' => 'kamere',
-    'system' => 'sistem'
+    'home' => strtolower($l->Get("tab_names", "home")),
+    'shutters' => strtolower($l->Get("tab_names", "shutters")),
+    'lights' => strtolower($l->Get("tab_names", "lights")),
+    'calendar' => strtolower($l->Get("tab_names", "calendar")),
+    'weather' => strtolower($l->Get("tab_names", "weather")),
+    'heating' => strtolower($l->Get("tab_names", "heating")),
+    // 'cameras' => strtolower($l->Get("tab_names", "cameras")),
+    'system' => strtolower($l->Get("tab_names", "system"))
 ];
 
  ?>
