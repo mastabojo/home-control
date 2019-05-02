@@ -8,7 +8,7 @@ $wfcst = $Weather->getWeatherForecastDigest();
 
 // add day names to forecast data
 foreach($wfcst as $key => $fcData) {
-  $wfcst[$key]['short_day_name'] = $l->Get("day_names_short")[$key];
+  $wfcst[$key]['short_day_name'] = $l->Get("day_names_short")[$fcData['day_no']];
 }
 ?>
 
