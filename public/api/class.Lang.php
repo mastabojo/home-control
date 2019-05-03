@@ -31,7 +31,7 @@ class Lang
     public function Get($key, $subkey = null)
     {
         if(isset($this->langStrings[$key])) {
-            return $subkey == null ? $this->langStrings[$key] : $this->langStrings[$key][$subkey];
+            return $subkey === null ? $this->langStrings[$key] : $this->langStrings[$key][$subkey];
         } else {
             return '-';
         }

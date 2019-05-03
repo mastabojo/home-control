@@ -33,6 +33,11 @@ $lang['month_names']       = ['Januar', 'Februar', 'Marec', 'April', 'Maj', 'Jun
 $lang['month_names_short'] = ['Jan', 'Feb', 'Mar', 'Apr', 'Maj', 'Jun', 'Jul', 'Avg', 'Sep', 'Okt', 'Nov', 'Dec'];
 
 /**
+ * Easter holiday names
+ */
+$lang['easter_holiday_names'] = ['Velika noč', 'Velikonočni ponedeljek'];
+
+/**
  * Weather
  */
 $lang['last_weather_data'] = 'Zadnji podatki';

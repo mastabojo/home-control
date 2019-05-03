@@ -33,6 +33,11 @@ $lang['month_names']       = ['January', 'February', 'March', 'April', 'May', 'J
 $lang['month_names_short'] = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
 /**
+ * Easter holiday names
+ */
+$lang['easter_holiday_names'] = ['Easter', 'Easter Monday'];
+
+/**
  * Weather
  */
 $lang['last_weather_data'] = 'Last data';

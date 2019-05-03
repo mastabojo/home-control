@@ -5,11 +5,16 @@ include '../lib/functions.php';
 $DB = getDB($DB_HOST, $DB_NAME, $DB_USER, $DB_PASS);
 
 $testPass = password_hash($TEST_PASS, PASSWORD_DEFAULT);
+$testPass2 = password_hash($TEST_PASS2, PASSWORD_DEFAULT);
 
 // Uncomment tables to be seeded
 $seedTables = [
     // 'cities',
-    // 'hccusers'
+    // 'current_weather',
+    // 'weather_forecast',
+    // 'holiday_dates',
+    // 'hccusers',
+    // 'cpu_temperature_log'
 ];
 
 $q = [];
@@ -18,7 +23,8 @@ $q['cities'] = "INSERT INTO cities (city_id, city_name, city_country) VALUES
     (3190310, 'Sostro', 'SI')";
 
 $q['hccusers'] = "INSERT INTO hccusers (username, passwrd, userlevel, firstname, lastname) VALUES
-    ('bojo', '$testPass', 1, 'Bojo', 'R')";
+    ('bojo', '$testPass', 1, 'Bojo', 'R'),
+    ('hcc', '$testPass2', 1, 'HCC', 'R')";
 
 $q['holiday_dates'] = "INSERT INTO holiday_dates (country_code, holiday_date, holiday_name, non_working_day) VALUES
     ('SI', '01-01', 'Novo leto', 'y'),

@@ -17,7 +17,8 @@ $calendar->setMonthLabels($l->Get("month_names"));
 $events = [];
 
 // Holidays for selected month
-$h = new CalendarHolidays();
+$h = new CalendarHolidays(null, $l);
+$h->setLangObj($l);
 $holidayDates = $h->getHolidayDates();
 
 foreach($holidayDates as $hDate => $hData) {

@@ -13,7 +13,7 @@ $DB = getDB($DB_HOST, $DB_NAME, $DB_USER, $DB_PASS);
 $tsArr = getDayStartAndEndTs();
 
 // Get all readings for current day from database
-$q = "SELECT read_time, read_kwh FROM heat_pump_readings WHERE read_time >= :startTs AND read_time <= :endTs";
+$q = "SELECT read_time, total_energy FROM heat_pump_readings WHERE read_time >= :startTs AND read_time <= :endTs";
 // echo "$q\n";
 $stmt = $DB->prepare($q);
 $stmt->execute([':startTs' => $tsArr[0], ':endTs' => $tsArr[1]]);
