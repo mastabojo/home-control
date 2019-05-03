@@ -80,7 +80,7 @@ class WeatherARSO extends Weather
 
             $validDate = new DateTime((string) $metData->valid_UTC);
 
-            $data[$dataKey]['day_no'] = $validDate->format("w");
+            $data[$dataKey]['day_no'] = $validDate->format("N");
             $data[$dataKey]['temperature_day'] = (string) $metData->txsyn;
             $data[$dataKey]['temperature_night'] = (string) $metData->tnsyn;
             $data[$dataKey]['weather_description'] = (string) $metData->nn_shortText;

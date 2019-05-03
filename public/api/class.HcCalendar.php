@@ -19,11 +19,6 @@ class HcCalendar {
 
     public function __construct(){     
         $this->naviHref = htmlentities($_SERVER['PHP_SELF']);
-
-        // Set day labels in selected language
-        $this->setDayLabels(['Pon','Tor','Sre','Čet','Pet','Sob','Ned']);
-
-        // $this->setMonthLabels($labels);
     }
         
     /**
@@ -226,7 +221,7 @@ class HcCalendar {
     }
 
         /**
-     * Set day labels in any language
+     * Set month labels in any language
      */
     public function setMonthLabels($labels)
     {
