@@ -13,36 +13,21 @@ $commandOutputData = [];
 
 // Data to be cleansed and inserted into database
 $heatPumpData = [
-    // Total energy [KWh]
-    'total_energy' => 0.0,
-    // Phase 1 Line to Neutral [V]
     'phase_1_to_neutral' => 0.0,
-    // Phase 2 Line to Neutral [V]
     'phase_2_to_neutral' => 0.0,
-    // Phase 3 Line to Neutral [V]
     'phase_3_to_neutral' => 0.0,
-    // Average Line to Neutral [V]
-    'average_to_neutral' => 0.0,
-    // Phase 1 Line current [A]
     'phase_1_current' => 0.0,
-    // Phase 2 Line current [A]
     'phase_2_current' => 0.0,
-    // Phase 3 Line current [A]
     'phase_3_current' => 0.0,
-    // Average Line current [A]
-    'average_current' => 0.0,
-    // Sum of Line current [A]
-    'sum_current' => 0.0,
-    // Phase 1 phase angle [Deg]
     'phase_1_angle' => 0.0,
-    // Phase 2 phase angle [Deg]
     'phase_2_angle' => 0.0,
-    // Phase 3 phase angle [Deg]
     'phase_3_angle' => 0.0,
-    // Total system phase angle [Deg]
+    'average_to_neutral' => 0.0,
+    'average_current' => 0.0,
+    'sum_current' => 0.0,
     'total_phase_angle' => 0.0,
-    // Input frequency [Hz]
     'input_frequency' => 0.0,
+    'total_energy' => 0.0,
 ];
 $heatPumpDataKeys = array_keys($heatPumpData);
 
@@ -74,21 +59,21 @@ $tariff = ($currentSecontsFromMidnight < $highTarrifStart || $currentSecontsFrom
 $DB = getDB($DB_HOST, $DB_NAME, $DB_USER, $DB_PASS);
 $dbTable = 'heat_pump_readings';
 $q = "INSERT INTO $dbTable (
-    total_energy, 
     phase_1_to_neutral, 
     phase_2_to_neutral, 
     phase_3_to_neutral,
-    average_to_neutral,
     phase_1_current,
     phase_2_current,
     phase_3_current,
-    average_current,
-    sum_current,
     phase_1_angle,
     phase_2_angle,
     phase_3_angle,
+    average_to_neutral,
+    average_current,
+    sum_current,
     total_phase_angle,
     input_frequency, 
+    total_energy,
     tariff
     ) VALUES (";
 $q .= implode(', ', $heatPumpData);
