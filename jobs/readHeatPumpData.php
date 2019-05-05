@@ -59,6 +59,7 @@ $tariff = ($currentSecontsFromMidnight < $highTarrifStart || $currentSecontsFrom
 $DB = getDB($DB_HOST, $DB_NAME, $DB_USER, $DB_PASS);
 $dbTable = 'heat_pump_readings';
 $q = "INSERT INTO $dbTable (
+    read_time,
     phase_1_to_neutral, 
     phase_2_to_neutral, 
     phase_3_to_neutral,
@@ -75,7 +76,7 @@ $q = "INSERT INTO $dbTable (
     input_frequency, 
     total_energy,
     tariff
-    ) VALUES (";
+    ) VALUES ($read_time, ";
 $q .= implode(', ', $heatPumpData);
 $q .= ", '$tariff');";
 

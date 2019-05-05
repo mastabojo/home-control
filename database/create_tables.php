@@ -67,7 +67,7 @@ $qry['heat_pump_readings'] = '';
 $qry['heat_pump_readings'] .= $dropTablesIfExists ? "DROP TABLE IF EXISTS heat_pump_readings;\n" : '';
 $qry['heat_pump_readings'] = "CREATE TABLE `heat_pump_readings` (
     `id` int(11) NOT NULL AUTO_INCREMENT,
-    `read_time` int(11) NOT NULL,
+    `read_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `phase_1_to_neutral` float NOT NULL DEFAULT '0',
     `phase_2_to_neutral` float NOT NULL DEFAULT '0',
     `phase_3_to_neutral` float NOT NULL DEFAULT '0',
