@@ -53,8 +53,7 @@ try {
     // Assign cleansed values to array of data
     if(count($commandOutputData) == count($heatPumpData)) {
         foreach($commandOutputData as $key => $line) {
-            echo "$line\n";
-            $heatPumpData[$heatPumpDataKeys[$key]] = is_numeric($line) ? $heatPumpData[$heatPumpDataKeys[$key]] = (float) $line : 0.0;
+            $heatPumpData[$heatPumpDataKeys[$key]] = is_numeric($line) ? (float) $line : 0.0;
         }
     }
 }
@@ -97,6 +96,14 @@ $q .= ", '$tariff');";
 
 echo $q . "\n";
 
+// Prepare and execute SQL insert statement
+$stmt = $DB->prepare($q);
+try {
+    $stmt->execute();
+} catch (PDOException $e) {
+    throw new PDOException($e->getMessage(), (int)$e->getCode());
+    error_log('Could not get weather current data: ' . $e->getMessage());
+}
 
 
 
