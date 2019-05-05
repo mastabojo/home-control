@@ -53,6 +53,7 @@ try {
     // Assign cleansed values to array of data
     if(count($commandOutputData) == count($heatPumpData)) {
         foreach($commandOutputData as $key => $line) {
+            echo "$line\n";
             $heatPumpData[$heatPumpDataKeys[$key]] = is_numeric($line) ? $heatPumpData[$heatPumpDataKeys[$key]] = (float) $line : 0.0;
         }
     }
@@ -92,7 +93,7 @@ $q = "INSERT INTO $dbTable (
     tariff
     ) VALUES (";
 $q .= implode(', ', $heatPumpData);
-$q .= ", $tariff);";
+$q .= ", '$tariff');";
 
 echo $q . "\n";
 
