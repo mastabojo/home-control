@@ -76,7 +76,7 @@ $q = "INSERT INTO $dbTable (
     input_frequency, 
     total_energy,
     tariff
-    ) VALUES ($read_time, ";
+    ) VALUES ('$read_time', ";
 $q .= implode(', ', $heatPumpData);
 $q .= ", '$tariff');";
 
