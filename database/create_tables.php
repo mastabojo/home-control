@@ -67,9 +67,22 @@ $qry['heat_pump_readings'] = '';
 $qry['heat_pump_readings'] .= $dropTablesIfExists ? "DROP TABLE IF EXISTS heat_pump_readings;\n" : '';
 $qry['heat_pump_readings'] = "CREATE TABLE `heat_pump_readings` (
     `id` int(11) NOT NULL AUTO_INCREMENT,
-    `heat_pump_id` tinyint(4) NOT NULL,
     `read_time` int(11) NOT NULL,
-    `read_kwh` float NOT NULL,
+    `total_energy` float NOT NULL DEFAULT 0.0,
+    `phase_1_to_neutral` float NOT NULL DEFAULT 0.0,
+    `phase_2_to_neutral` float NOT NULL DEFAULT 0.0,
+    `phase_3_to_neutral` float NOT NULL DEFAULT 0.0,
+    `average_to_neutral` float NOT NULL DEFAULT 0.0,
+    `phase_1_current` float NOT NULL DEFAULT 0.0,
+    `phase_2_current` float NOT NULL DEFAULT 0.0,
+    `phase_3_current` float NOT NULL DEFAULT 0.0,
+    `average_current` float NOT NULL DEFAULT 0.0,
+    `sum_current` float NOT NULL DEFAULT 0.0,
+    `phase_1_angle` float NOT NULL DEFAULT 0.0,
+    `phase_2_angle` float NOT NULL DEFAULT 0.0,
+    `phase_3_angle` float NOT NULL DEFAULT 0.0,
+    `total_phase_angle` float NOT NULL DEFAULT 0.0,
+    `input_frequency` float NOT NULL DEFAULT 0.0,
     `tariff` enum('vt','mt','et','') NOT NULL DEFAULT 'vt',
     PRIMARY KEY (`id`)
    ) ENGINE=InnoDB AUTO_INCREMENT=4987 DEFAULT CHARSET=latin1;";

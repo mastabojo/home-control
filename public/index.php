@@ -1,6 +1,8 @@
 <?php
 session_start();
 
+ini_set("date.timezone", "Europe/Ljubljana");
+
 $BASEPATH = dirname(__DIR__, 1) . DIRECTORY_SEPARATOR;
 require $BASEPATH . 'lib/functions.php';
 require $BASEPATH . 'env.php';
@@ -9,9 +11,6 @@ include $BASEPATH . "public/api/class.Lang.php";
 $l = new Lang($LANGUAGE);
 
 if(isset($_POST['input-username']) && !empty($_POST['input-username']) && isset($_POST['input-password']) && !empty($_POST['input-password'])) {
-    
-
-    
     $DB = getDB($DB_HOST, $DB_NAME, $DB_USER, $DB_PASS);
     $q = "SELECT userid, username, passwrd, userlevel, firstname, lastname FROM hccusers WHERE username=:username LIMIT 1";
     $stmt = $DB->prepare($q);
