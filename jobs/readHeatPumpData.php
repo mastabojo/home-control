@@ -11,35 +11,32 @@ $pythonCommand = $pythonExec . ' ' . $baseDir . DIRECTORY_SEPARATOR . 'py' . DIR
 // Data output from python command
 $commandOutputData = [];
 
-// Data to be cleansed and inserted into database
-$heatPumpData = [
-    'phase_1_to_neutral' => 0.0,
-    'phase_2_to_neutral' => 0.0,
-    'phase_3_to_neutral' => 0.0,
-    'phase_1_current' => 0.0,
-    'phase_2_current' => 0.0,
-    'phase_3_current' => 0.0,
-    'phase_1_angle' => 0.0,
-    'phase_2_angle' => 0.0,
-    'phase_3_angle' => 0.0,
-    'average_to_neutral' => 0.0,
-    'average_current' => 0.0,
-    'sum_current' => 0.0,
-    'total_phase_angle' => 0.0,
-    'input_frequency' => 0.0,
-    'total_energy' => 0.0,
+// Array with keys (not used, just for reference)
+$heatPumpDataKeys = [
+    'phase_1_to_neutral',
+    'phase_2_to_neutral',
+    'phase_3_to_neutral',
+    'phase_1_current',
+    'phase_2_current',
+    'phase_3_current',
+    'phase_1_angle',
+    'phase_2_angle',
+    'phase_3_angle',
+    'average_to_neutral',
+    'average_current',
+    'sum_current',
+    'total_phase_angle',
+    'input_frequency',
+    'total_energy',
 ];
-$heatPumpDataKeys = array_keys($heatPumpData);
 
 try {
     // Read Modbus values calling python command
     exec($pythonCommand, $commandOutputData);
 
     // Assign cleansed values to array of data
-    if(count($commandOutputData) == count($heatPumpData)) {
-        foreach($commandOutputData as $key => $line) {
-            $heatPumpData[$heatPumpDataKeys[$key]] = is_numeric($line) ? (float) $line : 0.0;
-        }
+    if(count($commandOutputData) == count($heatPumpDataKeys)) {
+        $heatPumpData = array_map('floatval', $commandOutputData);
     }
 }
 catch(Exception $e) {
@@ -82,14 +79,9 @@ $q .= ", '$tariff');";
 
 echo $q . "\n";
 
-// Prepare and execute SQL insert statement
-$stmt = $DB->prepare($q);
 try {
-    $stmt->execute();
+    $stmt->exec($q);
 } catch (PDOException $e) {
     throw new PDOException($e->getMessage(), (int)$e->getCode());
     error_log('Could not get weather current data: ' . $e->getMessage());
 }
-
-
-
