@@ -33,7 +33,7 @@ instrument = minimalmodbus.Instrument(portName, slaveAddress, mode)
 for addr, desc in modbus_SDM530_data.inputRegisters.items():
     try:
         ## print desc + ': ' + str(instrument.read_float(addr, READ_INPUT_REGISTER))
-        print str(addr) + ': ' + str(instrument.read_float(addr, READ_INPUT_REGISTER))
+        print str(instrument.read_float(addr, READ_INPUT_REGISTER))
         time.sleep(sleepTime)
     except IOError:
         print("Failed to read address " + str(addr) + " (" + desc + ")" + " from instrument")

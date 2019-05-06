@@ -11,8 +11,8 @@ $pythonCommand = $pythonExec . ' ' . $baseDir . DIRECTORY_SEPARATOR . 'py' . DIR
 // Data output from python command
 $commandOutputData = [];
 
-// Array with keys (not used, just for reference)
-$heatPumpDataKeys = [
+// Table fields
+$heatPumpDataFields = [
     'phase_1_to_neutral',
     'phase_2_to_neutral',
     'phase_3_to_neutral',
@@ -35,7 +35,7 @@ try {
     exec($pythonCommand, $commandOutputData);
 
     // Assign cleansed values to array of data
-    if(count($commandOutputData) == count($heatPumpDataKeys)) {
+    if(count($commandOutputData) == count($heatPumpDataFields)) {
         $heatPumpData = array_map('floatval', $commandOutputData);
     }
 }
@@ -43,7 +43,7 @@ catch(Exception $e) {
     die($e->getMessage());
 }
 
-if(isset($heatPumpData) && count($heatPumpData) == count($heatPumpDataKeys)) {
+if(isset($heatPumpData) && count($heatPumpData) == count($heatPumpDataFields)) {
     // Read time
     $read_time = date("Y-m-d H:i:s");
 
@@ -57,10 +57,8 @@ if(isset($heatPumpData) && count($heatPumpData) == count($heatPumpDataKeys)) {
     $DB = getDB($DB_HOST, $DB_NAME, $DB_USER, $DB_PASS);
     $dbTable = 'heat_pump_readings';
     $q  = "INSERT INTO $dbTable (";
-    $q .= "read_time, " . implode(', ', $heatPumpDataKeys) . ", tariff) VALUES (";
+    $q .= "read_time, " . implode(', ', $heatPumpDataFields) . ", tariff) VALUES (";
     $q .= "'$read_time', " . implode(', ', $heatPumpData) . ", '$tariff');";
-
-    echo $q . "\n";
 
     try {
         $DB->exec($q);
