@@ -43,45 +43,31 @@ catch(Exception $e) {
     die($e->getMessage());
 }
 
-// Read time
-$read_time = date("Y-m-d H:i:s");
+if(isset($heatPumpData) && count($heatPumpData) == count($heatPumpDataKeys)) {
+    // Read time
+    $read_time = date("Y-m-d H:i:s");
 
-// Find out tariff
-$currentSecontsFromMidnight = time() - strtotime("today");
-$highTarrifStart = isset($ELECTRIC_POWER_HIGH_TARIFF_START) ? ($ELECTRIC_POWER_HIGH_TARIFF_START * 60 * 60) : (6 * 60 * 60);
-$highTarrifSEnd = isset($ELECTRIC_POWER_HIGH_TARIFF_END) ? ($ELECTRIC_POWER_HIGH_TARIFF_END * 60 * 60) : (22 * 60 * 60);
-$tariff = ($currentSecontsFromMidnight < $highTarrifStart || $currentSecontsFromMidnight > $highTarrifSEnd) ? 'mt' : 'vt';
+    // Find out tariff
+    $currentSecontsFromMidnight = time() - strtotime("today");
+    $highTarrifStart = isset($ELECTRIC_POWER_HIGH_TARIFF_START) ? ($ELECTRIC_POWER_HIGH_TARIFF_START * 60 * 60) : (6 * 60 * 60);
+    $highTarrifSEnd = isset($ELECTRIC_POWER_HIGH_TARIFF_END) ? ($ELECTRIC_POWER_HIGH_TARIFF_END * 60 * 60) : (22 * 60 * 60);
+    $tariff = ($currentSecontsFromMidnight < $highTarrifStart || $currentSecontsFromMidnight > $highTarrifSEnd) ? 'mt' : 'vt';
 
-// Store array into database
-$DB = getDB($DB_HOST, $DB_NAME, $DB_USER, $DB_PASS);
-$dbTable = 'heat_pump_readings';
-$q = "INSERT INTO $dbTable (
-    read_time,
-    phase_1_to_neutral, 
-    phase_2_to_neutral, 
-    phase_3_to_neutral,
-    phase_1_current,
-    phase_2_current,
-    phase_3_current,
-    phase_1_angle,
-    phase_2_angle,
-    phase_3_angle,
-    average_to_neutral,
-    average_current,
-    sum_current,
-    total_phase_angle,
-    input_frequency, 
-    total_energy,
-    tariff
-    ) VALUES ('$read_time', ";
-$q .= implode(', ', $heatPumpData);
-$q .= ", '$tariff');";
+    // Store array into database
+    $DB = getDB($DB_HOST, $DB_NAME, $DB_USER, $DB_PASS);
+    $dbTable = 'heat_pump_readings';
+    $q  = "INSERT INTO $dbTable (";
+    $q .= "read_time, " . implode(', ', $heatPumpDataKeys) . ", tariff) VALUES (";
+    $q .= "'$read_time', " . implode(', ', $heatPumpData) . ", '$tariff');";
 
-echo $q . "\n";
+    echo $q . "\n";
 
-try {
-    $stmt->exec($q);
-} catch (PDOException $e) {
-    throw new PDOException($e->getMessage(), (int)$e->getCode());
-    error_log('Could not get weather current data: ' . $e->getMessage());
+    try {
+        $DB->exec($q);
+    } catch (PDOException $e) {
+        throw new PDOException($e->getMessage(), (int)$e->getCode());
+        error_log('Could not write heat pump data: ' . $e->getMessage());
+    }
+} else {
+    echo !isset($heatPumpData) ? '$heatPumpData not set' : '$heatPumpData not complete';
 }
