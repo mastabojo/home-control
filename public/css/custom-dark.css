@@ -1,7 +1,9 @@
 body {
     overflow: hidden;
     font-family: Ubuntu-Light;
-    background-color: hsl(230, 45%, 13%);
+    /* background-color: hsl(128, 86%, 5%);*/
+    background-color: rgba(8, 23, 15, 1);
+    /* background-color: hsl(230, 45%, 13%);*/
     color: #ddd;
 }
 
