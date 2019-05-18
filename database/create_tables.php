@@ -87,6 +87,17 @@ $qry['heat_pump_readings'] = "CREATE TABLE `heat_pump_readings` (
     PRIMARY KEY (`id`)
    ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8";
 
+// Create heat pump KWh table
+$qry['heat_pump_KWh'] = '';
+$qry['heat_pump_KWh'] .= $dropTablesIfExists ? "DROP TABLE IF EXISTS heat_pump_KWh;\n" : '';
+$qry['heat_pump_KWh'] = "CREATE TABLE `heat_pump_KWh` (
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `read_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `total_energy` float NOT NULL DEFAULT '0',
+    `tariff` enum('vt','mt','et','') NOT NULL DEFAULT 'vt',
+    PRIMARY KEY (`id`)
+   ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8";
+
 // Create hccusers table
 $qry['hccusers'] = '';
 $qry['hccusers'] .= $dropTablesIfExists ? "DROP TABLE IF EXISTS hccusers;\n" : '';
