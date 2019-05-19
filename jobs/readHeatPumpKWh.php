@@ -29,12 +29,24 @@ catch(Exception $e) {
 if(isset($totalEnergy) && $totalEnergy > 0.0) {
     // Read time
     $read_time = date("Y-m-d H:i:s");
+    // Read day number (1 - Monday, 6 - Saturday, 7 - Sunday)
+    $read_day = date("N");
 
     // Find out tariff
-    $currentSecontsFromMidnight = time() - strtotime("today");
-    $highTarrifStart = isset($ELECTRIC_POWER_HIGH_TARIFF_START) ? ($ELECTRIC_POWER_HIGH_TARIFF_START * 60 * 60) : (6 * 60 * 60);
-    $highTarrifSEnd = isset($ELECTRIC_POWER_HIGH_TARIFF_END) ? ($ELECTRIC_POWER_HIGH_TARIFF_END * 60 * 60) : (22 * 60 * 60);
-    $tariff = ($currentSecontsFromMidnight < $highTarrifStart || $currentSecontsFromMidnight > $highTarrifSEnd) ? 'mt' : 'vt';
+    // work days
+    if($read_day < 6) {
+        $currentSecontsFromMidnight = time() - strtotime("today");
+        $highTarrifStart = isset($ELECTRIC_POWER_HIGH_TARIFF_START) ? ($ELECTRIC_POWER_HIGH_TARIFF_START * 60 * 60) : (6 * 60 * 60);
+        $highTarrifSEnd = isset($ELECTRIC_POWER_HIGH_TARIFF_END) ? ($ELECTRIC_POWER_HIGH_TARIFF_END * 60 * 60) : (22 * 60 * 60);
+        $tariff = ($currentSecontsFromMidnight < $highTarrifStart || $currentSecontsFromMidnight > $highTarrifSEnd) ? 'mt' : 'vt';
+    
+    // holidays
+    // TO DO
+    
+    // Saturday or Sunday
+    } else {
+        $tariff = 'mt';
+    }
 
     // Store data into database
     $DB = getDB($DB_HOST, $DB_NAME, $DB_USER, $DB_PASS);
@@ -50,3 +62,4 @@ if(isset($totalEnergy) && $totalEnergy > 0.0) {
 } else {
     logError('Error reading total energy') ;
 }
+ 

@@ -77,6 +77,21 @@ class CalendarHolidays
         return $base->add(new DateInterval("P{$days}D"))->format("Y-m-d");
     }
 
+    /**
+     * Finds out if $date is holiday
+     * $date must be in valid form
+     */
+    public function isHoliday($date) {
+
+        if(date("Y-m-d", strtotime($date)) == $this->getEasterDate()) {
+            return true;
+        } else if(array_key_exists(date("m-d", strtotime($date)), $this->holidayDates)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public function setLangObj($langObj)
     {
         $this->langObj = $langObj;
