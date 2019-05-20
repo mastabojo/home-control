@@ -28,7 +28,7 @@ try {
 }
 catch(Exception $e) {
     logError($e->getMessage());
-    // die($e->getMessage());
+    die($e->getMessage());
 }
 
 if(isset($totalEnergy) && $totalEnergy > 0.0) {
@@ -36,13 +36,11 @@ if(isset($totalEnergy) && $totalEnergy > 0.0) {
     // Get day number (1 - Monday, 6 - Saturday, 7 - Sunday)
     $read_day = date("Y-m-d");
 
-    // Calendar holidays 
-    $hday = new CalendarHolidays(null, new Lang);
-
     // Find out tariff
 
     // Is it a holiday
-    if($hday->isHoliday()) {
+    // TO DO
+    if(0) {
         $tariff = 'mt';
     }
 
