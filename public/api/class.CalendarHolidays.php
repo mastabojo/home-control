@@ -79,7 +79,9 @@ class CalendarHolidays
 
     /**
      * Finds out if $date is holiday
-     * $date must be in valid form
+     * 
+     * @param date, must be in valid form
+     * @return true if date is holiday, false otherwise
      */
     public function isHoliday($date) {
 

@@ -69,12 +69,23 @@ function mainLoop() {
             });
         }
 
-        // do this task every x minutes on tenth second
+        // display heat pump consumption info
         // if(currentMinute % checkPeriodCommonTasks == 0 && currentSecond == 10) {
         if(currentSecond % 60 == 0) {
 
-            // Heat pump hourly chart 
-            // getHeatPumpchart();
+            // get heat pmp daily data
+            $.get("../api/getHpConsumptionData.php", function(data) {
+                hpData = JSON.parse(data);
+                console.log(hpData.consumption.diffkwh + " KWh");
+
+            });
+    
+            // var ctx = document.getElementById("hp-daily").getContext('2d');
+            // var myChart = new Chart(ctx, {
+                // type: 'bar',
+                // data: data,
+                // options: options
+            // });
         }
 
         // do these task every n seconds
@@ -178,22 +189,6 @@ $("#blinds-pane img.shutter-action").on("click", function() {
     var data = {"action": $(this).attr("id"), "timeDivider": timeDivider};
     $.post('../api/doshutters.php', data);
 });
-
-function getHeatPumpchart() {
-
-    // get the daily data
-    $.get("../api/getHpChartData.php", function(data) {
-        // console.log(data);
-    });
-
-    // var ctx = document.getElementById("hp-daily").getContext('2d');
-    // var myChart = new Chart(ctx, {
-        // type: 'bar',
-        // data: data,
-        // options: options
-    // });
-
-}
 
 function getMoonPhaseInfo() {
     var iconPath = "/img/lunar-phase-icons/dark/";
