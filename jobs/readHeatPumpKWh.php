@@ -34,7 +34,7 @@ catch(Exception $e) {
 if(isset($totalEnergy) && $totalEnergy > 0.0) {
 
     // Get day number (1 - Monday, 6 - Saturday, 7 - Sunday)
-    $read_day = date("Y-m-d");
+    $read_day = date("N");
 
     // Find out tariff
 
@@ -45,7 +45,7 @@ if(isset($totalEnergy) && $totalEnergy > 0.0) {
     }
 
     // Is it Saturday or Sunday
-    elseif($read_day >= 6) {
+    elseif($read_day == 6 || $read_day == 7) {
         $tariff = 'mt';
     }
 
