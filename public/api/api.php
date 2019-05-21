@@ -15,7 +15,7 @@ print_r($g->getAllDates());
 // print_r($g->getDatesForType('bio'));
 */
 
-/**/
+/*
 // Test weather class
 // ------------------
 // include_once dirname(__DIR__) . '/api/class.WeatherOWM.php';
@@ -27,3 +27,4 @@ $weather = $Weather->getWeatherForecastDigest();
 echo "\n\n";
 print_r($weather);
 echo "\n\n";
+*/

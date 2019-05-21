@@ -69,14 +69,16 @@ function mainLoop() {
             });
         }
 
-        // display heat pump consumption info
+        // store heat pump consumption info into local storage
         // if(currentMinute % checkPeriodCommonTasks == 0 && currentSecond == 10) {
-        if(currentSecond % 60 == 0) {
+        if(currentSecond % 10 == 0) {
 
-            // get heat pmp daily data
+            // get heat pump data
             $.get("../api/getHpConsumptionData.php", function(data) {
                 hpData = JSON.parse(data);
-                console.log(hpData.consumption.diffkwh + " KWh");
+                console.log(hpData);
+                localStorage.setItem('heating-totalKwh-daily', hpData.consumption);
+                
 
             });
     

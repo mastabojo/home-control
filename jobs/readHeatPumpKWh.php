@@ -33,19 +33,17 @@ catch(Exception $e) {
 
 if(isset($totalEnergy) && $totalEnergy > 0.0) {
 
-    // Get day number (1 - Monday, 6 - Saturday, 7 - Sunday)
-    $read_day = date("N");
+    // Non working holidays (Slovenia)
+    $nonWorkingHolidays = ['01-01', '01-02', '02-08', '04-27', '05-01', '05-02', '06-25', '08-15', '10-31', '11-01', '12-25', '12-26'];
+
+    // Easter Mondays for next 2 years
+    $easterMondays = ['2020-04-13', '2021-04-05', '2022-04-18', '2023-04-10', '2024-04-01', '2025-04-21', '2026-04-06', '2027-03-29', '2028-04-17', '2029-04-02', 
+    '2030-04-22', '2031-04-14', '2032-03-29', '2033-04-18', '2034-04-10', '2035-03-26', '2036-04-14', '2037-04-06', '2038-04-26', '2039-04-11', '2040-04-02'];
 
     // Find out tariff
 
-    // Is it a holiday
-    // TO DO
-    if(0) {
-        $tariff = 'mt';
-    }
-
-    // Is it Saturday or Sunday
-    elseif($read_day == 6 || $read_day == 7) {
+    // Is it Saturday or Sunday or a non working holiday
+    if(date("N") == 6 || date("N") == 7 || in_array(date("m-d"), $nonWorkingHolidays) || in_array(date("Y-m-d"), $easterMondays)) {
         $tariff = 'mt';
     }
 
