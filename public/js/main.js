@@ -75,9 +75,8 @@ function mainLoop() {
 
             // get heat pump data
             $.get("../api/getHpConsumptionData.php", function(data) {
-                hpData = JSON.parse(data);
-                console.log(hpData);
-                localStorage.setItem('heating-totalKwh-daily', hpData.consumption);
+                // console.log(data);
+                localStorage.setItem('heating-hpData', JSON.stringify(data));
                 
 
             });

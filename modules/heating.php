@@ -39,7 +39,7 @@
 <!-- col 1 -->
 <div class="col">
 
-
+<canvas id="hpchart" width="600" height="180"></canvas>
 
 
 
@@ -48,8 +48,33 @@
 </div><!-- .row -->
 
 <script>
+var hpChartOptions = {
+    title: {display: false},
+    legend: {display: false},
+    scales: {
+        yAxes: [{
+            ticks: {beginAtZero: true},
+            gridLines: {display: false}
+            
+        }],
+        xAxes: [{
+            barPercentage: 1.2,
+            barThickness: 'flex',
+            gridLines: {
+                display: false,
+                drawBorder: true
+            }
+        }],
+    }
+}
 setInterval(function() {
-    $("#heating-current-daily-consumption").text(localStorage.getItem('heating-totalKwh-daily'));
-}, 933);
+    dataStr = localStorage.getItem('heating-hpData')
+    data = JSON.parse(JSON.parse(dataStr));
+    console.log(data.consumption.vt + '/' + data.consumption.mt);
+    $("#heating-current-daily-consumption").text('VT: ' + data.consumption.vt + ' MT: ' + data.consumption.mt);
+
+
+
+}, 1933);
 
 </script>

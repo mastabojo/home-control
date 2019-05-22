@@ -14,46 +14,56 @@ $lowTariff = 'mt';
 $highTariff = 'vt';
 
 // Get min and max reading and difference for current day
-$q = "SELECT ROUND(MAX(total_energy) - MIN(total_energy), 2) AS total_consumption 
-FROM heat_pump_KWh WHERE read_time LIKE '$today%';";
+$q = "SELECT tariff, ROUND(MAX(total_energy) - MIN(total_energy), 2) AS total_consumption 
+FROM heat_pump_KWh WHERE read_time LIKE CONCAT(CURDATE(), '%') GROUP BY tariff;";
 $stmt = $DB->prepare($q);
 $stmt->execute();
 $daily = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-/*
-// Get all low tariff readings for current day from database
-$q = "SELECT HOUR(read_time) AS read_hour, MAX(total_energy) 
-FROM heat_pump_KWh WHERE read_time LIKE '$today%' AND tariff = '$lowTariff' group by read_hour;";
-$stmt = $DB->prepare($q);
-$stmt->execute();
-$rows_low_tariff = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$totalDaily = 0;
+$hiTariffDaily = 0;
 
-// Get all high tariff readings for current day from database
-$q = "SELECT HOUR(read_time) AS read_hour, MAX(total_energy) AS read_energy
-FROM heat_pump_KWh WHERE read_time LIKE '$today%' AND tariff = '$highTariff' group by read_hour;";
-$stmt = $DB->prepare($q);
-$stmt->execute();
-$rows_high_tariff = $stmt->fetchAll(PDO::FETCH_ASSOC);
-*/
+// low tariff is actually total consumption for a day
+// so data has to be rearranged
+foreach($daily as $d) {
+    if($d['tariff'] == 'mt') {
+        $totalDaily = $d['total_consumption'];
+    }
+    if($d['tariff'] == 'vt') {
+        $hiTariffDaily = $d['total_consumption'];
+    }
+}
+$consumption = ['vt' => $hiTariffDaily, 'mt' => round($totalDaily - $hiTariffDaily, 2)];
+
 
 // Get all tariff readings for current day from database
 $q = "SELECT HOUR(read_time) AS read_hour, ROUND(MAX(total_energy), 2) AS read_energy, tariff 
-FROM heat_pump_KWh WHERE read_time LIKE '$today%' group by read_hour, tariff;";
+FROM heat_pump_KWh WHERE read_time LIKE CONCAT(CURDATE(), '%') GROUP BY read_hour, tariff;";
 $stmt = $DB->prepare($q);
 $stmt->execute();
 $rows_all_tariffs = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// Rearrange hourly readings
+// Rearrange hourly readings into indexed array
 $hpData = [];
-foreach($rows_all_tariffs as $hourly) {
-    $hpData[$hourly['read_hour']] = ['read_energy' => $hourly['read_energy'], 'tariff' => $hourly['tariff']];
+
+// To ensure correct sequence of indexes
+$controlIndex = 0;
+
+foreach($rows_all_tariffs as $key => $hourly) {
+    $index = $hourly['read_hour'];
+    if($index == $controlIndex) {
+        $hpData[$index] = ['read_energy' => $hourly['read_energy'], 'tariff' => $hourly['tariff']];
+    } else {
+        $hpData[$index] = isset($rows_all_tariffs[$key - 1]) ? $rows_all_tariffs[$key - 1] : 0;
+    }
+    $controlIndex++;
 }
+
+$first = $hpData[0]['read_energy'];
+$last = end($hpData)['read_energy'];
 
 // return JSON encoded data
 echo json_encode([
-    'consumption' => $daily[0]['total_consumption'],
-    // 'rowsLowTariff' => $rows_low_tariff,
-    // 'rowsHighTariff' => $rows_high_tariff,
-    // 'rowsAllTariffs' => $rows_all_tariffs,
-    'data' => $hpData,
-], JSON_FORCE_OBJECT);
+    'consumption' => $consumption,
+    'chartData' => $hpData,
+], JSON_NUMERIC_CHECK);
