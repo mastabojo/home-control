@@ -1,29 +1,24 @@
 <?php
 ?>
 <!-- Row 1 - consumption table -->
-<div class="row no-gutters align-items-end" style="height: 180px; background-color: green;">
+<div class="row no-gutters align-items-end" style="height: 180px;">
 
 <!-- col 1 -->
 <div class="col">
 
-<table>
+<table class="table table-sm">
 <thead>
 <tr>
+<th>Poraba (KWh)</th><th>Skupaj</th><th>MT</th><th>VT</th><th>Cena (Eur)</th>
 </tr>
 </thead>
 
 <tbody>
-<tr>
-<td>Trenutna dnevna poraba</td><td id="heating-current-daily-consumption">0</td>
+<tr id="heating-current-daily-consumption">
+<td>Trenutna dnevna poraba</td><td>0</td><td>0</td><td>0</td><td>0</td>
 </tr>
 <tr>
-<td>Min dnevna poraba v mesecu</td><td>0</td>
-</tr>
-<tr>
-<td>Max dnevna poraba v mesecu</td><td>0</td>
-</tr>
-<tr>
-<td>Mesečna poraba</td><td>0</td>
+<td>Mesečna poraba</td><td>0</td><td>0</td><td>0</td><td>0</td>
 </tr>
 </tbody>
 
@@ -70,9 +65,9 @@ var hpChartOptions = {
 setInterval(function() {
     dataStr = localStorage.getItem('heating-hpData')
     data = JSON.parse(JSON.parse(dataStr));
-    console.log(data.consumption.vt + '/' + data.consumption.mt);
-    $("#heating-current-daily-consumption").text('VT: ' + data.consumption.vt + ' MT: ' + data.consumption.mt);
-
+    $("#heating-current-daily-consumption td:nth-child(2)").text((data.consumption.vt + data.consumption.mt));
+    $("#heating-current-daily-consumption td:nth-child(3)").text(data.consumption.vt);
+    $("#heating-current-daily-consumption td:nth-child(4)").text(data.consumption.mt);
 
 
 }, 1933);
