@@ -12,6 +12,10 @@ $DB = getDB($DB_HOST, $DB_NAME, $DB_USER, $DB_PASS);
 $today = date("Y-m-d");
 $lowTariff = 'mt';
 $highTariff = 'vt';
+$lowRate = isset($ELECTRIC_POWER_LOW_RATE) ? $ELECTRIC_POWER_LOW_RATE : 0.04391;
+$highRate = isset($ELECTRIC_POWER_HIGH_RATE) ? $ELECTRIC_POWER_HIGH_RATE : 0.07918;
+$singleRate = isset($ELECTRIC_POWER_SINGLE_RATE) ? $ELECTRIC_POWER_SINGLE_RATE : 0.07069;
+
 
 // Get min and max reading and difference for current day
 $q = "SELECT tariff, ROUND(MAX(total_energy) - MIN(total_energy), 2) AS total_consumption 
@@ -66,4 +70,5 @@ $last = end($hpData)['read_energy'];
 echo json_encode([
     'consumption' => $consumption,
     'chartData' => $hpData,
+    'rates' => ['low_rate' => $lowRate, 'high_rate' => $highRate, 'single_rate' => $singleRate]
 ], JSON_NUMERIC_CHECK);

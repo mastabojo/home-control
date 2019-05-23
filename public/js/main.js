@@ -76,9 +76,7 @@ function mainLoop() {
             // get heat pump data
             $.get("../api/getHpConsumptionData.php", function(data) {
                 // console.log(data);
-                localStorage.setItem('heating-hpData', JSON.stringify(data));
-                
-
+                localStorage.setItem('heating-hpData', data);
             });
     
             // var ctx = document.getElementById("hp-daily").getContext('2d');

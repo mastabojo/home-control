@@ -9,7 +9,7 @@
 <table class="table table-sm">
 <thead>
 <tr>
-<th>Poraba (KWh)</th><th>Skupaj</th><th>MT</th><th>VT</th><th>Cena (Eur)</th>
+<th>Poraba (KWh)</th><th>MT</th><th>VT</th><th>Skupaj</th><th>Cena (Eur)</th>
 </tr>
 </thead>
 
@@ -64,12 +64,13 @@ var hpChartOptions = {
 }
 setInterval(function() {
     dataStr = localStorage.getItem('heating-hpData')
-    data = JSON.parse(JSON.parse(dataStr));
-    $("#heating-current-daily-consumption td:nth-child(2)").text((data.consumption.vt + data.consumption.mt));
+    data = JSON.parse(dataStr);
+    $("#heating-current-daily-consumption td:nth-child(2)").text(data.consumption.mt);
     $("#heating-current-daily-consumption td:nth-child(3)").text(data.consumption.vt);
-    $("#heating-current-daily-consumption td:nth-child(4)").text(data.consumption.mt);
+    $("#heating-current-daily-consumption td:nth-child(4)").text((data.consumption.mt + data.consumption.vt));
+    $("#heating-current-daily-consumption td:nth-child(4)").text(((data.consumption.mt * data.rates.low_rate) + (data.consumption.vt * data.rates.high_rate));
 
 
-}, 1933);
+}, 1233);
 
 </script>
