@@ -69,22 +69,15 @@ function mainLoop() {
             });
         }
 
-        // store heat pump consumption info into local storage
+        // get heat pump consumption info from local storage and display it somewhere
         // if(currentMinute % checkPeriodCommonTasks == 0 && currentSecond == 10) {
         if(currentSecond % 10 == 0) {
+            hpData = JSON.parse(localStorage.getItem('heating-hpData'));
 
-            // get heat pump data
-            $.get("../api/getHpConsumptionData.php", function(data) {
-                // console.log(data);
-                localStorage.setItem('heating-hpData', data);
-            });
-    
-            // var ctx = document.getElementById("hp-daily").getContext('2d');
-            // var myChart = new Chart(ctx, {
-                // type: 'bar',
-                // data: data,
-                // options: options
-            // });
+            console.log(hpData);
+
+
+
         }
 
         // do these task every n seconds

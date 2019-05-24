@@ -1,4 +1,5 @@
 <?php
+$baseDir = dirname(__DIR__, 2);
 ?>
 <!-- Row 1 - consumption table -->
 <div class="row no-gutters align-items-end" style="height: 180px;">
@@ -63,14 +64,19 @@ var hpChartOptions = {
     }
 }
 setInterval(function() {
-    dataStr = localStorage.getItem('heating-hpData')
-    data = JSON.parse(dataStr);
-    $("#heating-current-daily-consumption td:nth-child(2)").text(data.consumption.mt);
-    $("#heating-current-daily-consumption td:nth-child(3)").text(data.consumption.vt);
-    $("#heating-current-daily-consumption td:nth-child(4)").text((data.consumption.mt + data.consumption.vt));
-    $("#heating-current-daily-consumption td:nth-child(4)").text(((data.consumption.mt * data.rates.low_rate) + (data.consumption.vt * data.rates.high_rate));
 
+    // get heat pump data
+    $.get("api/getHpConsumptionData.php", function(data) {
+        hpData = JSON.parse(data);
+    });
 
-}, 1233);
+    var price = (hpData.consumption.lowTariff * hpData.rates.low_rate) + (hpData.consumption.highTariff * hpData.rates.high_rate);
+    $("#heating-current-daily-consumption td:nth-child(2)").text(hpData.consumption.lowTariff);
+    $("#heating-current-daily-consumption td:nth-child(3)").text(hpData.consumption.highTariff);
+    $("#heating-current-daily-consumption td:nth-child(4)").text((hpData.consumption.total));
+    $("#heating-current-daily-consumption td:nth-child(5)").text(price.toFixed(2));
+    
+    localStorage.setItem('heating-hpData', JSON.stringify(data.consumption));
+}, 59189);
 
 </script>
