@@ -70,7 +70,7 @@ setInterval(function() {
         hpData = JSON.parse(data);
     });
 
-    var price = hpData.consumption.highTariffCost - hpData.consumption.lowTariffCost;
+    var price = hpData.consumption.highTariffCost + hpData.consumption.lowTariffCost;
     $("#heating-current-daily-consumption td:nth-child(2)").text(hpData.consumption.lowTariff);
     $("#heating-current-daily-consumption td:nth-child(3)").text(hpData.consumption.highTariff);
     $("#heating-current-daily-consumption td:nth-child(4)").text((hpData.consumption.total));

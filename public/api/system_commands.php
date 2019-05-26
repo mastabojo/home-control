@@ -1,7 +1,7 @@
 <?php
 $allowedCommands = [
     'exit-browser' => 'sudo /usr/bin/pkill chromium',
-    'reboot' => 'sudo /usr/bin/pkill chromium && sudo /sbin/reboot/reboot now',
+    'reboot' => 'sudo /usr/bin/pkill chromium && sudo /sbin/reboot now',
     'shutdown' => 'sudo /usr/bin/pkill chromium && sudo /sbin/halt',
 ];
 
