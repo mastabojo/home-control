@@ -72,9 +72,9 @@ function mainLoop() {
         // get heat pump consumption info from local storage and display it somewhere
         // if(currentMinute % checkPeriodCommonTasks == 0 && currentSecond == 10) {
         if(currentSecond % 10 == 0) {
-            hpData = JSON.parse(localStorage.getItem('heating-hpData'));
+            // hpData = JSON.parse(localStorage.getItem('heating-hpData'));
 
-            console.log(hpData);
+            // console.log(hpData);
 
 
 

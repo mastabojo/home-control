@@ -1,5 +1,5 @@
 <?php
-$baseDir = dirname(__DIR__, 2);
+
 ?>
 <!-- Row 1 - consumption table -->
 <div class="row no-gutters align-items-end" style="height: 180px;">
@@ -16,10 +16,10 @@ $baseDir = dirname(__DIR__, 2);
 
 <tbody>
 <tr id="heating-current-daily-consumption">
-<td>Trenutna dnevna poraba</td><td>0</td><td>0</td><td>0</td><td>0</td>
+<td>Trenutna dnevna poraba</td><td></td><td></td><td></td><td></td>
 </tr>
 <tr>
-<td>Mesečna poraba</td><td>0</td><td>0</td><td>0</td><td>0</td>
+<td>Mesečna poraba</td><td></td><td></td><td></td><td></td>
 </tr>
 </tbody>
 
@@ -70,13 +70,13 @@ setInterval(function() {
         hpData = JSON.parse(data);
     });
 
-    var price = (hpData.consumption.lowTariff * hpData.rates.low_rate) + (hpData.consumption.highTariff * hpData.rates.high_rate);
+    var price = hpData.consumption.highTariffCost - hpData.consumption.lowTariffCost;
     $("#heating-current-daily-consumption td:nth-child(2)").text(hpData.consumption.lowTariff);
     $("#heating-current-daily-consumption td:nth-child(3)").text(hpData.consumption.highTariff);
     $("#heating-current-daily-consumption td:nth-child(4)").text((hpData.consumption.total));
-    $("#heating-current-daily-consumption td:nth-child(5)").text(price.toFixed(2));
+    $("#heating-current-daily-consumption td:nth-child(5)").text(price + 'Eur');
     
-    localStorage.setItem('heating-hpData', JSON.stringify(data.consumption));
-}, 59189);
+    // localStorage.setItem('heating-hpData', JSON.stringify(data.consumption));
+}, 2189);
 
 </script>
