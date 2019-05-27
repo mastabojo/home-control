@@ -111,3 +111,26 @@ function DE($var, $comment = false) {
 	}
 	error_log($s);
 }
+
+// Debug into text file
+function DF($var, $append = true) {
+	$debugFile = dirname(__DIR__) . '/log/debug.txt';
+	$s = '[' . date("d.m.Y H:i:s") . "] ====\n";
+	switch(gettype($var)) {
+		case 'string':
+		case 'integer':
+		case 'float':
+			$s .= $var;
+			break;
+		case 'array':
+		case 'object' :
+		default :
+			$s .= print_r($var, 1);
+			break;
+	}
+	if($append) {
+		file_put_contents($debugFile, $s, FILE_APPEND);
+	} else {
+		file_put_contents($debugFile, $s);
+	}
+}

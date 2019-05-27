@@ -108,3 +108,4 @@ env.php
 .vscode/
 database/
 py/commandqueue.txt
+log/

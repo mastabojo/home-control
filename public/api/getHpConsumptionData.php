@@ -95,6 +95,8 @@ $consumption = [
     'totalCost' => round((($lowTariff * $lowRate) + ($highTariff * $highRate)), 2)
 ];
 
+DF($consumption);
+
 // return JSON encoded data
 echo json_encode([
     'tariff' => $singleTarrif ? 'single_tariff' : 'dual_tariff',
