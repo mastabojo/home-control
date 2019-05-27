@@ -58,32 +58,36 @@ $easterMondays = ['2020-04-13', '2021-04-05', '2022-04-18', '2023-04-10', '2024-
 // Is it work day (not Saturday or Sunday or a non working holiday)
 $isWorkDay = (date("N") == 6 || date("N") == 7 || in_array(date("m-d"), $nonWorkingHolidays) || in_array(date("Y-m-d"), $easterMondays)) ? false : true;
 
-// Consumption for all teariffs
+// Consumption for all tariffs
 $count = count($hourlyData);
-$total = $count > 0 ? (end($hourlyData) - $hourlyData[0]) : 0;
+$total = $count > 0 ? (max($hourlyData) - min($hourlyData)) : 0;
 if($singleTarrif) {
     $singleTariff = $total;
     $lowTariff = 0;
     $highTariff = 0;
 } else {
     $singleTariff = 0;
+    // Empty array (between 0:00 and first reading)
     if($count == 0) {
         $lowTariff = 0;
         $highTariff = 0;
-    } elseif($count > 0 && ($count < $ELECTRIC_POWER_HIGH_TARIFF_START || !$isWorkDay)) {
+    // Low tariff morning part only on workdays or low tariff all day on non-work days)
+    } elseif(!$isWorkDay || $count > 0 && ($count < $ELECTRIC_POWER_HIGH_TARIFF_START)) {
         $lowTariff = $total;
         $highTariff = 0;
-    } elseif($count >= $ELECTRIC_POWER_HIGH_TARIFF_START && $count < $ELECTRIC_POWER_HIGH_TARIFF_END && $isWorkDay) {
-        $lowTariffRows = array_splice($hourlyData, 0, $ELECTRIC_POWER_HIGH_TARIFF_START - 1);
-        $lowTariff = array_sum($lowTariffRows);
-        $lowTariff = end($isWorkDay) - $lowTariffRows[0];
+    // Low tariff morning part and high tariff but no low tariff evening part, work days only 
+    } elseif($isWorkDay && $count >= $ELECTRIC_POWER_HIGH_TARIFF_START && $count < $ELECTRIC_POWER_HIGH_TARIFF_END) {
+        $lowTariffRows = array_slice($hourlyData, 0, $ELECTRIC_POWER_HIGH_TARIFF_START - 1);
+        $lowTariff = max($lowTariffRows) - min($lowTariffRows);
         $highTariff = $total - $lowTariff;
+    // Low tariff morning part and high tariff and low tariff evening part, work days only 
     } else {
-        $highTariffRows = array_splice($hourlyData, $ELECTRIC_POWER_HIGH_TARIFF_START, ($ELECTRIC_POWER_HIGH_TARIFF_END - $ELECTRIC_POWER_HIGH_TARIFF_START));
-        $highTariff = end($highTariffRows) - $highTariffRows[0];
+        $highTariffRows = array_slice($hourlyData, $ELECTRIC_POWER_HIGH_TARIFF_START, ($ELECTRIC_POWER_HIGH_TARIFF_END - $ELECTRIC_POWER_HIGH_TARIFF_START));
+         $highTariff = max($highTariffRows) - min($highTariffRows);
         $lowTariff = $total - $highTariff;
     }
 }
+
 $consumption = [
     'singleTariff' => round($singleTariff, 2), 
     'lowTariff' => round($lowTariff, 2), 
@@ -95,7 +99,14 @@ $consumption = [
     'totalCost' => round((($lowTariff * $lowRate) + ($highTariff * $highRate)), 2)
 ];
 
-DF($consumption);
+/**/
+// Fill missing measurements with zeroes
+if($count < 24) {
+    for($h = $count; $h <= 23; $h++) {
+        $hourlyData[$h] = 0;
+    }
+}
+
 
 // return JSON encoded data
 echo json_encode([
