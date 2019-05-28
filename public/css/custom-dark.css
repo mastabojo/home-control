@@ -155,3 +155,13 @@ a.nav-link.active.show {
     width: 54px;
     margin: 3px;
 }
+
+#heating-total-daily-consumption-value {
+    font-size: 60px;
+    font-weight: 600;
+}
+
+#heating-total-daily-consumption-unit {
+    font-size: 16px;
+    font-weight: 400;
+}

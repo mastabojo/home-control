@@ -5,7 +5,7 @@
 <div class="row no-gutters align-items-end" style="height: 180px;">
 
 <!-- col 1 -->
-<div class="col">
+<div class="col-9">
 
 <table class="table table-sm">
 <thead>
@@ -18,13 +18,24 @@
 <tr id="heating-current-daily-consumption">
 <td>Trenutna dnevna poraba</td><td></td><td></td><td></td><td></td>
 </tr>
+<!--
 <tr>
 <td>Mesečna poraba</td><td></td><td></td><td></td><td></td>
+</tr>
+-->
+<!-- Empty row -->
+<tr>
+<td></td><td></td><td></td><td></td><td></td>
 </tr>
 </tbody>
 
 </table>
 
+</div><!-- .col -->
+
+<div class="col text-center">
+Total consumption
+<span id="heating-total-daily-consumption-value">3.60</span><br><span id="heating-total-daily-consumption-unit">KWh</span>
 </div><!-- .col -->
 
 </div><!-- .row -->
@@ -35,7 +46,7 @@
 <!-- col 1 -->
 <div class="col">
 
-<canvas id="hpchart" width="766" height="180" style="border: 1px solid yellow;"></canvas>
+<canvas id="hpchart" width="766" height="180" style="border: 1px solid silver;"></canvas>
 
 </div><!-- .col -->
 
@@ -85,7 +96,7 @@ setInterval(function() {
     // get heat pump data
     $.get("api/getHpConsumptionData.php", function(data) {
         hpData = JSON.parse(data);
-        console.log(hpData);
+        
     });
 
     var price = hpData.consumption.highTariffCost + hpData.consumption.lowTariffCost;
@@ -94,16 +105,14 @@ setInterval(function() {
     $("#heating-current-daily-consumption td:nth-child(4)").text((hpData.consumption.total));
     $("#heating-current-daily-consumption td:nth-child(5)").text(price + '€');
     
-    localStorage.setItem('heating-hpData', JSON.stringify(hpData.consumption));
+    // localStorage.setItem('heating-hpData', JSON.stringify(hpData.consumption));
 
     // Chart data
-    hpChartData = hpData.hourlyData;
-
-    // Refresh chart every 15 min and 10 seconds (so the data is read)
-    // var currentMinute = parseInt(moment().format('m'));
-    // var currentSecond = parseInt(moment().format('s'));
-    // if((currentMinute % 15 == 0) && (currentSecond == 10) {
-    if(1) {
+    // Refresh chart every 10 min and 10 seconds (so the data is read)
+    var currentMinute = parseInt(moment().format('m'));
+    var currentSecond = parseInt(moment().format('s'));
+    if((currentMinute % 10 == 0) && (currentSecond == 10) {
+    // if(1) {
         var ctx = document.getElementById('hpchart').getContext('2d');
         var myChart = new Chart(ctx, {
             type: 'bar',
@@ -111,7 +120,7 @@ setInterval(function() {
                 labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24'],
                 datasets: [{
                     label: 'KWh',
-                    data: hpChartData,
+                    data: hpData.hourly_data,
                     // data: tempData,
                     backgroundColor: function(context) {
                         var index = context.dataIndex;
