@@ -34,8 +34,8 @@
 </div><!-- .col -->
 
 <div class="col text-center">
-Total consumption
-<span id="heating-total-daily-consumption-value">3.60</span><br><span id="heating-total-daily-consumption-unit">KWh</span>
+Dnevna poraba<br>
+<span id="heating-total-daily-consumption-value-big"></span><span id="heating-total-daily-consumption-unit">KWh</span>
 </div><!-- .col -->
 
 </div><!-- .row -->
@@ -86,11 +86,7 @@ hpChartOptions = {
 };
 
 var interval = 2000;
-var chartRefreshInterval = 4 * interval;
-var counter = 0;
-
 // moment.locale('sl');
-
 setInterval(function() {
 
     // get heat pump data
@@ -98,21 +94,22 @@ setInterval(function() {
         hpData = JSON.parse(data);
         
     });
-
+    console.log(hpData);
     var price = hpData.consumption.highTariffCost + hpData.consumption.lowTariffCost;
     $("#heating-current-daily-consumption td:nth-child(2)").text(hpData.consumption.lowTariff);
     $("#heating-current-daily-consumption td:nth-child(3)").text(hpData.consumption.highTariff);
     $("#heating-current-daily-consumption td:nth-child(4)").text((hpData.consumption.total));
     $("#heating-current-daily-consumption td:nth-child(5)").text(price + '€');
-    
+    $("#heating-total-daily-consumption-value-big").text((hpData.consumption.total));
+       
     // localStorage.setItem('heating-hpData', JSON.stringify(hpData.consumption));
 
     // Chart data
     // Refresh chart every 10 min and 10 seconds (so the data is read)
     var currentMinute = parseInt(moment().format('m'));
     var currentSecond = parseInt(moment().format('s'));
-    if((currentMinute % 10 == 0) && (currentSecond == 10) {
-    // if(1) {
+    // if((currentMinute % 10 == 0) && (currentSecond == 10)) {
+    if(1) {
         var ctx = document.getElementById('hpchart').getContext('2d');
         var myChart = new Chart(ctx, {
             type: 'bar',
@@ -142,13 +139,6 @@ setInterval(function() {
             }
         });
     }
-}, interval);
-
-setInterval(function() {
-
-
-
-
-}, 8200);
+}, 15000);
 
 </script>
