@@ -30,19 +30,20 @@ $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
 $total_energy_prev = $row[0]['read_energy'];
 
 // Rearrange hourly readings into indexed array
-$hourlyData = [];
+$hourlyDataTotals = [];
+$hourlyDataDiffs = [];
 // To ensure correct sequence of indexes
 $hourIndex = 0;
 // Prepare hourly data (rearrange data and make up for possible missing hours)
 foreach($rows_all_tariffs as $key => $hourly) {
     $read_hour = $hourly['read_hour'];
     if($read_hour == $hourIndex) {
-        $hourlyData[$hourIndex] =  $hourly['read_energy'];
+        $hourlyDataTotals[$hourIndex] =  $hourly['read_energy'];
     } else {
         if($hourIndex == 0) {
-            $hourlyData[$hourIndex] = $total_energy_prev;
+            $hourlyDataTotals[$hourIndex] = $total_energy_prev;
         } else {
-            $hourlyData[$hourIndex] = isset($rows_all_tariffs[$key - 1]) ? $rows_all_tariffs[$key - 1] : $total_energy_prev;
+            $hourlyDataTotals[$hourIndex] = isset($rows_all_tariffs[$key - 1]) ? $rows_all_tariffs[$key - 1] : $total_energy_prev;
         }
     }
     $hourIndex++;
@@ -59,8 +60,8 @@ $easterMondays = ['2020-04-13', '2021-04-05', '2022-04-18', '2023-04-10', '2024-
 $isWorkDay = (date("N") == 6 || date("N") == 7 || in_array(date("m-d"), $nonWorkingHolidays) || in_array(date("Y-m-d"), $easterMondays)) ? false : true;
 
 // Consumption for all tariffs
-$count = count($hourlyData);
-$total = $count > 0 ? (max($hourlyData) - min($hourlyData)) : 0;
+$count = count($hourlyDataTotals);
+$total = $count > 0 ? (max($hourlyDataTotals) - min($hourlyDataTotals)) : 0;
 if($singleTarrif) {
     $singleTariff = $total;
     $lowTariff = 0;
@@ -77,12 +78,12 @@ if($singleTarrif) {
         $highTariff = 0;
     // Low tariff morning part and high tariff but no low tariff evening part, work days only 
     } elseif($isWorkDay && $count >= $ELECTRIC_POWER_HIGH_TARIFF_START && $count < $ELECTRIC_POWER_HIGH_TARIFF_END) {
-        $lowTariffRows = array_slice($hourlyData, 0, $ELECTRIC_POWER_HIGH_TARIFF_START - 1);
+        $lowTariffRows = array_slice($hourlyDataTotals, 0, $ELECTRIC_POWER_HIGH_TARIFF_START - 1);
         $lowTariff = max($lowTariffRows) - min($lowTariffRows);
         $highTariff = $total - $lowTariff;
     // Low tariff morning part and high tariff and low tariff evening part, work days only 
     } else {
-        $highTariffRows = array_slice($hourlyData, $ELECTRIC_POWER_HIGH_TARIFF_START, ($ELECTRIC_POWER_HIGH_TARIFF_END - $ELECTRIC_POWER_HIGH_TARIFF_START));
+        $highTariffRows = array_slice($hourlyDataTotals, $ELECTRIC_POWER_HIGH_TARIFF_START, ($ELECTRIC_POWER_HIGH_TARIFF_END - $ELECTRIC_POWER_HIGH_TARIFF_START));
          $highTariff = max($highTariffRows) - min($highTariffRows);
         $lowTariff = $total - $highTariff;
     }
@@ -99,20 +100,31 @@ $consumption = [
     'totalCost' => round((($lowTariff * $lowRate) + ($highTariff * $highRate)), 2)
 ];
 
-/**/
 // Fill missing measurements with zeroes
 if($count < 24) {
     for($h = $count; $h <= 23; $h++) {
-        $hourlyData[$h] = 0;
+        $hourlyDataTotals[$h] = 0;
     }
 }
 
+// Create an array of differencies in readings (for another variant of consumption chart)
+$hourlyDataDiffs = [];
+foreach($hourlyDataTotals as $hour => $reading) {
+    if($reading > 0) {
+        $hourlyDataDiffs[$hour] = $hour > 0 ? 
+        round($hourlyDataTotals[($hour)] - $hourlyDataTotals[$hour - 1], 3) : 
+        round($hourlyDataTotals[$hour] - $total_energy_prev, 3);
+    } else {
+        $hourlyDataDiffs[$hour] = 0;
+    }
+}
 
 // return JSON encoded data
 echo json_encode([
     'tariff' => $singleTarrif ? 'single_tariff' : 'dual_tariff',
     'high_tariff_boundaries' => [$highTariffStart, $highTariffEnd],
     'consumption' => $consumption,
-    'hourly_data' => $hourlyData,
+    'hourly_data' => $hourlyDataTotals,
+    'hourly_data_diffs' => $hourlyDataDiffs,
     'rates' => ['low_rate' => $lowRate, 'high_rate' => $highRate, 'single_rate' => $singleRate]
 ], JSON_NUMERIC_CHECK);

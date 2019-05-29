@@ -46,55 +46,25 @@ Dnevna poraba<br>
 <!-- col 1 -->
 <div class="col">
 
-<canvas id="hpchart" width="766" height="180" style="border: 1px solid silver;"></canvas>
+<canvas id="hpchart" width="766" height="180"></canvas>
 
 </div><!-- .col -->
 
 </div><!-- .row -->
 
+<script src="js/moment.min.js"></script>
+
 <script>
-var hpChartOptions = {
-    title: {display: false},
-    legend: {display: false},
-    scales: {
-        yAxes: [{
-            ticks: {beginAtZero: true},
-            gridLines: {display: false}
-            
-        }],
-        xAxes: [{
-            barPercentage: 1.2,
-            barThickness: 'flex',
-            gridLines: {
-                display: false,
-                drawBorder: true
-            }
-        }],
-    }
-}
 
-hpChartOptions = {
-    scales: {
-        yAxes: [{
-            ticks: {beginAtZero: true}
-        }],
-        xAxes: [{
-            barPercentage: 1.0,
-            gridLines: {offsetGridLines: true}
-        }]
-    }
-};
-
-var interval = 2000;
-// moment.locale('sl');
+var interval = 4000;
 setInterval(function() {
 
     // get heat pump data
     $.get("api/getHpConsumptionData.php", function(data) {
         hpData = JSON.parse(data);
-        
     });
-    console.log(hpData);
+    // console.log(hpData);
+
     var price = hpData.consumption.highTariffCost + hpData.consumption.lowTariffCost;
     $("#heating-current-daily-consumption td:nth-child(2)").text(hpData.consumption.lowTariff);
     $("#heating-current-daily-consumption td:nth-child(3)").text(hpData.consumption.highTariff);
@@ -108,8 +78,14 @@ setInterval(function() {
     // Refresh chart every 10 min and 10 seconds (so the data is read)
     var currentMinute = parseInt(moment().format('m'));
     var currentSecond = parseInt(moment().format('s'));
-    // if((currentMinute % 10 == 0) && (currentSecond == 10)) {
+    // if((currentMinute % 2 == 0) && (currentSecond == 10)) {
     if(1) {
+        var lowTariffColor = 'rgba(255, 255, 255, 0.3)';
+        var highTariffColor = 'rgba(255, 255, 255, 0.6)';
+        var barColors = [];
+        for(var h = 0; h < 24; h++) {
+            barColors[h] = (h < (hpData.high_tariff_boundaries[0] - 1) || h >= (hpData.high_tariff_boundaries[1] - 1)) ? lowTariffColor : highTariffColor;
+        }
         var ctx = document.getElementById('hpchart').getContext('2d');
         var myChart = new Chart(ctx, {
             type: 'bar',
@@ -117,21 +93,28 @@ setInterval(function() {
                 labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24'],
                 datasets: [{
                     label: 'KWh',
-                    data: hpData.hourly_data,
-                    // data: tempData,
+                    // data: hpData.hourly_data,
+                    data: hpData.hourly_data_diffs,
+                    backgroundColor: barColors,
+                    /*
                     backgroundColor: function(context) {
                         var index = context.dataIndex;
-                        return (index >= 6 && index < 22) ? 'rgba(182, 99, 58, 1)' : 'rgba(78, 99, 132, 1)';
+                        return (index >= 6 && index < 22) ? 'rgb(204,255,238)' : 'rgb(255,255,204)';
                     },
+                    */
                     borderWidth: 0
                 }]
             },
             options: {
+                title: {display: false},
+                legend: {display: false},
+                animation: false,
                 scales: {
                     yAxes: [{
                         ticks: {beginAtZero: true}
                     }],
                     xAxes: [{
+                        barThickness: 'flex',
                         barPercentage: 1.0,
                         gridLines: {offsetGridLines: true}
                     }]
@@ -139,6 +122,6 @@ setInterval(function() {
             }
         });
     }
-}, 15000);
+}, interval);
 
 </script>
