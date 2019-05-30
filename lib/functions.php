@@ -53,18 +53,44 @@ function getDayStartAndEndTs($ts = null, $timezone = 'Europe/Ljubljana') {
 }
 
 /**
- * Get easter start timestamp for given year taking into account local timezone
+ * Get easter Sunday/Monday date for given year taking into account local timezone
  * Taken from https://secure.php.net/manual/en/function.easter-date.php
+ * @param int Year to find Easter for
+ * @param bool Do we need result for Sunday or Monday
+ * @return DateTime object | string Easter Sunday/Monday DT object / date string
  */
-function getEasterDatetime($year) {
+function getEasterDatetime($year, $dateOnly = false, $monday = false) {
 	// get first spring day timestamp (21.3.) 
 	$base = new DateTime("$year-03-21");
 	// PHPs own function to get number of days till Easter after first spring day
-	$days = easter_days($year);
+	$days = easter_days($year); 
+	// If we want date for Easter Monday
+	if($monday) {
+		$days = $days + 1;
+	}
 	// return the date
-    return $base->add(new DateInterval("P{$days}D"));
+	return $dateOnly ?  $base->add(new DateInterval("P{$days}D"))->format("Y-m-d") : $base->add(new DateInterval("P{$days}D"));
 }
 
+/**
+ * Find out if date is Easter Monday (for dates in next 20 years)
+ * Usage: isEasterMonday('YYY-MM-DD')
+ * @param string Date in "Y-m-d" format
+ * @return bool	true if date is Easter Monday
+ */
+function isEasterMonday($date) {
+
+	$year = date("Y", strtotime($date));
+	$easterDate = getEasterDatetime($year, true, true);
+	return date("Y-m-d", strtotime($easterDate)) == date("Y-m-d", strtotime($date)) ? true : false;
+	
+	// Alternative with hard coded Easter Monday dates
+	/*
+	$easterMondays = ['2020-04-13', '2021-04-05', '2022-04-18', '2023-04-10', '2024-04-01', '2025-04-21', '2026-04-06', '2027-03-29', '2028-04-17', '2029-04-02', 
+	'2030-04-22', '2031-04-14', '2032-03-29', '2033-04-18', '2034-04-10', '2035-03-26', '2036-04-14', '2037-04-06', '2038-04-26', '2039-04-11', '2040-04-02'];
+	return in_array(date("Y-m-d", strtotime($date)), $easterMondays);
+	*/
+}
 
 /**
  * Function for error logging
@@ -79,8 +105,8 @@ function D($var, $comment = false, $die = true) {
 	echo $comment ? "$comment<br>" : '';
 	switch(gettype($var)) {
 		case 'string':
-		// case 'integer':
-		// case 'float':
+		case 'integer':
+		case 'float':
 			echo $var;
 			break;
 		case 'array':

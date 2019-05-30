@@ -16,13 +16,11 @@
 
 <tbody>
 <tr id="heating-current-daily-consumption">
-<td>Trenutna dnevna poraba</td><td></td><td></td><td></td><td></td>
+<td>Dnevna poraba</td><td></td><td></td><td></td><td></td>
 </tr>
-<!--
-<tr>
+<tr id="heating-current-monthly-consumption">
 <td>Mesečna poraba</td><td></td><td></td><td></td><td></td>
 </tr>
--->
 <!-- Empty row -->
 <tr>
 <td></td><td></td><td></td><td></td><td></td>
@@ -65,63 +63,76 @@ setInterval(function() {
     });
     // console.log(hpData);
 
-    var price = hpData.consumption.highTariffCost + hpData.consumption.lowTariffCost;
-    $("#heating-current-daily-consumption td:nth-child(2)").text(hpData.consumption.lowTariff);
-    $("#heating-current-daily-consumption td:nth-child(3)").text(hpData.consumption.highTariff);
-    $("#heating-current-daily-consumption td:nth-child(4)").text((hpData.consumption.total));
-    $("#heating-current-daily-consumption td:nth-child(5)").text(price + '€');
-    $("#heating-total-daily-consumption-value-big").text((hpData.consumption.total));
+    var price = hpData.daily_consumption.highTariffCost + hpData.daily_consumption.lowTariffCost;
+    $("#heating-current-daily-consumption td:nth-child(2)").text(hpData.daily_consumption.lowTariff);
+    $("#heating-current-daily-consumption td:nth-child(3)").text(hpData.daily_consumption.highTariff);
+    $("#heating-current-daily-consumption td:nth-child(4)").text((hpData.daily_consumption.total));
+    $("#heating-current-daily-consumption td:nth-child(5)").text(price.toFixed(2) + '€');
+    $("#heating-total-daily-consumption-value-big").text((hpData.daily_consumption.total));
        
     // localStorage.setItem('heating-hpData', JSON.stringify(hpData.consumption));
 
-    // Chart data
-    // Refresh chart every 10 min and 10 seconds (so the data is read)
-    var currentMinute = parseInt(moment().format('m'));
-    var currentSecond = parseInt(moment().format('s'));
-    // if((currentMinute % 2 == 0) && (currentSecond == 10)) {
-    if(1) {
-        var lowTariffColor = 'rgba(255, 255, 255, 0.3)';
-        var highTariffColor = 'rgba(255, 255, 255, 0.6)';
-        var barColors = [];
-        for(var h = 0; h < 24; h++) {
-            barColors[h] = (h < (hpData.high_tariff_boundaries[0] - 1) || h >= (hpData.high_tariff_boundaries[1] - 1)) ? lowTariffColor : highTariffColor;
-        }
-        var ctx = document.getElementById('hpchart').getContext('2d');
-        var myChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24'],
-                datasets: [{
-                    label: 'KWh',
-                    // data: hpData.hourly_data,
-                    data: hpData.hourly_data_diffs,
-                    backgroundColor: barColors,
-                    /*
-                    backgroundColor: function(context) {
-                        var index = context.dataIndex;
-                        return (index >= 6 && index < 22) ? 'rgb(204,255,238)' : 'rgb(255,255,204)';
-                    },
-                    */
-                    borderWidth: 0
-                }]
-            },
-            options: {
-                title: {display: false},
-                legend: {display: false},
-                animation: false,
-                scales: {
-                    yAxes: [{
-                        ticks: {beginAtZero: true}
-                    }],
-                    xAxes: [{
-                        barThickness: 'flex',
-                        barPercentage: 1.0,
-                        gridLines: {offsetGridLines: true}
-                    }]
-                }
-            }
-        });
+    var lowTariffColor = 'rgba(255, 255, 255, 0.3)';
+    var highTariffColor = 'rgba(255, 255, 255, 0.6)';
+    var dailyBarColors = [];
+    var dailyLabels = [];
+    for(var h = 0; h < 24; h++) {
+        dailyBarColors[h] = (h < (hpData.high_tariff_boundaries[0] - 1) || h >= (hpData.high_tariff_boundaries[1] - 1)) ? lowTariffColor : highTariffColor;
+        dailyLabels[h] = h + 1;
     }
+    var monthlyLabels = [];
+    for(var m = 0; m < 31; m++) {
+        monthlyLabels[m] = m + 1;
+    }
+
+    var chartType = 'daily';
+    // Define options for supported chart types
+    switch(chartType) {
+        case 'daily':
+            var chartTitle = "Dnevna poraba";
+            var chartData = hpData.hourly_data_diffs;
+            // var chartData = hpData.hourly_data;
+            var chartLabels = dailyLabels;
+            var barColors = dailyBarColors;
+            var chartStacked = false;
+            break;
+        case 'monthly':
+            var chartTitle = "Mesečna poraba";
+            var chartData = hpData.monthly_consumption;
+            var chartLabels = monthlyLabels;
+            var chartStacked = true;
+    }
+
+    // Chart
+    var ctx = document.getElementById('hpchart').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: chartLabels,
+            datasets: [{
+                data: chartData,
+                backgroundColor: barColors,
+                borderWidth: 0
+            }]
+        },
+        options: {
+            title: {text: chartTitle, display: false},
+            legend: {display: false},
+            animation: false,
+            scales: {
+                yAxes: [{
+                    stacked: chartStacked,
+                    ticks: {beginAtZero: true}
+                }],
+                xAxes: [{
+                    stacked: chartStacked,
+                    barThickness: 'flex',
+                    barPercentage: 1.0,
+                    gridLines: {offsetGridLines: true}
+                }]
+            }
+        }
+    });
 }, interval);
 
 </script>

@@ -5,6 +5,16 @@ $baseDir = dirname(__DIR__, 2);
 include_once $baseDir . '/env.php';
 include_once $baseDir . '/lib/functions.php';
 
+// Non working holidays (Slovenia)
+$nonWorkingHolidays = ['01-01', '01-02', '02-08', '04-27', '05-01', '05-02', '06-25', '08-15', '10-31', '11-01', '12-25', '12-26'];
+
+// Easter Mondays for next 2 years
+$easterMondays = ['2020-04-13', '2021-04-05', '2022-04-18', '2023-04-10', '2024-04-01', '2025-04-21', '2026-04-06', '2027-03-29', '2028-04-17', '2029-04-02', 
+'2030-04-22', '2031-04-14', '2032-03-29', '2033-04-18', '2034-04-10', '2035-03-26', '2036-04-14', '2037-04-06', '2038-04-26', '2039-04-11', '2040-04-02'];
+
+// Is it work day (not Saturday or Sunday or a non working holiday)
+$isWorkDay = (date("N") == 6 || date("N") == 7 || in_array(date("m-d"), $nonWorkingHolidays) || in_array(date("Y-m-d"), $easterMondays)) ? false : true;
+
 $DB = getDB($DB_HOST, $DB_NAME, $DB_USER, $DB_PASS);
 
 $singleTarrif = isset($ELECTRIC_POWER_SINGLE_TARIFF) ? $ELECTRIC_POWER_SINGLE_TARIFF : true;
@@ -13,6 +23,10 @@ $lowRate = isset($ELECTRIC_POWER_LOW_RATE) ? $ELECTRIC_POWER_LOW_RATE : 0.04391;
 $highRate = isset($ELECTRIC_POWER_HIGH_RATE) ? $ELECTRIC_POWER_HIGH_RATE : 0.07918;
 $highTariffStart = isset($ELECTRIC_POWER_HIGH_TARIFF_START) ? $ELECTRIC_POWER_HIGH_TARIFF_START : 6;
 $highTariffEnd = isset($ELECTRIC_POWER_HIGH_TARIFF_END) ? $ELECTRIC_POWER_HIGH_TARIFF_END : 22;
+
+/*
+ * Daily consumption data
+ */
 
 // Get all tariff readings for current day from database
 $q = "SELECT HOUR(read_time) AS read_hour, ROUND(MAX(total_energy), 2) AS read_energy 
@@ -49,16 +63,6 @@ foreach($rows_all_tariffs as $key => $hourly) {
     $hourIndex++;
 }
 
-// Non working holidays (Slovenia)
-$nonWorkingHolidays = ['01-01', '01-02', '02-08', '04-27', '05-01', '05-02', '06-25', '08-15', '10-31', '11-01', '12-25', '12-26'];
-
-// Easter Mondays for next 2 years
-$easterMondays = ['2020-04-13', '2021-04-05', '2022-04-18', '2023-04-10', '2024-04-01', '2025-04-21', '2026-04-06', '2027-03-29', '2028-04-17', '2029-04-02', 
-'2030-04-22', '2031-04-14', '2032-03-29', '2033-04-18', '2034-04-10', '2035-03-26', '2036-04-14', '2037-04-06', '2038-04-26', '2039-04-11', '2040-04-02'];
-
-// Is it work day (not Saturday or Sunday or a non working holiday)
-$isWorkDay = (date("N") == 6 || date("N") == 7 || in_array(date("m-d"), $nonWorkingHolidays) || in_array(date("Y-m-d"), $easterMondays)) ? false : true;
-
 // Consumption for all tariffs
 $count = count($hourlyDataTotals);
 $total = $count > 0 ? (max($hourlyDataTotals) - min($hourlyDataTotals)) : 0;
@@ -89,7 +93,7 @@ if($singleTarrif) {
     }
 }
 
-$consumption = [
+$dailyConsumption = [
     'singleTariff' => round($singleTariff, 2), 
     'lowTariff' => round($lowTariff, 2), 
     'highTariff' => round($highTariff, 2),
@@ -119,12 +123,40 @@ foreach($hourlyDataTotals as $hour => $reading) {
     }
 }
 
+/*
+ * Monthly consumption data
+ */
+
+// Get max readings for each day of the month
+$q = "SELECT DAY(read_time) as read_day, MAX(total_energy) AS max_daily, tariff FROM `heat_pump_KWh` 
+WHERE MONTH(read_time) = MONTH(CURRENT_DATE()) AND YEAR(read_time) = YEAR(CURRENT_DATE()) 
+GROUP BY read_day, tariff";
+$stmt = $DB->prepare($q);
+$stmt->execute();
+$rows_monthly_consumption = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Rearange data into array with elements for each day of the month
+$monthlyConsumption = [];
+for($d = 1; $d <= date("t"); $d++) {
+    $monthlyConsumption[$d] = ['mt' => 0, 'vt' => 0];
+}
+
+foreach($rows_monthly_consumption as $dailyValues) {
+    if($dailyValues['tariff'] == 'mt') {
+        $monthlyConsumption[$dailyValues['read_day']]['mt'] = $dailyValues['max_daily'];
+    }
+    if($dailyValues['tariff'] == 'vt') {
+        $monthlyConsumption[$dailyValues['read_day']]['vt'] = $dailyValues['max_daily'];
+    }
+}
+
 // return JSON encoded data
 echo json_encode([
     'tariff' => $singleTarrif ? 'single_tariff' : 'dual_tariff',
     'high_tariff_boundaries' => [$highTariffStart, $highTariffEnd],
-    'consumption' => $consumption,
+    'daily_consumption' => $dailyConsumption,
     'hourly_data' => $hourlyDataTotals,
     'hourly_data_diffs' => $hourlyDataDiffs,
+    'monthly_consumption' => $monthlyConsumption,
     'rates' => ['low_rate' => $lowRate, 'high_rate' => $highRate, 'single_rate' => $singleRate]
 ], JSON_NUMERIC_CHECK);
