@@ -76,7 +76,7 @@ function mainLoop() {
             $.get("api/getHpConsumptionData.php", function(data) {
                 hpData = JSON.parse(data);
             });
-            // console.log(hpData);
+            console.log(hpData);
 
             var price = hpData.daily_consumption.highTariffCost + hpData.daily_consumption.lowTariffCost;
             $("#heating-current-daily-consumption td:nth-child(2)").text(hpData.daily_consumption.lowTariff);
