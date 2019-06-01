@@ -150,6 +150,36 @@ foreach($rows_monthly_consumption as $dailyValues) {
     }
 }
 
+$q = "SELECT tariff, ROUND(MAX(total_energy) - MIN(total_energy), 2) AS monthly FROM `heat_pump_KWh` 
+WHERE MONTH(read_time) = MONTH(CURRENT_DATE()) AND YEAR(read_time) = YEAR(CURRENT_DATE())
+GROUP BY tariff";
+$stmt = $DB->prepare($q);
+$stmt->execute();
+$rows_monthly_total = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$singleTariffM = 0;
+$lowTariffM = 0;
+$highTariffM = 0;
+foreach($rows_monthly_total as $key => $val) {
+    switch($val['tariff']) {
+        case 'et': $singleTariffM = isset($val['monthly']) ? $val['monthly'] : 0; break;
+        case 'mt': $lowTariffM = isset($val['monthly']) ? $val['monthly'] : 0; break;
+        case 'vt': $highTariffM = isset($val['monthly']) ? $val['monthly'] : 0; break;
+    }
+}
+
+$totalM = isset($singleTariffM) && $singleTariffM > 0 ? $singleTariffM : ($highTariffM + $lowTariffM);
+
+$monthlyConsumption = [
+'singleTariff' => round($singleTariffM, 2), 
+'lowTariff' => round($lowTariffM, 2), 
+'highTariff' => round($highTariffM, 2),
+'total' => round($totalM, 2),
+'singleTariffCost' => round(($singleTariffM * $singleRate), 2),
+'lowTariffCost' => round(($lowTariffM * $lowRate), 2),
+'highTariffCost' => round(($highTariffM * $highRate), 2),
+'totalCost' => round((($lowTariffM * $lowRate) + ($highTariffM * $highRate)), 2)
+];
+
 // return JSON encoded data
 echo json_encode([
     'tariff' => $singleTarrif ? 'single_tariff' : 'dual_tariff',
