@@ -91,6 +91,9 @@ function mainLoop() {
             $("#heating-current-monthly-consumption td:nth-child(5)").text(hpData.monthly_consumption.totalCost + "€");
             
             // localStorage.setItem('heating-hpData', JSON.stringify(hpData.consumption));
+            /*
+            
+            // Chart currently disabled
 
             var lowTariffColor = 'rgba(255, 255, 255, 0.3)';
             var highTariffColor = 'rgba(255, 255, 255, 0.6)';
@@ -104,6 +107,8 @@ function mainLoop() {
             for(var m = 0; m < 31; m++) {
                 monthlyLabels[m] = m + 1;
             }
+
+            
 
             var chartType = 'daily';
             // Define options for supported chart types
@@ -154,6 +159,7 @@ function mainLoop() {
                     }
                 }
             });
+            */
         }
 
         // do these task every n seconds
