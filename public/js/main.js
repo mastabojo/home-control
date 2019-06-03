@@ -125,12 +125,13 @@ function mainLoop() {
                     break;
             }
 
+            // Chart
+            var ctx = document.getElementById('hpchart').getContext('2d');
+
             /*
             
             // Chart currently disabled
-
-            // Chart
-            var ctx = document.getElementById('hpchart').getContext('2d');
+            
             var myChart = new Chart(ctx, {
                 type: 'bar',
                 data: {
@@ -142,7 +143,7 @@ function mainLoop() {
                     }]
                 },
                 options: {
-                    title: {text: chartTitle, display: false},
+                    title: {text: chartTitle, display: true},
                     legend: {display: false},
                     animation: false,
                     scales: {
@@ -153,7 +154,7 @@ function mainLoop() {
                         xAxes: [{
                             stacked: chartStacked,
                             barThickness: 'flex',
-                            barPercentage: 1.0,
+                            // barPercentage: 1.0,
                             gridLines: {offsetGridLines: true}
                         }]
                     }
