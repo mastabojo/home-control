@@ -15,6 +15,9 @@ var checkPeriodCommonTasks = 2
 var shuttersUpTime = "6:21:00";
 var shuttersDownTime = "18:30:00";
 
+// Is this the first run of the loop (to draw things immediately)
+var isfirstRun = true;
+
 // Get info on moon phases
 getMoonPhaseInfo();
 
@@ -38,7 +41,7 @@ function mainLoop() {
         $('#span-date').text(currentDate);
 
         // every minute update main time and date display
-        if(currentSecond == 0) {
+        if(currentSecond == 0 || isfirstRun) {
             // Heat pump pane - TEMPORARY: current time and date
             $('#heat-pump-pane #span-main-time').text(currentTimeShort);
             $('#heat-pump-pane #span-main-date').text(currentDateShort);
@@ -70,7 +73,7 @@ function mainLoop() {
         }
 
         // get heat pump consumption info from local storage and display it somewhere
-        if(currentSecond % 5 == 0) {
+        if(currentSecond % 5 == 0 || isfirstRun) {
 
             // get heat pump data
             $.get("api/getHpConsumptionData.php", function(data) {
@@ -91,7 +94,6 @@ function mainLoop() {
             $("#heating-current-monthly-consumption td:nth-child(5)").text(hpData.monthly_consumption.totalCost + "€");
             
             // localStorage.setItem('heating-hpData', JSON.stringify(hpData.consumption));
-
 
             var lowTariffColor = 'rgba(255, 255, 255, 0.3)';
             var highTariffColor = 'rgba(255, 255, 255, 0.6)';
@@ -194,7 +196,7 @@ function mainLoop() {
             $.post('../api/doshutters.php', {"action": "shutter-auto-both-down", "timeDivider": 1});
         }
 
-        // once a day arround 2 am when all is quiet update the local storage from the database ( sunrise time, sunset time)
+        // once a day arround 2 am when all is quiet update the local storage from the database (sunrise time, sunset time)
         if(String(currentTime) == "2:00:05") {
             updateLocalStorage(function(data) {
                 storageData = JSON.parse(data);
@@ -208,6 +210,8 @@ function mainLoop() {
             getMoonPhaseInfo();
         }
         
+
+        isfirstRun = false;
 
     }, 1000);
 }

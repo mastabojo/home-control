@@ -9,17 +9,17 @@
 
 <table class="table table-sm">
 <thead>
-<tr>
-<th>Poraba (KWh)</th><th>MT</th><th>VT</th><th>Skupaj</th><th>Cena (Eur)</th>
+<tr class="text-center">
+<th class="text-left">Poraba (KWh)</th><th>MT</th><th>VT</th><th>Skupaj</th><th>Cena (Eur)</th>
 </tr>
 </thead>
 
 <tbody>
-<tr id="heating-current-daily-consumption">
-<td>Dnevna poraba</td><td></td><td></td><td></td><td></td>
+<tr id="heating-current-daily-consumption" class="text-center">
+<td class="text-left">Dnevna poraba</td><td></td><td></td><td></td><td></td>
 </tr>
-<tr id="heating-current-monthly-consumption">
-<td>Mesečna poraba</td><td></td><td></td><td></td><td></td>
+<tr id="heating-current-monthly-consumption" class="text-center">
+<td class="text-left">Mesečna poraba</td><td></td><td></td><td></td><td></td>
 </tr>
 <!-- Empty row -->
 <tr>
