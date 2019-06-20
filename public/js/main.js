@@ -8,8 +8,8 @@ var checkPeriodWeatherCurrent = 20;
 // check interval for 5 day weather forecast (in hours)
 var checkPeriodWeatherForecast = 2;
 
-// check interval for common tasks (in minutes)
-var checkPeriodCommonTasks = 2
+// Do we operate shutters automatically
+var shuttersTimerEnabled = false;
 
 // default shutter opening and closing times
 var shuttersUpTime = "6:21:00";
@@ -189,10 +189,10 @@ function mainLoop() {
         }
 
         // open / close shutters on set times
-        if(String(currentTime) == shuttersUpTime) {
+        if(shuttersTimerEnabled && String(currentTime) == shuttersUpTime) {
             $.post('../api/doshutters.php', {"action": "shutter-auto-both-up", "timeDivider": 1});
         }
-        if(String(currentTime) == shuttersDownTime) {
+        if(shuttersTimerEnabled && String(currentTime) == shuttersDownTime) {
             $.post('../api/doshutters.php', {"action": "shutter-auto-both-down", "timeDivider": 1});
         }
 
