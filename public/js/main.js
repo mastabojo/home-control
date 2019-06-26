@@ -9,7 +9,7 @@ var checkPeriodWeatherCurrent = 20;
 var checkPeriodWeatherForecast = 2;
 
 // Do we operate shutters automatically
-var shuttersTimerEnabled = false;
+var shuttersTimerEnabled = true;
 
 // default shutter opening and closing times
 var shuttersUpTime = "6:21:00";
