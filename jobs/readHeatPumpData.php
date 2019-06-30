@@ -27,7 +27,6 @@ $heatPumpDataFields = [
     'sum_current',
     'total_phase_angle',
     'input_frequency',
-    'total_energy',
 ];
 
 try {
