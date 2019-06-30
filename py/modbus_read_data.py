@@ -87,7 +87,7 @@ instrument = minimalmodbus.Instrument(portName, slaveAddress, mode)
 # Readings
 # --------
 
-for addr in inputRegisters;
+for addr in inputRegisters:
     reading = 0.0
     for count in range(0, maxTries):
         try:

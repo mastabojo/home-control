@@ -6,7 +6,7 @@ include_once $baseDir . '/lib/functions.php';
 
 // Get data from Modbus enabled Power meter by calling the python script
 $pythonExec = DIRECTORY_SEPARATOR . 'usr' . DIRECTORY_SEPARATOR . 'bin' . DIRECTORY_SEPARATOR . 'python';
-$pythonCommand = $pythonExec . ' ' . $baseDir . DIRECTORY_SEPARATOR . 'py' . DIRECTORY_SEPARATOR . 'modbustest.py';
+$pythonCommand = $pythonExec . ' ' . $baseDir . DIRECTORY_SEPARATOR . 'py' . DIRECTORY_SEPARATOR . 'modbus_read_data.py';
 
 // Data output from python command
 $commandOutputData = [];
