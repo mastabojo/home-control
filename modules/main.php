@@ -134,7 +134,7 @@ foreach($tabs as $key => $tab) {
 <script src="js/bootstrap.min.js"></script>
 <script src="js/moment.min.js"></script>
 <!-- script src="js/chart.js/Chart.min.js"></script -->
-<script src="js/apexcharts/apexchart.min.js"></script>
+<script src="js/apexcharts/apexcharts.min.js"></script>
 <script src="js/main.js"></script>
 <script>mainLoop();</script>
 <!-- script>getHeatPumpchart();</script -->

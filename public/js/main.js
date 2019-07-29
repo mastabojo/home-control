@@ -79,7 +79,6 @@ function mainLoop() {
             $.get("api/getHpConsumptionData.php", function(data) {
                 hpData = JSON.parse(data);
             });
-            console.log(hpData);
 
             var price = hpData.daily_consumption.highTariffCost + hpData.daily_consumption.lowTariffCost;
             $("#heating-current-daily-consumption td:nth-child(2)").text(hpData.daily_consumption.lowTariff);
@@ -285,7 +284,6 @@ $("#blinds-pane img.shutter-divider").on("click", function() {
     var clickedDivider = $(this).attr("src").split("-")[4];
     $(".shutter-divider").each(function(i) {
         tempArr = $(this).attr("src").split("-");
-        // console.log(tempArr);
         tempDivider = tempArr[4];
         if(tempDivider == clickedDivider) {
             tempArr[5] = "on.svg";
