@@ -146,10 +146,11 @@ function mainLoop() {
                         columnWidth: '90%',
                         dataLabels: 'top',
                         colors: {
+                            // Ranges just for example
                             ranges: [
-                                {from: 0, to: 40, color: '#00ff00'},
-                                {from: 40, to: 60, color: '#ffff00'},
-                                {from: 60, to: 200, color: '#ff0000'}
+                                {from: 0, to: 100, color: barColors},
+                                {from: 100, to: 600, color: barColors},
+                                {from: 600, to: 1200, color: barColors}
                             ]
                         }
                     }
@@ -163,7 +164,7 @@ function mainLoop() {
                     categories: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30]
                 },
                 dataLabels: {
-                    enabled: true,
+                    enabled: false,
                     offsetY: 0,
                     style: {
                         fontSize: '12px',
@@ -173,8 +174,11 @@ function mainLoop() {
                 }
             }
 
-            var chart = new ApexCharts(document.querySelector("#hpchart"), options);
-            chart.render();
+            // render chart every minute
+            if(currentSecond % 50 == 0 || isfirstRun) {
+                var chart = new ApexCharts(document.querySelector("#hpchart"), options);
+                chart.render();
+            }
 
             /*
             // Chart.js chart currently disabled
