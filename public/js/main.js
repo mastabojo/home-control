@@ -176,7 +176,8 @@ function mainLoop() {
 
             // render chart every minute
             // if(currentSecond % 50 == 0 || isfirstRun) {
-                console.log(currentSecond);
+                console.log('CURRENT SECOND: ' + currentSecond);
+                console.log("DRAWING CHART");
                 var chart = new ApexCharts(document.querySelector("#hpchart"), options);
                 chart.render();
             // }
