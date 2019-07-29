@@ -131,7 +131,7 @@ function mainLoop() {
                     type: 'bar',
                     fontFamily: 'Helvetica, Arial, sans-serif',
                     // Text color
-                    foreColor: '#333',
+                    foreColor: '#aaa',
                     width: '766px',
                     height: '180px',
                     toolbar: {
@@ -154,23 +154,18 @@ function mainLoop() {
                     data: chartData
                 }],
                 xaxis: {
-                    categories: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30]
+                    // categories: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30]
+                    categories: chartLabels
                 },
                 dataLabels: {
-                    enabled: false,
-                    offsetY: 0,
-                    style: {
-                        fontSize: '12px',
-                        fontFamily: 'Helvetica, Arial, sans-serif',
-                        colors: ['blue']
-                    }
+                    enabled: false
                 }
             }
 
             // render chart every minute
             if(currentSecond == 50 || isfirstRun) {
                 console.log('CURRENT SECOND: ' + currentSecond);
-                console.log(chartData);
+                console.log(chartLabels);
                 var chart = new ApexCharts(document.querySelector("#hpchart"), options);
                 chart.render();
             }
