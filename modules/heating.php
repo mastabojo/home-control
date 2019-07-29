@@ -50,7 +50,7 @@ Dnevna poraba<br>
 <canvas id="hpchart" width="766" height="180"></canvas>
 */
 ?>
-<div id="hpchart" style="width: 600px; heigth: 100px;"></div>
+<div id="hpchart" style="width: 766px; heigth: 180px;"></div>
 
 </div><!-- .col -->
 

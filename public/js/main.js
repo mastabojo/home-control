@@ -132,8 +132,8 @@ function mainLoop() {
                     fontFamily: 'Helvetica, Arial, sans-serif',
                     // Text color
                     foreColor: '#333',
-                    width: '600px',
-                    height: '200px',
+                    width: '766px',
+                    height: '180px',
                     toolbar: {
                         show: false
                     },
@@ -144,16 +144,8 @@ function mainLoop() {
                 plotOptions: {
                     bar: {
                         columnWidth: '90%',
-                        dataLabels: 'top',
-                        colors: [function({ value, seriesIndex, w }) {
-                            if(seriesIndex < 6) {
-                                return '#7E36AF'
-                            } else if (seriesIndex >= 6 && seriesIndex < 22) {
-                                return '#164666'
-                            } else {
-                                return '#D9534F'
-                            }
-                          }]
+                        // dataLabels: 'top',
+                        colors: ['#164666']
                     }
                 },
                 series: [{
