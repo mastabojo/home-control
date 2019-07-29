@@ -127,13 +127,61 @@ function mainLoop() {
                     break;
             }
 
-            // Chart
-            var ctx = document.getElementById('hpchart').getContext('2d');
+            var options = {
+                chart: {
+                    type: 'bar',
+                    fontFamily: 'Helvetica, Arial, sans-serif',
+                    // Text color
+                    foreColor: '#333',
+                    width: '600px',
+                    height: '200px',
+                    toolbar: {
+                        show: false
+                    },
+                    animations: {
+                        enabled: false
+                    }
+                },
+                plotOptions: {
+                    bar: {
+                        columnWidth: '90%',
+                        dataLabels: 'top',
+                        colors: {
+                            ranges: [
+                                {from: 0, to: 40, color: '#00ff00'},
+                                {from: 40, to: 60, color: '#ffff00'},
+                                {from: 60, to: 200, color: '#ff0000'}
+                            ]
+                        }
+                    }
+                },
+                series: [{
+                    name: 'consumption',
+                    // data: [30,40,35,55,49,40,30,50,65,30,40,35,50,49,60,70,20,65,30,40,35,50,90,60,70,45,65,45,62,55]
+                    data: chartData
+                }],
+                xaxis: {
+                    categories: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30]
+                },
+                dataLabels: {
+                    enabled: true,
+                    offsetY: 0,
+                    style: {
+                        fontSize: '12px',
+                        fontFamily: 'Helvetica, Arial, sans-serif',
+                        colors: ['blue']
+                    }
+                }
+            }
+
+            var chart = new ApexCharts(document.querySelector("#hpchart"), options);
+            chart.render();
 
             /*
-            
-            // Chart currently disabled
-            
+            // Chart.js chart currently disabled
+
+            var ctx = document.getElementById('hpchart').getContext('2d');
+
             var myChart = new Chart(ctx, {
                 type: 'bar',
                 data: {

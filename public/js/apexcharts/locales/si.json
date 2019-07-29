@@ -1,0 +1,20 @@
+{
+  "name": "si",
+  "options": {
+    "months": ["Januar", "Februar", "Marec", "April", "Maj", "Junij", "Julij", "Avgust", "September", "Oktober", "November", "December"],
+    "shortMonths": ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Avg", "Sep", "Okt", "Nov", "Dec"],
+    "days": ["Nedelja", "Ponedeljek", "Torek", "Sreda", "Četrtek", "Petek", "Sobota"],
+    "shortDays": ["Ned", "Pon", "Tor", "Sre", "Čet", "Pet", "Sob"],
+    "toolbar": {
+      "exportToSVG": "Prenesi SVG",
+      "exportToPNG": "Prenesi PNG",
+      "menu": "Meni",
+      "selection": "Izbira",
+      "selectionZoom": "Zoomiaj izbiro",
+      "zoomIn": "Povečaj",
+      "zoomOut": "Pomanjšaj",
+      "pan": "Pan",
+      "reset": "Ponastavi zoom"
+    }
+  }
+}

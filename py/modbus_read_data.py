@@ -83,7 +83,7 @@ for addr in inputRegisters:
                 break;
         except IOError:
             pass
-        except
+        except:
             pass
     print str(reading)
 

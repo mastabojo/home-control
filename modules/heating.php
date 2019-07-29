@@ -44,7 +44,13 @@ Dnevna poraba<br>
 <!-- col 1 -->
 <div class="col">
 
+<?php
+/*
+// Use for Chart.js
 <canvas id="hpchart" width="766" height="180"></canvas>
+*/
+?>
+<div id="hpchart" style="width: 600px; heigth: 100px;"></div>
 
 </div><!-- .col -->
 
