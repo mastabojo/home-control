@@ -175,12 +175,12 @@ function mainLoop() {
             }
 
             // render chart every minute
-            // if(currentSecond % 50 == 0 || isfirstRun) {
+            if(currentSecond % 50 == 0 || isfirstRun) {
                 console.log('CURRENT SECOND: ' + currentSecond);
-                console.log("DRAWING CHART");
+                console.log(chartData);
                 var chart = new ApexCharts(document.querySelector("#hpchart"), options);
                 chart.render();
-            // }
+            }
 
             /*
             // Chart.js chart currently disabled
