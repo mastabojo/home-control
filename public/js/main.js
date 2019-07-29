@@ -145,14 +145,15 @@ function mainLoop() {
                     bar: {
                         columnWidth: '90%',
                         dataLabels: 'top',
-                        colors: {
-                            // Ranges just for example
-                            ranges: [
-                                {from: 0, to: 100, color: barColors},
-                                {from: 100, to: 600, color: barColors},
-                                {from: 600, to: 1200, color: barColors}
-                            ]
-                        }
+                        colors: [function({ value, seriesIndex, w }) {
+                            if(seriesIndex < 6) {
+                                return '#7E36AF'
+                            } else if (seriesIndex >= 6 && seriesIndex < 22) {
+                                return '#164666'
+                            } else {
+                                return '#D9534F'
+                            }
+                          }]
                     }
                 },
                 series: [{
@@ -175,7 +176,7 @@ function mainLoop() {
             }
 
             // render chart every minute
-            if(currentSecond % 50 == 0 || isfirstRun) {
+            if(currentSecond == 50 || isfirstRun) {
                 console.log('CURRENT SECOND: ' + currentSecond);
                 console.log(chartData);
                 var chart = new ApexCharts(document.querySelector("#hpchart"), options);
