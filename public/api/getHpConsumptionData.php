@@ -136,19 +136,27 @@ $stmt->execute();
 $rows_monthly_consumption = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // Rearange data into array with elements for each day of the month
-$monthlyConsumption = [];
+$dailyDataTotals = [];
 for($d = 1; $d <= date("t"); $d++) {
-    $monthlyConsumption[$d] = ['mt' => 0, 'vt' => 0];
+    $dailyDataTotals[$d] = ['mt' => 0, 'vt' => 0];
 }
 
 foreach($rows_monthly_consumption as $dailyValues) {
     if($dailyValues['tariff'] == 'mt') {
-        $monthlyConsumption[$dailyValues['read_day']]['mt'] = $dailyValues['max_daily'];
+        $dailyDataTotals[$dailyValues['read_day']]['mt'] = $dailyValues['max_daily'];
     }
     if($dailyValues['tariff'] == 'vt') {
-        $monthlyConsumption[$dailyValues['read_day']]['vt'] = $dailyValues['max_daily'];
+        $dailyDataTotals[$dailyValues['read_day']]['vt'] = $dailyValues['max_daily'];
     }
 }
+
+
+// Calculate daily data diffs
+// ...
+// ...
+$dailyDataDiffs = [];
+
+
 
 $q = "SELECT tariff, ROUND(MAX(total_energy) - MIN(total_energy), 2) AS monthly FROM `heat_pump_KWh` 
 WHERE MONTH(read_time) = MONTH(CURRENT_DATE()) AND YEAR(read_time) = YEAR(CURRENT_DATE())
@@ -170,14 +178,14 @@ foreach($rows_monthly_total as $key => $val) {
 $totalM = isset($singleTariffM) && $singleTariffM > 0 ? $singleTariffM : ($highTariffM + $lowTariffM);
 
 $monthlyConsumption = [
-'singleTariff' => round($singleTariffM, 2), 
-'lowTariff' => round($lowTariffM, 2), 
-'highTariff' => round($highTariffM, 2),
-'total' => round($totalM, 2),
-'singleTariffCost' => round(($singleTariffM * $singleRate), 2),
-'lowTariffCost' => round(($lowTariffM * $lowRate), 2),
-'highTariffCost' => round(($highTariffM * $highRate), 2),
-'totalCost' => round((($lowTariffM * $lowRate) + ($highTariffM * $highRate)), 2)
+    'singleTariff' => round($singleTariffM, 2), 
+    'lowTariff' => round($lowTariffM, 2), 
+    'highTariff' => round($highTariffM, 2),
+    'total' => round($totalM, 2),
+    'singleTariffCost' => round(($singleTariffM * $singleRate), 2),
+    'lowTariffCost' => round(($lowTariffM * $lowRate), 2),
+    'highTariffCost' => round(($highTariffM * $highRate), 2),
+    'totalCost' => round((($lowTariffM * $lowRate) + ($highTariffM * $highRate)), 2)
 ];
 
 // return JSON encoded data
@@ -188,5 +196,7 @@ echo json_encode([
     'hourly_data' => $hourlyDataTotals,
     'hourly_data_diffs' => $hourlyDataDiffs,
     'monthly_consumption' => $monthlyConsumption,
+    'daily_data' => $dailyDataTotals,
+    'daily_data_diffs' => $dailyDataDiffs,
     'rates' => ['low_rate' => $lowRate, 'high_rate' => $highRate, 'single_rate' => $singleRate]
 ], JSON_NUMERIC_CHECK);

@@ -73,7 +73,7 @@ function mainLoop() {
         }
 
         // get heat pump consumption info from local storage and display it somewhere
-        if(currentSecond % 5 == 0 || isfirstRun) {
+        if(currentSecond % 50 == 0 || isfirstRun) {
 
             // get heat pump data
             $.get("api/getHpConsumptionData.php", function(data) {
@@ -129,9 +129,6 @@ function mainLoop() {
             var options = {
                 chart: {
                     type: 'bar',
-                    fontFamily: 'Helvetica, Arial, sans-serif',
-                    // Text color
-                    foreColor: '#aaa',
                     width: '766px',
                     height: '180px',
                     toolbar: {
@@ -141,69 +138,37 @@ function mainLoop() {
                         enabled: false
                     }
                 },
+                colors: barColors,
                 plotOptions: {
                     bar: {
                         columnWidth: '90%',
-                        // dataLabels: 'top',
-                        colors: ['#164666']
                     }
                 },
                 series: [{
                     name: 'consumption',
-                    // data: [30,40,35,55,49,40,30,50,65,30,40,35,50,49,60,70,20,65,30,40,35,50,90,60,70,45,65,45,62,55]
                     data: chartData
                 }],
                 xaxis: {
-                    // categories: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30]
                     categories: chartLabels
                 },
                 dataLabels: {
                     enabled: false
-                }
-            }
-
-            // render chart every minute
-            if(currentSecond == 50 || isfirstRun) {
-                console.log('CURRENT SECOND: ' + currentSecond);
-                console.log(chartLabels);
-                var chart = new ApexCharts(document.querySelector("#hpchart"), options);
-                chart.render();
-            }
-
-            /*
-            // Chart.js chart currently disabled
-
-            var ctx = document.getElementById('hpchart').getContext('2d');
-
-            var myChart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: chartLabels,
-                    datasets: [{
-                        data: chartData,
-                        backgroundColor: barColors,
-                        borderWidth: 0
-                    }]
                 },
-                options: {
-                    title: {text: chartTitle, display: true},
-                    legend: {display: false},
-                    animation: false,
-                    scales: {
-                        yAxes: [{
-                            stacked: chartStacked,
-                            ticks: {beginAtZero: true}
-                        }],
-                        xAxes: [{
-                            stacked: chartStacked,
-                            barThickness: 'flex',
-                            // barPercentage: 1.0,
-                            gridLines: {offsetGridLines: true}
-                        }]
+                grid: {
+                    show: true,
+                    position: 'back',
+                    yaxis: {
+                        lines: { 
+                            show: false
+                        }
                     }
                 }
-            });
-            */
+            }
+
+            // remove div
+            $("#hpchart").empty();
+            var chart = new ApexCharts(document.querySelector("#hpchart"), options);
+            chart.render();
         }
 
         // do these task every n seconds
