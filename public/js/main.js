@@ -21,6 +21,49 @@ var isfirstRun = true;
 // Get info on moon phases
 getMoonPhaseInfo();
 
+// Heat pump chart options
+var hpChartOptions = {
+    chart: {
+        type: 'bar',
+        width: '766px',
+        height: '180px',
+        toolbar: {
+            show: false
+        },
+        animations: {
+            enabled: false
+        }
+    },
+    colors: ["rgba(255, 255, 255, 0.6)"],
+    plotOptions: {
+        bar: {
+            columnWidth: '90%',
+        }
+    },
+    series: [{
+        name: 'consumption',
+        data: []
+    }],
+    xaxis: {
+        categories: []
+    },
+    dataLabels: {
+        enabled: false
+    },
+    grid: {
+        show: true,
+        yaxis: {
+            lines: { 
+                show: false
+            }
+        }
+    }
+}
+
+// Initialize heat pump chart
+var hpChart = new ApexCharts(document.querySelector("#hpchart"), hpChartOptions);
+hpChart.render();
+
 function mainLoop() {
 
     setInterval(function() {
@@ -126,53 +169,22 @@ function mainLoop() {
                     break;
             }
 
-            var options = {
-                chart: {
-                    type: 'bar',
-                    width: '766px',
-                    height: '180px',
-                    toolbar: {
-                        show: false
-                    },
-                    animations: {
-                        enabled: false
-                    }
-                },
-                colors: barColors,
-                plotOptions: {
-                    bar: {
-                        columnWidth: '90%',
-                    }
-                },
+            // Update heat pump chart
+            hpChart.updateOptions({
+                // Different bar colors in one series is not supported in Apexcharts
+                // colors: barColors,
+                colors: highTariffColor,
                 series: [{
-                    name: 'consumption',
                     data: chartData
                 }],
                 xaxis: {
                     categories: chartLabels
-                },
-                dataLabels: {
-                    enabled: false
-                },
-                grid: {
-                    show: true,
-                    position: 'back',
-                    yaxis: {
-                        lines: { 
-                            show: false
-                        }
-                    }
                 }
-            }
-
-            // remove div
-            $("#hpchart").empty();
-            var chart = new ApexCharts(document.querySelector("#hpchart"), options);
-            chart.render();
+            });
         }
 
         // do these task every n seconds
-        if(currentSecond % 5 == 0) {
+        if(currentSecond % 50 == 0) {
 
             // CPU data
             $.get("../api/getCpuData.php", function(data) {
