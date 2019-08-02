@@ -124,16 +124,16 @@ function mainLoop() {
             });
 
             var price = hpData.daily_consumption.highTariffCost + hpData.daily_consumption.lowTariffCost;
-            $("#heating-current-daily-consumption td:nth-child(2)").text(hpData.daily_consumption.lowTariff);
-            $("#heating-current-daily-consumption td:nth-child(3)").text(hpData.daily_consumption.highTariff);
-            $("#heating-current-daily-consumption td:nth-child(4)").text((hpData.daily_consumption.total));
+            $("#heating-current-daily-consumption td:nth-child(2)").text(hpData.daily_consumption.lowTariff.toFixed(2));
+            $("#heating-current-daily-consumption td:nth-child(3)").text(hpData.daily_consumption.highTariff.toFixed(2));
+            $("#heating-current-daily-consumption td:nth-child(4)").text((hpData.daily_consumption.total).toFixed(2));
             $("#heating-current-daily-consumption td:nth-child(5)").text(price.toFixed(2) + "€");
-            $("#heating-total-daily-consumption-value-big").text((hpData.daily_consumption.total));
+            $("#heating-total-daily-consumption-value-big").text(hpData.daily_consumption.total.toFixed(2));
 
-            $("#heating-current-monthly-consumption td:nth-child(2)").text(hpData.monthly_consumption.lowTariff);
-            $("#heating-current-monthly-consumption td:nth-child(3)").text(hpData.monthly_consumption.highTariff);
-            $("#heating-current-monthly-consumption td:nth-child(4)").text(hpData.monthly_consumption.total);
-            $("#heating-current-monthly-consumption td:nth-child(5)").text(hpData.monthly_consumption.totalCost + "€");
+            $("#heating-current-monthly-consumption td:nth-child(2)").text(hpData.monthly_consumption.lowTariff.toFixed(2));
+            $("#heating-current-monthly-consumption td:nth-child(3)").text(hpData.monthly_consumption.highTariff.toFixed(2));
+            $("#heating-current-monthly-consumption td:nth-child(4)").text(hpData.monthly_consumption.total.toFixed(2));
+            $("#heating-current-monthly-consumption td:nth-child(5)").text(hpData.monthly_consumption.totalCost.toFixed(2) + "€");
             
             // localStorage.setItem('heating-hpData', JSON.stringify(hpData.consumption));
 
