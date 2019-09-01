@@ -93,6 +93,76 @@ function isEasterMonday($date) {
 }
 
 /**
+ * Find out if date is workday
+ * Usage: isWorkDay('YYY-MM-DD')
+ * @param string Date in "Y-m-d" format
+ * @param string Country code
+ * @return bool	true if date is workday
+ */
+function isWorkDay($date, $country = "SI") {
+	// Non working holidays
+	switch($country) {
+		case "SI":
+			$nonWorkingHolidays = ['01-01', '01-02', '02-08', '04-27', '05-01', '05-02', '06-25', '08-15', '10-31', '11-01', '12-25', '12-26'];
+			break;
+		default:
+			$nonWorkingHolidays = ['01-01', '01-02', '02-08', '04-27', '05-01', '05-02', '06-25', '08-15', '10-31', '11-01', '12-25', '12-26'];
+			break;		
+	}
+	return (date("N") == 6 || date("N") == 7 || in_array(date("m-d"), $nonWorkingHolidays) || isEasterMonday(date("Y-m-d"))) ? false : true;
+}
+
+/**
+ * Returns array of differences; needs previous value fot first array element calculation
+ * 
+ * @param array Array of values
+ * @param mixed Previous value (int | float) for calculating first diff array element
+ * @return array Differences
+ */
+function arrayGetDiffs($values, $previousValue) {
+	$diffs = [];
+	$count = count($values);
+	$diffs[0] = round($values[0] - $previousValue, 2);
+	for($i = 1; $i < $count; $i++) {
+		$diffs[$i] = round($values[$i] - $values[$i - 1], 2);
+	}
+	return $diffs;
+}
+
+/**
+ * Iterates through array and returns array of defined length  with missing keys filled with values of previous key
+ * If first key is missing the $initial value is used
+ * 
+ * @param array source array
+ * @param int desired lenth of target array (target key count)
+ * @param initial initial value if first key is missing
+ */
+function fillMissingKeys($arr, $targetKeyCount, $initial = 0) {
+	$previous_temp = $initial;
+	for($i = 0; $i < $targetKeyCount; $i++) {
+        if(isset($arr[$i])) {
+            $previous_temp = $arr[$i];
+        } else {
+            $arr[$i] = $previous_temp;
+        }
+    }
+    ksort($arr);
+	return $arr;
+}
+
+/**
+ * Reindex array so it uses one elment for key and another for value(s)
+ */
+function ArrayValueToKey($arr, $key = 0, $val = 1) {
+	$newArr = [];
+	foreach($arr as $val) {
+		$newArr[$arr[$key]] = $arr[$val];
+	}
+	unset($arr);
+	return $newArr;
+}
+
+/**
  * Function for error logging
  */
 function logError($message, $comment = null) {
@@ -101,8 +171,8 @@ function logError($message, $comment = null) {
 
 // Debugging
 function D($var, $comment = false, $die = true) {
-	echo '<pre>';
-	echo $comment ? "$comment<br>" : '';
+	echo php_sapi_name() == 'cli' ? '' : '<pre>';
+	echo php_sapi_name() == 'cli' ? "$comment\n" : "$comment<br>";
 	switch(gettype($var)) {
 		case 'string':
 		case 'integer':
@@ -115,7 +185,7 @@ function D($var, $comment = false, $die = true) {
 			print_r($var);
 			break;
 	}
-	echo '</pre>';
+	echo php_sapi_name() == 'cli' ? '' : '</pre>';
 	if($die) {
 		die();
 	}
@@ -132,7 +202,7 @@ function DE($var, $comment = false) {
 		case 'array':
 		case 'object' :
 		default :
-			$s .= print_r($var);
+			$s .= var_export($var, 1);
 			break;
 	}
 	error_log($s);
@@ -151,7 +221,7 @@ function DF($var, $append = true) {
 		case 'array':
 		case 'object' :
 		default :
-			$s .= print_r($var, 1);
+			$s .= var_export($var, 1);
 			break;
 	}
 	if($append) {

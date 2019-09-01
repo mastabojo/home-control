@@ -109,3 +109,4 @@ env.php
 database/
 py/commandqueue.txt
 log/
+home-control.code-workspace

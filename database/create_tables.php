@@ -50,7 +50,7 @@ $qry['weather_forecast'] .= "CREATE TABLE `weather_forecast` (
     `forecast_id` int(11) NOT NULL AUTO_INCREMENT,
     `forecast_json` text CHARACTER SET utf8 NOT NULL,
     PRIMARY KEY (`forecast_id`)
-    ) ENGINE=InnoDB DEFAULT CHARSET=latin1;";
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
 
 // Create cities table (city data from openweathermap.org)
 $qry['cities']  = '';
@@ -60,7 +60,7 @@ $qry['cities'] .= "CREATE TABLE `cities` (
     `city_name` varchar(64) CHARACTER SET utf8 NOT NULL,
     `city_country` varchar(8) CHARACTER SET utf8 NOT NULL,
     PRIMARY KEY (`city_id`)
-    ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='City data from openweathermap.org';";
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='City data from openweathermap.org';";
 
 // Create heat_pump_readings table
 $qry['heat_pump_readings'] = '';
@@ -109,7 +109,7 @@ $qry['hccusers'] = "CREATE TABLE `hccusers` (
     `firstname` varchar(40) NOT NULL,
     `lastname` varchar(40) NOT NULL,
     PRIMARY KEY (`userid`)
-   ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;";
+   ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;";
    
 // Create holidays table
 $qry['holiday_dates'] = '';
@@ -130,7 +130,16 @@ $qry['cpu_temperature_log'] =
 "CREATE TABLE `cpu_temperature_log` (
     `read_time` int(11) NOT NULL,
     `cpu_temperature` int(11) NOT NULL
-   ) ENGINE=InnoDB DEFAULT CHARSET=latin1;";
+   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
+
+// Create app settings table
+$qry['app_settings'] = '';
+$qry['app_settings'] .= $dropTablesIfExists ? "DROP TABLE IF EXISTS app_settings;\n" : '';
+$qry['app_settings'] = 
+"CREATE TABLE `app_settings` (
+    `name` varchar(64) NOT NULL,
+    `value` varchar(512) NOT NULL
+   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
 
 // Create selected tables
 foreach($qry as $key => $q) {
@@ -141,3 +150,11 @@ foreach($qry as $key => $q) {
         $stmt->execute();
     }
 }
+
+// Create event for deleting CPU temperature log entries older than 30 days
+$qry = "
+CREATE EVENT clear_cpu_temp_log
+ON SCHEDULE AT CURRENT_TIMESTAMP + INTERVAL 1 DAY
+ON COMPLETION PRESERVE
+DO
+DELETE FROM cpu_temperature_log WHERE read_time < (UNIX_TIMESTAMP() - (60 * 60 * 24 * 30))";

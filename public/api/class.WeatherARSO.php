@@ -6,8 +6,8 @@
 include(dirname(__DIR__) . '/api/class.Weather.php');
 class WeatherARSO extends Weather
 {
-    public function __construct() {
-
+    public function __construct() 
+    {
         include dirname(__DIR__, 2) . '/env.php';
 
         $this->apiCurrentUrl  = "http://meteo.arso.gov.si/uploads/probase/www/observ/surface/text/sl/observation_LJUBL-ANA_BEZIGRAD_latest.xml";
@@ -20,6 +20,10 @@ class WeatherARSO extends Weather
      */
     public function getWeatherCurrentDigest() 
     {
+        if(!$this->isUrlReachable($this->apiCurrentUrl)) {
+            return [];
+        }
+
         // Get weather data
         // $arsoData = new SimpleXMLElement(file_get_contents($this->apiCurrentUrl));
         $arsoData = new SimpleXMLElement($this->apiCurrentUrl, 0, true);
@@ -64,6 +68,9 @@ class WeatherARSO extends Weather
      */
     public function getWeatherForecastDigest() 
     {
+        if(!$this->isUrlReachable($this->apiForecastUrl)) {
+            return [];
+        }
         // Get weather forecast data
         $arsoData = new SimpleXMLElement($this->apiForecastUrl, 0, true);
 
@@ -146,5 +153,28 @@ class WeatherARSO extends Weather
         ];
 
         return isset($iconNames[$name]) ? $iconNames[$name] : '00dn'; 
+    }
+
+    /**
+     * Check if URL is available
+     * 
+     * @param string URL to check
+     * @return bool true if reachable false otherwise
+     */
+    protected function isUrlReachable($url)
+    {
+        $resURL = curl_init(); 
+        curl_setopt($resURL, CURLOPT_URL, $url); 
+        curl_setopt($resURL, CURLOPT_BINARYTRANSFER, 1); 
+        curl_setopt($resURL, CURLOPT_HEADERFUNCTION, 'curlHeaderCallback'); 
+        curl_setopt($resURL, CURLOPT_FAILONERROR, 1); 
+        curl_exec ($resURL); 
+        $intReturnCode = curl_getinfo($resURL, CURLINFO_HTTP_CODE); 
+        curl_close ($resURL); 
+        if ($intReturnCode == 200 || $intReturnCode == 302 || $intReturnCode == 304) { 
+            return true; 
+        } else {
+            return false;
+        }
     }
 }

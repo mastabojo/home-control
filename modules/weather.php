@@ -2,6 +2,7 @@
 $theme = 'dark';
 
 $arsoUrl = 'http://vreme.arso.gov.si/napoved/Ljubljana/graf#zoom=50';
+$arsoUrl = 'https://vreme.arso.gov.si/widget/?width=610px&loc=Ljubljana'; // style="border:0; height: 185px; width: 690px;"';
 
 $openUrl = "https://openweathermap.org/weathermap?basemap=map&cities=true&layer=temperature&lat=46.0732&lon=14.7574&zoom=10";
 
