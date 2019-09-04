@@ -24,14 +24,15 @@ if(php_sapi_name() == 'cli') {
     $date = isset($_GET['date']) ? $_GET['date'] : date('Y-m-d');
 }
 
-/*
- * Daily consumption data
- */
 $month = date('m', strtotime($date));
 $previuousMonth = date('n', strtotime($date)) > 1 ? str_pad(date('n', strtotime($date)) - 1, 2, '0', STR_PAD_LEFT)  : '12';
 $year = date('Y', strtotime($date));
 $previousMonthsYear = date('n', strtotime($date)) > 1 ? date('Y', strtotime($date)) : date('Y', strtotime($date)) - 1;
 $daysInMonth = date('t', strtotime($date));
+
+/*
+ * Daily consumption data
+ */
 
  // get last tariff from previous day
 $q = "SELECT ROUND(MAX(total_energy), 2) AS read_energy 
@@ -48,6 +49,9 @@ $stmt->execute();
 // $rows_all_tariffs = $stmt->fetchAll(PDO::FETCH_ASSOC);
 $hourlyDataTotals = $stmt->fetchAll(PDO::FETCH_COLUMN | PDO::FETCH_UNIQUE);
 
+// How many values there are for selected day
+$count = count($hourlyDataTotals);
+
 // Fill in missing values
 $hourlyDataTotals = fillMissingKeys($hourlyDataTotals, 24, $total_energy_prev);
 
@@ -55,35 +59,33 @@ $hourlyDataTotals = fillMissingKeys($hourlyDataTotals, 24, $total_energy_prev);
 $hourlyDataDiffs = arrayGetDiffs($hourlyDataTotals, $total_energy_prev);
 
 // Consumption for all tariffs
-$count = count($hourlyDataTotals);
-$total = $count > 0 ? (max($hourlyDataTotals) - min($hourlyDataTotals)) : 0;
+$total = $lowTariff = array_sum($hourlyDataDiffs);
+
 if($singleTarrif) {
     $singleTariff = $total;
     $lowTariff = 0;
     $highTariff = 0;
 } else {
     $singleTariff = 0;
-    // Empty array (between 0:00 and first reading)
-    if($count == 0) {
-        $lowTariff = 0;
+    // Non working days - only low tariff
+    if(!isWorkDay($date)) {
+        $lowTariff = array_sum($hourlyDataDiffs);
         $highTariff = 0;
-    // Low tariff morning part only on workdays or low tariff all day on non-work days)
-    } elseif(!isWorkDay($date) || $count > 0 && ($count < $ELECTRIC_POWER_HIGH_TARIFF_START)) {
-        $lowTariff = $total;
+    } elseif($count < $ELECTRIC_POWER_HIGH_TARIFF_START) {
+        $lowTariff = array_sum($hourlyDataDiffs);
         $highTariff = 0;
-    // Low tariff morning part and high tariff but no low tariff evening part, work days only 
-    } elseif(isWorkDay($date) && $count >= $ELECTRIC_POWER_HIGH_TARIFF_START && $count < $ELECTRIC_POWER_HIGH_TARIFF_END) {
-        $lowTariffRows = array_slice($hourlyDataTotals, 0, $ELECTRIC_POWER_HIGH_TARIFF_START - 1);
-        $lowTariff = max($lowTariffRows) - min($lowTariffRows);
+    } elseif($count >= $ELECTRIC_POWER_HIGH_TARIFF_START && $count < $ELECTRIC_POWER_HIGH_TARIFF_END) {
+        $lowTariffRows = array_slice($hourlyDataDiffs, 0, $ELECTRIC_POWER_HIGH_TARIFF_START - 1);
+        $lowTariff = array_sum($lowTariffRows);
         $highTariff = $total - $lowTariff;
-    // Low tariff morning part and high tariff and low tariff evening part, work days only 
     } else {
-        $highTariffRows = array_slice($hourlyDataTotals, $ELECTRIC_POWER_HIGH_TARIFF_START, ($ELECTRIC_POWER_HIGH_TARIFF_END - $ELECTRIC_POWER_HIGH_TARIFF_START));
-         $highTariff = max($highTariffRows) - min($highTariffRows);
+        $highTariffRows = array_slice($hourlyDataDiffs, $ELECTRIC_POWER_HIGH_TARIFF_START, ($ELECTRIC_POWER_HIGH_TARIFF_END - $ELECTRIC_POWER_HIGH_TARIFF_START));
+        $highTariff = array_sum($highTariffRows);
         $lowTariff = $total - $highTariff;
     }
 }
 
+// Daily consumption data for preparing JSON
 $dailyConsumption = [
     'singleTariff' => round($singleTariff, 2), 
     'lowTariff' => round($lowTariff, 2), 
@@ -124,36 +126,36 @@ if($singleTarrif) {
 
     // Get previous month max value for low tariff
     $q = "SELECT MAX(total_energy) AS previous_lt FROM heat_pump_KWh
-         WHERE MONTH(read_time) = $previuousMonth AND YEAR(read_time) = $previousMonthsYear AND tariff='$LT'";
+         WHERE MONTH(read_time)='$previuousMonth' AND YEAR(read_time)='$previousMonthsYear' AND tariff='$LT'";
     $stmt = $DB->prepare($q);
     $stmt->execute();
     $total_monthly_prev_lt = $stmt->fetchColumn(0);
-    
+
     // Get previous month max value for high tariff
     $q = "SELECT MAX(total_energy) AS previous_ht FROM heat_pump_KWh
-    WHERE MONTH(read_time) = $previuousMonth AND YEAR(read_time) = $previousMonthsYear AND tariff='$HT'";
+    WHERE MONTH(read_time)='$previuousMonth' AND YEAR(read_time)='$previousMonthsYear' AND tariff='$HT'";
     $stmt = $DB->prepare($q);
     $stmt->execute();
     $total_monthly_prev_ht = $stmt->fetchColumn(0);
 
     // Get daily values for selected month for low tariff
     $q = "SELECT DAY(read_time) as read_time, MAX(total_energy) AS max_daily FROM `heat_pump_KWh` 
-        WHERE MONTH(read_time) = $month AND YEAR(read_time) = $year AND tariff = '$LT'
+        WHERE MONTH(read_time)='$month' AND YEAR(read_time)='$year' AND tariff='$LT'
         GROUP BY DAY(read_time)";
     $stmt = $DB->prepare($q);
     $stmt->execute();
-    $rows_monthly_consumption_lt = $stmt->fetchAll(PDO::FETCH_COLUMN);
+    $rows_monthly_consumption_lt = $stmt->fetchAll(PDO::FETCH_COLUMN | PDO::FETCH_UNIQUE);
 
     $dailyDataTotalsLt = fillMissingKeys($rows_monthly_consumption_lt, $daysInMonth, $total_monthly_prev_lt);
     $dailyDataDiffsLt = arrayGetDiffs($dailyDataTotalsLt, $total_monthly_prev_lt);
 
     // Get daily values for selected month for high tariff
     $q = "SELECT DAY(read_time) as read_time, MAX(total_energy) AS max_daily FROM `heat_pump_KWh` 
-        WHERE MONTH(read_time) = $month AND YEAR(read_time) = $year AND tariff = '$HT'
+        WHERE MONTH(read_time) = '$month' AND YEAR(read_time)='$year' AND tariff='$HT'
         GROUP BY DAY(read_time)";
     $stmt = $DB->prepare($q);
     $stmt->execute();
-    $rows_monthly_consumption_ht = $stmt->fetchAll(PDO::FETCH_COLUMN);
+    $rows_monthly_consumption_ht = $stmt->fetchAll(PDO::FETCH_COLUMN | PDO::FETCH_UNIQUE);
 
     $dailyDataTotalsHt = fillMissingKeys($rows_monthly_consumption_ht, $daysInMonth, $total_monthly_prev_ht);
     $dailyDataDiffsHt = arrayGetDiffs($dailyDataTotalsHt, $total_monthly_prev_ht);
@@ -165,21 +167,20 @@ WHERE MONTH(read_time) = MONTH('$date') AND YEAR(read_time) = YEAR('$date')
 GROUP BY tariff";
 $stmt = $DB->prepare($q);
 $stmt->execute();
-$rows_monthly_total = $stmt->fetchAll(PDO::FETCH_ASSOC);
+// $rows_monthly_total = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$rows_monthly_total = $stmt->fetchAll(PDO::FETCH_COLUMN | PDO::FETCH_UNIQUE);
 
-
-$singleTariffM = 0;
-$lowTariffM = 0;
-$highTariffM = 0;
-foreach($rows_monthly_total as $key => $val) {
-    switch($val['tariff']) {
-        case $ST: $singleTariffM = isset($val['monthly']) ? $val['monthly'] : 0; break;
-        case $LT: $lowTariffM = isset($val['monthly']) ? $val['monthly'] : 0; break;
-        case $HT: $highTariffM = isset($val['monthly']) ? $val['monthly'] : 0; break;
-    }
+if($singleTarrif) {
+    $singleTariffM = isset($rows_monthly_total[$ST]) ? $rows_monthly_total[$ST] : 0;
+    $lowTariffM = 0;
+    $highTariffM = 0;
+} else {
+    $lowTariffM = isset($rows_monthly_total[$LT]) ? $rows_monthly_total[$LT] : 0;
+    $highTariffM = isset($rows_monthly_total[$HT]) ? $rows_monthly_total[$HT] : 0;
+    $singleTariffM = 0;
 }
 
-$totalM = isset($singleTariffM) && $singleTariffM > 0 ? $singleTariffM : ($highTariffM + $lowTariffM);
+$totalM = $singleTarrif ? $singleTariffM : ($highTariffM + $lowTariffM);
 
 $monthlyConsumption = [
     'singleTariff' => round($singleTariffM, 2), 

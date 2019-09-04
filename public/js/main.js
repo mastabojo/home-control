@@ -146,7 +146,7 @@ function mainLoop() {
                 dailyLabels[h] = h + 1;
             }
             var monthlyLabels = [];
-            for(var m = 0; m < 31; m++) {
+            for(var m = 0; m < moment().daysInMonth(); m++) {
                 monthlyLabels[m] = m + 1;
             }
 
@@ -156,7 +156,6 @@ function mainLoop() {
                 case 'daily':
                     var chartTitle = "Dnevna poraba";
                     var chartData = hpData.hourly_data_diffs;
-                    // var chartData = hpData.hourly_data;
                     var chartLabels = dailyLabels;
                     var barColors = dailyBarColors;
                     var chartStacked = false;
