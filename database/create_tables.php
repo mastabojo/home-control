@@ -132,6 +132,19 @@ $qry['cpu_temperature_log'] =
     `cpu_temperature` int(11) NOT NULL
    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
 
+// Create temp_and_humidity_readings
+$qry['temp_and_humidity_readings'] = '';
+$qry['temp_and_humidity_readings'] .= $dropTablesIfExists ? "DROP TABLE IF EXISTS temp_and_humidity_readings;\n" : '';
+$qry['temp_and_humidity_readings'] = 
+"CREATE TABLE `temp_and_humidity_readings` (
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `read_time` datetime NOT NULL,
+    `sensor_id` varchar(5) CHARACTER SET utf8 NOT NULL,
+    `temperature` float NOT NULL,
+    `humidity` float NOT NULL,
+    PRIMARY KEY (`id`)
+   ) ENGINE=InnoDB DEFAULT CHARSET=latin1";
+
 // Create app settings table
 $qry['app_settings'] = '';
 $qry['app_settings'] .= $dropTablesIfExists ? "DROP TABLE IF EXISTS app_settings;\n" : '';
