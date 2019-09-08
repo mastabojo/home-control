@@ -1,8 +1,9 @@
 body {
     overflow: hidden;
     font-family: Ubuntu-Light;
-    /* background-color: hsl(128, 86%, 5%);*/
-    background-color: rgb(14, 48, 30);
+    /* background-color: hsl(128, 86%, 5%);
+    background-color: rgb(14, 48, 30);*/
+    background-color: rgb(14, 68, 90);
     /* background-color: hsl(230, 45%, 13%);*/
     color: #ddd;
 }
@@ -66,12 +67,12 @@ a.nav-link.active.show {
 
 #weather-current {
     background-color: none;
-    height: 50%;
+    height: 40%;
 }
 
 #weather-forecast {
     background-color: none;
-    height: 50%;
+    height: 60%;
 }
 
 #weather-current span {
@@ -83,12 +84,25 @@ a.nav-link.active.show {
     padding-bottom: 22px;
 }
 
-#span-temperature {
-    font-size: 320%;
+.temp-and-humidity {
+    background-color: rgb(14, 52, 90);
+    padding: 3px;
 }
 
-#weather-current span.updated-display {
+#span-temperature {
+    font-size: 240%;
+}
+
+span.updated-display {
     font-size: 75%;
+}
+
+#temperature-value {
+    font-size: 160%;
+}
+
+#humidity-value {
+    font-size: 120%;
 }
 
 #heat-pump-pane #span-main-time {

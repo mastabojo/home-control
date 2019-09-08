@@ -115,6 +115,18 @@ function mainLoop() {
             });
         }
 
+        // Read temperature and humidity
+        if(currentSecond % 3 == 0 || isfirstRun) {
+            $.get("../api/getTempAndHumidity.php?source=db", function(data) {
+                // $("#temp-and-humidity").text("TEMP");
+                data = JSON.parse(data);
+                console.log(data.humidity);
+                $("#temperature-value").html(data.temperature + '&deg;');
+                $("#humidity-value").html(data.humidity + '&#37;');
+                $("#temp-and-humidity-last-updated").html(data.read_time);
+            });
+        }
+
         // get heat pump consumption info from local storage and display it somewhere
         if(currentSecond % 50 == 0 || isfirstRun) {
 

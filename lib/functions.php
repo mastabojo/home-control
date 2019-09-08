@@ -230,3 +230,21 @@ function DF($var, $append = true) {
 		file_put_contents($debugFile, $s);
 	}
 }
+
+// Debug into JS console
+function DC($var, $comment = false) {
+	$s = $comment ? "$comment\n" : '';
+	switch(gettype($var)) {
+		case 'string':
+		case 'integer':
+		case 'float':
+			$s .= $var;
+		break;
+		case 'array':
+		case 'object' :
+		default :
+			$s .= var_export($var, 1);
+			break;
+	}
+	echo "<script>console.log(\"HCC: \" + $s)</script>";
+}

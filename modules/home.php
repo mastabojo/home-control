@@ -21,16 +21,19 @@ foreach($wfcst as $key => $fcData) {
 
 <div class="row no-gutters">
 
-<div class="col-8">
+<div class="col-7">
 <span  id="img-icon-weather"><img src="/img/weather-icons/<?php echo $theme . '/' . $wcurr['weather_icon'];?>.svg"></span>&nbsp;&nbsp;
 <span id="span-temperature" class="temperature-display"><?php echo round($wcurr['temperature']);?>&deg;</span>&nbsp;
 <span id="span-city_name"><?php echo $wcurr['city_name'];?></span>
 </div><!-- .col -->
 
 <div class="col text-right">
-<span class="updated-display"><?php echo $l->Get("last_weather_data"), ' (', $WEATHER_PROVIDER, ')';?>:</span><br>
-<span id="span-updated" class="updated-display"><?php echo date('d.m. H:i', $wcurr['calc_time']);?></span>
-</div><!-- .col -->
+<div class="temp-and-humidity">
+<span id="temperature-value"></span>&nbsp;&nbsp;&nbsp;<span id="humidity-value"></span><br>
+<span class="updated-display">Zadnji podatki:</span>&nbsp;<span id="temp-and-humidity-last-updated" class="updated-display"></span>
+
+</div><!-- #temp-and-humidity -->
+</div><!-- .col .text-right -->
 
 </div><!-- .row -->
 
@@ -55,6 +58,9 @@ foreach($wfcst as $key => $fc) {
 ?>
 </div><!-- .row -->
 
+<span class="updated-display"><?php echo $l->Get("last_weather_data"), ' (', $WEATHER_PROVIDER, ')';?>:</span>
+<span id="span-updated" class="updated-display"><?php echo date('d.m. H:i', $wcurr['calc_time']);?></span>
+
 </div><!-- .col -->
 
 </div><!-- #weather-forecast -->
@@ -67,9 +73,6 @@ foreach($wfcst as $key => $fc) {
 <canvas id="hp-daily" width="200" height="88" style="background-color: none;"></canvas>
 */?>
 
-
-
-
 <div class="row">
 <div class="col text-center">
 <span id="span-main-time" class="align-middle"></span>
@@ -81,10 +84,6 @@ foreach($wfcst as $key => $fc) {
 <span id="span-main-date" class="align-middle"></span>
 </div><!-- .col -->
 </div><!-- .row -->
-
-
-
-
 
 </div><!-- #heat-pump-pane -->
 </div><!-- .row -->
