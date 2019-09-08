@@ -163,6 +163,9 @@ class WeatherARSO extends Weather
      */
     protected function isUrlReachable($url)
     {
+        // Temporary disabled
+        return true;
+
         $resURL = curl_init(); 
         curl_setopt($resURL, CURLOPT_URL, $url); 
         curl_setopt($resURL, CURLOPT_BINARYTRANSFER, 1); 
