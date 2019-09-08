@@ -62,7 +62,7 @@ a.nav-link.active.show {
 .home-panes {
     padding: 2px;
     margin: 3px;
-    /* background-color: rgba(0, 0, 120, 0.1); */
+    border-color: rgb(64, 119, 139) !important;
 }
 
 #weather-current {
