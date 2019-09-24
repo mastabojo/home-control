@@ -14,18 +14,14 @@ if(isset($_GET['source']) && $_GET['source'] == 'db') {
     $temperature = isset($data[0]['temperature']) ? round($data[0]['temperature']) : 'n/a';
     $humidity = isset($data[0]['humidity']) ? round($data[0]['humidity']) : 'n/a';
     $read_time = isset($data[0]['read_time']) ? date("d.m H:i", strtotime($data[0]['read_time'])) : 'n/a';
-    DE(json_encode(
-        [
-            'temperature' => $temperature, 
-            'humidity' => $humidity, 
-            'read_time' => $read_time
-        ]
-    ));
+    // This is for calcs
+    $read_time_iso = isset($data[0]['read_time']) ? date("Y-m-d H:i", strtotime($data[0]['read_time'])) : '';
     echo json_encode(
         [
             'temperature' => $temperature, 
             'humidity' => $humidity, 
-            'read_time' => $read_time
+            'read_time' => $read_time,
+            'read_time_iso' => $read_time_iso
         ]
     );
 } 

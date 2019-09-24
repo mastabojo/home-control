@@ -120,10 +120,14 @@ function mainLoop() {
             $.get("../api/getTempAndHumidity.php?source=db", function(data) {
                 // $("#temp-and-humidity").text("TEMP");
                 data = JSON.parse(data);
-                console.log(data.humidity);
                 $("#temperature-value").html(data.temperature + '&deg;');
                 $("#humidity-value").html(data.humidity + '&#37;');
                 $("#temp-and-humidity-last-updated").html(data.read_time);
+
+                // Notify if temperature and humidity were not refreshed for longer time (i.e. 30 min)
+                if(moment().diff(moment(data.read_time_iso), 'minutes') > 30) {
+                    $("#temp-and-humidity-last-updated").css("color", "#EB4E4E");
+                }
             });
         }
 
