@@ -24,4 +24,21 @@ if(isset($_GET['source']) && $_GET['source'] == 'db') {
             'read_time_iso' => $read_time_iso
         ]
     );
-} 
+} elseif(isset($_GET['source']) && $_GET['source'] == 'web') {
+    $sensorIp = '192.168.2.181';
+    // Get data with curl
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $sensorIp);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    $output = curl_exec($ch);
+    curl_close($ch); 
+    $outputArr = explode("|", $output);
+    echo json_encode(
+        [
+            'temperature' => round(trim($outputArr[0])), 
+            'humidity' => round(trim($outputArr[1])), 
+            'read_time' => date("d.m H:i"),
+            'read_time_iso' => date("Y-m-d H:i")
+        ]
+    );
+}

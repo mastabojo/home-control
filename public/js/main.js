@@ -118,7 +118,6 @@ function mainLoop() {
         // Read temperature and humidity
         if(currentSecond % 3 == 0 || isfirstRun) {
             $.get("../api/getTempAndHumidity.php?source=db", function(data) {
-                // $("#temp-and-humidity").text("TEMP");
                 data = JSON.parse(data);
                 $("#temperature-value").html(data.temperature + '&deg;');
                 $("#humidity-value").html(data.humidity + '&#37;');
@@ -301,6 +300,20 @@ $("#blinds-pane img.shutter-action").on("click", function() {
     $.post('../api/doshutters.php', data);
 });
 
+// Manually refresh temperature and humidity (tap the temp and humidity display area)
+$(".temp-and-humidity").on("click", function() {
+    $.get("../api/getTempAndHumidity.php?source=web", function(data) {
+        data = JSON.parse(data);
+        $("#temperature-value").html(data.temperature + '&deg;');
+        $("#humidity-value").html(data.humidity + '&#37;');
+        $("#temp-and-humidity-last-updated").html(data.read_time);
+        // Notify if temperature and humidity were not refreshed for longer time (i.e. 30 min)
+        if(moment().diff(moment(data.read_time_iso), 'minutes') > 30) {
+            $("#temp-and-humidity-last-updated").css("color", "#EB4E4E");
+        }
+    });
+})
+
 function getMoonPhaseInfo() {
     var iconPath = "/img/lunar-phase-icons/dark/";
     $.get("../api/getMoonPhaseInfo.php", function(data) {
@@ -320,8 +333,6 @@ function getMoonPhaseInfo() {
             $("#span-moon-phase-info-2").text(moment.unix(moonPhaseData.nextFullMoonDateTS).format("D.M.") + " (" + moonPhaseData.daysUntilNextFullMoon + ")");
         }
     });
-
-    
 }
 
 // Weather pane - load weather display from selected provider into iframe
