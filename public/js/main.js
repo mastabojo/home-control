@@ -310,6 +310,9 @@ $(".temp-and-humidity").on("click", function() {
         // Notify if temperature and humidity were not refreshed for longer time (i.e. 30 min)
         if(moment().diff(moment(data.read_time_iso), 'minutes') > 30) {
             $("#temp-and-humidity-last-updated").css("color", "#EB4E4E");
+        } else {
+            // Temporary: green color indicates that there was a gap in temperture and humdity readings
+            $("#temp-and-humidity-last-updated").css("color", "#90F08B");
         }
     });
 })
