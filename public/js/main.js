@@ -210,7 +210,7 @@ function mainLoop() {
             if(localStorage.getItem('shuttersUpTime') != null && localStorage.getItem('shuttersDownTime') != null) {
                 shuttersUpTime = localStorage.getItem('shuttersUpTime');
                 shuttersDownTime = localStorage.getItem('shuttersDownTime');
-            } else if(localStorage.getItem('sunrise') != null && localStorage.getItem('sunrise') != null) {
+            } else if(localStorage.getItem('sunrise') != null && localStorage.getItem('sunset') != null) {
                 shuttersUpTime =  localStorage.getItem('sunrise');
                 shuttersDownTime = localStorage.getItem('sunset');
                 // Roll shutters down some 20 minutes after sunset
