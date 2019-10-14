@@ -211,7 +211,9 @@ function mainLoop() {
                 shuttersUpTime = localStorage.getItem('shuttersUpTime');
                 shuttersDownTime = localStorage.getItem('shuttersDownTime');
             } else if(localStorage.getItem('sunrise') != null && localStorage.getItem('sunset') != null) {
-                shuttersUpTime =  localStorage.getItem('sunrise');
+                shuttersUpTime = localStorage.getItem('sunrise');
+                // Roll shutters up 20 min before sunset
+                shuttersUpTime = moment(shuttersUpTime, "H:mm:ss").subtract(20, 'minutes').format("H:mm:ss");
                 shuttersDownTime = localStorage.getItem('sunset');
                 // Roll shutters down some 20 minutes after sunset
                 shuttersDownTime = moment(shuttersDownTime, "H:mm:ss").add(20, 'minutes').format("H:mm:ss");
