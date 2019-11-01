@@ -8,18 +8,25 @@ $DB = getDB($DB_HOST, $DB_NAME, $DB_USER, $DB_PASS);
 $dropTablesIfExists = true;
 
 // uncomment tables to be created
+// make sure not to drop tables containing real data
 $createTables = [
     // 'weather_current',
     // 'weather_forecast',
     // 'cities',
     // 'heat_pump_readings',
-    // 'hccusers'
+    // 'heat_pump_KWh',
+    // 'hccusers',
+    // 'holiday_dates',
+    // 'cpu_temperature_log',
+    // 'temp_and_humidity_readings',
+    // 'app_settings',
+    // 'system_data',
 ];
 
 // Create table current_weather
-$qry['weather_current']  = '';
-$qry['weather_current'] .= $dropTablesIfExists ? "DROP TABLE IF EXISTS weather_current;\n" : '';
-$qry['weather_current'] .= "CREATE TABLE `weather_current` (
+$table = 'weather_current';
+$qry[$table]  = $dropTablesIfExists ? "DROP TABLE IF EXISTS $table;\n" : '';
+$qry[$table] .= "CREATE TABLE `$table` (
     `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
     `calc_time` int(11) NOT NULL,
     `city_id` int(11) NOT NULL,
@@ -44,18 +51,18 @@ $qry['weather_current'] .= "CREATE TABLE `weather_current` (
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
 
 // Create table for weather forecasts - it will store JSON reading in TEXT fields
-$qry['weather_forecast']  = '';
-$qry['weather_forecast'] .= $dropTablesIfExists ? "DROP TABLE IF EXISTS weather_forecast;\n" : '';
-$qry['weather_forecast'] .= "CREATE TABLE `weather_forecast` (
+$table = 'weather_forecast';
+$qry[$table]  = $dropTablesIfExists ? "DROP TABLE IF EXISTS $table;\n" : '';
+$qry[$table] .= "CREATE TABLE `$table` (
     `forecast_id` int(11) NOT NULL AUTO_INCREMENT,
     `forecast_json` text CHARACTER SET utf8 NOT NULL,
     PRIMARY KEY (`forecast_id`)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
 
 // Create cities table (city data from openweathermap.org)
-$qry['cities']  = '';
-$qry['cities'] .= $dropTablesIfExists ? "DROP TABLE IF EXISTS cities;\n" : '';
-$qry['cities'] .= "CREATE TABLE `cities` (
+$table = 'cities';
+$qry[$table]  = $dropTablesIfExists ? "DROP TABLE IF EXISTS $table;\n" : '';
+$qry[$table] .= "CREATE TABLE `$table` (
     `city_id` int(11) NOT NULL,
     `city_name` varchar(64) CHARACTER SET utf8 NOT NULL,
     `city_country` varchar(8) CHARACTER SET utf8 NOT NULL,
@@ -63,9 +70,9 @@ $qry['cities'] .= "CREATE TABLE `cities` (
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='City data from openweathermap.org';";
 
 // Create heat_pump_readings table
-$qry['heat_pump_readings'] = '';
-$qry['heat_pump_readings'] .= $dropTablesIfExists ? "DROP TABLE IF EXISTS heat_pump_readings;\n" : '';
-$qry['heat_pump_readings'] = "CREATE TABLE `heat_pump_readings` (
+$table = 'heat_pump_readings';
+$qry[$table]  = $dropTablesIfExists ? "DROP TABLE IF EXISTS $table;\n" : '';
+$qry[$table] .= "CREATE TABLE `$table` (
     `id` int(11) NOT NULL AUTO_INCREMENT,
     `read_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `phase_1_to_neutral` float NOT NULL DEFAULT '0',
@@ -88,9 +95,9 @@ $qry['heat_pump_readings'] = "CREATE TABLE `heat_pump_readings` (
    ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8";
 
 // Create heat pump KWh table
-$qry['heat_pump_KWh'] = '';
-$qry['heat_pump_KWh'] .= $dropTablesIfExists ? "DROP TABLE IF EXISTS heat_pump_KWh;\n" : '';
-$qry['heat_pump_KWh'] = "CREATE TABLE `heat_pump_KWh` (
+$table = 'heat_pump_KWh';
+$qry[$table]  = $dropTablesIfExists ? "DROP TABLE IF EXISTS $table;\n" : '';
+$qry[$table] .= "CREATE TABLE `$table` (
     `id` int(11) NOT NULL AUTO_INCREMENT,
     `read_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `total_energy` float NOT NULL DEFAULT '0',
@@ -99,9 +106,9 @@ $qry['heat_pump_KWh'] = "CREATE TABLE `heat_pump_KWh` (
    ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8";
 
 // Create hccusers table
-$qry['hccusers'] = '';
-$qry['hccusers'] .= $dropTablesIfExists ? "DROP TABLE IF EXISTS hccusers;\n" : '';
-$qry['hccusers'] = "CREATE TABLE `hccusers` (
+$table = 'hccusers';
+$qry[$table]  = $dropTablesIfExists ? "DROP TABLE IF EXISTS $table;\n" : '';
+$qry[$table] .= "CREATE TABLE `$table` (
     `userid` int(11) NOT NULL AUTO_INCREMENT,
     `username` varchar(40) NOT NULL,
     `passwrd` varchar(80) NOT NULL,
@@ -112,9 +119,9 @@ $qry['hccusers'] = "CREATE TABLE `hccusers` (
    ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;";
    
 // Create holidays table
-$qry['holiday_dates'] = '';
-$qry['holiday_dates'] .= $dropTablesIfExists ? "DROP TABLE IF EXISTS holiday_dates;\n" : '';
-$qry['holiday_dates'] = "CREATE TABLE `holiday_dates` (
+$table = 'holiday_dates';
+$qry[$table]  = $dropTablesIfExists ? "DROP TABLE IF EXISTS $table;\n" : '';
+$qry[$table] .= "CREATE TABLE `$table` (
     `id` int(11) NOT NULL AUTO_INCREMENT,
     `country_code` char(3) NOT NULL,
     `holiday_date` char(5) NOT NULL,
@@ -124,19 +131,17 @@ $qry['holiday_dates'] = "CREATE TABLE `holiday_dates` (
    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
 
 // Create CPU temperature log table
-$qry['cpu_temperature_log'] = '';
-$qry['cpu_temperature_log'] .= $dropTablesIfExists ? "DROP TABLE IF EXISTS cpu_temperature_log;\n" : '';
-$qry['cpu_temperature_log'] = 
-"CREATE TABLE `cpu_temperature_log` (
+$table = 'cpu_temperature_log';
+$qry[$table]  = $dropTablesIfExists ? "DROP TABLE IF EXISTS $table;\n" : '';
+$qry[$table] .= "CREATE TABLE `$table` (
     `read_time` int(11) NOT NULL,
     `cpu_temperature` int(11) NOT NULL
    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
 
 // Create temp_and_humidity_readings
-$qry['temp_and_humidity_readings'] = '';
-$qry['temp_and_humidity_readings'] .= $dropTablesIfExists ? "DROP TABLE IF EXISTS temp_and_humidity_readings;\n" : '';
-$qry['temp_and_humidity_readings'] = 
-"CREATE TABLE `temp_and_humidity_readings` (
+$table = 'temp_and_humidity_readings';
+$qry[$table]  = $dropTablesIfExists ? "DROP TABLE IF EXISTS $table;\n" : '';
+$qry[$table] .= "CREATE TABLE `$table` (
     `id` int(11) NOT NULL AUTO_INCREMENT,
     `read_time` datetime NOT NULL,
     `sensor_id` varchar(5) CHARACTER SET utf8 NOT NULL,
@@ -146,12 +151,20 @@ $qry['temp_and_humidity_readings'] =
    ) ENGINE=InnoDB DEFAULT CHARSET=latin1";
 
 // Create app settings table
-$qry['app_settings'] = '';
-$qry['app_settings'] .= $dropTablesIfExists ? "DROP TABLE IF EXISTS app_settings;\n" : '';
-$qry['app_settings'] = 
-"CREATE TABLE `app_settings` (
+$table = 'app_settings';
+$qry[$table]  = $dropTablesIfExists ? "DROP TABLE IF EXISTS $table;\n" : '';
+$qry[$table] .= "CREATE TABLE `$table` (
     `name` varchar(64) NOT NULL,
     `value` varchar(512) NOT NULL
+   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
+
+// Create system table
+$table = 'system_data';
+$qry[$table]  = $dropTablesIfExists ? "DROP TABLE IF EXISTS $table;\n" : '';
+$qry[$table] .= "CREATE TABLE `$table` (
+    `name` varchar(64) NOT NULL,
+    `value` varchar(512) NOT NULL,
+    'updated_at' datetime DEFAULT NULL
    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
 
 // Create selected tables
