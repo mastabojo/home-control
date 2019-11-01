@@ -15,6 +15,7 @@ $allowedCommands = [
     'shutdown'     => 'sudo /usr/bin/pkill chromium && sudo /sbin/halt',
     'get-ip'       => 'hostname -I',
     'test-connection'    => 'ping -c 4 ' . $connectionTestAddress,
+    'uptime'       => 'uptime -p',
 ];
 
 // get rid of all unexpected stuff
@@ -52,9 +53,30 @@ switch($commandKey) {
             $result = '0';
         }
         error_log("System command executed ($command)" . " (ping $connectionTestAddress with result: " . ($result == '1' ? 'OK' : 'FAILURE'));
-        echo $result;
+        die($result);
         break;
 
+    case 'uptime':
+        $commandOutput = [];
+        $output = exec($command);
+        if(empty($output)) {
+            die();
+        }
+        // Get rid of the text 'up '
+        $uptime = substr($output, 3);
+        // Convert string to array and reverse it, so seconds are first
+        $uptimeArr = array_reverse(explode(', ', $uptime));
+        // Fill the data array with values, that exist
+        $data = [];
+        for($i = 0; $i < count($uptimeArr); $i++) {
+            $key = trim(preg_replace('/[0-9]/', '', $uptimeArr[$i]));
+            $val = preg_replace('/[^0-9]/', '', $uptimeArr[$i]);
+            $data[$key] = $val;
+        }
+        // Return JSON with minutes, hours, days, months, and years keys (whatever exists)
+        die(json_encode($data));
+        break;
+        
     // Command is not in allowed comands list
     default:
         error_log("Unknown system command requested: $command");

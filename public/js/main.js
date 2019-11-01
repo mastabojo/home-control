@@ -255,7 +255,7 @@ function mainLoop() {
         }
 
         // Check connectivity
-        if(currentMinute % 3 == 0) {
+        if((currentMinute % 3 == 0 && currentSecond % 3 == 0) || isfirstRun) {
             $.post(
                 '../api/system_commands.php', 
                 {"cmd": "test-connection"}, 
@@ -269,7 +269,27 @@ function mainLoop() {
                     }
                 $(".system-tab #connection-status").html(connectionStatus);
             });
-        }        
+        }
+
+        // Get uptime
+        if((currentMinute % 2 == 0 && currentSecond % 2 == 0) || isfirstRun) {
+            $.post(
+                '../api/system_commands.php', 
+                {"cmd": "uptime"}, 
+                function(data) {
+                    data = JSON.parse(data);
+                    // console.log(data);
+                    if(data.years != undefined && data.years > 0) {
+                        $(".system-tab #uptime-years").html(data.years);
+                    }
+                    $(".system-tab #uptime-years").html(data.years != undefined && data.years > 0 ? data.years : '0');
+                    $(".system-tab #uptime-months").html(data.months != undefined && data.months > 0 ? data.months : '0');
+                    $(".system-tab #uptime-days").html(data.days != undefined && data.days > 0 ? data.days : '0');
+                    $(".system-tab #uptime-hours").html(data.hours != undefined && data.hours > 0 ? data.hours : '0');
+                    $(".system-tab #uptime-minutes").html(data.minutes != undefined && data.minutes > 0 ? data.minutes : '0');
+
+            });
+        }
         
 
         isfirstRun = false;

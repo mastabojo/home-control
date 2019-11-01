@@ -31,7 +31,8 @@ $lang['day_names']         = ['Ponedeljek', 'Torek', 'Sreda', 'Četrtek', 'Petek
 $lang['day_names_short']   = ['Pon', 'Tor', 'Sre', 'Čet', 'Pet', 'Sob', 'Ned'];
 $lang['month_names']       = ['Januar', 'Februar', 'Marec', 'April', 'Maj', 'Junij', 'Julij', 'Avgust', 'September', 'Oktober', 'November', 'December'];
 $lang['month_names_short'] = ['Jan', 'Feb', 'Mar', 'Apr', 'Maj', 'Jun', 'Jul', 'Avg', 'Sep', 'Okt', 'Nov', 'Dec'];
-
+// Short abbreviations for year, month, day, hour, min, sec
+$lang['time_unit_short_abbr'] = ['L', 'M', 'D', 'h', 'm', 's'];
 /**
  * Easter holiday names
  */
@@ -58,3 +59,4 @@ $lang['system_reboot']       = 'Ponovni zagon';
 $lang['system_shutdown']     = 'Izklop';
 $lang['system_ipaddr_label'] = 'IP';
 $lang['system_connection_status_label'] = 'Povezava';
+$lang['system_uptime_label'] = 'Čas delovanja';

@@ -31,6 +31,8 @@ $lang['day_names']         = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Fri
 $lang['day_names_short']   = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 $lang['month_names']       = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 $lang['month_names_short'] = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+// Short abbreviations for year, month, day, hour, min, sec
+$lang['time_unit_short_abbr'] = ['Y', 'M', 'D', 'h', 'm', 's'];
 
 /**
  * Easter holiday names
@@ -58,3 +60,5 @@ $lang['system_reboot']       = 'Reboot';
 $lang['system_shutdown']     = 'Shutdown';
 $lang['system_ipaddr']       = 'IP';
 $lang['system_connection_status_label'] = 'Connection';
+$lang['system_uptime_label'] = 'Uptime';
+
