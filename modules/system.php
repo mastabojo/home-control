@@ -5,7 +5,7 @@ $pathToSystemIcons = "/img/system-icons/{$theme}/";
 
 <div class="system-tab">
 
-<div class="row  align-items-center justify-content-center" style="height: 360px;">
+<div class="row  align-items-center justify-content-center" style="height: 320px;">
 
 <div class="col text-center">
 <img id="refresh-browser" src="<?php echo $pathToSystemIcons;?>btn-refresh-browser.svg"><br>
@@ -29,4 +29,10 @@ $pathToSystemIcons = "/img/system-icons/{$theme}/";
 
 </div><!-- .row -->
 
-</div><!-- .system -->
+<div class="row" style="height: 40px;">
+<div class="col text-center">
+<?php echo $l->Get("system_ipaddr");?>: <span id="ip-address"></span>
+</div><!-- .col -->
+</div><!-- .row -->
+
+</div><!-- .system-tab -->

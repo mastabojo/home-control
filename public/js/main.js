@@ -198,7 +198,7 @@ function mainLoop() {
         }
 
         // do these task every n seconds
-        if(currentSecond % 50 == 0) {
+        if(currentSecond % 50 == 0 || isfirstRun) {
 
             // CPU data
             $.get("../api/getCpuData.php", function(data) {
@@ -242,6 +242,16 @@ function mainLoop() {
         // Twice a day update moon phase info
         if(String(currentTime) == "3:00:15" || String(currentTime) == "15:00:15") {
             getMoonPhaseInfo();
+        }
+
+        // Get IP address
+        if(currentSecond % 56 == 0 || isfirstRun) {
+            $.post(
+                '../api/system_commands.php', 
+                {"cmd": "get-ip"}, 
+                function(data) {
+                $(".system-tab #ip-address").html(data);
+            });
         }
         
 
