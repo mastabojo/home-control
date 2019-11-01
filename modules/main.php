@@ -49,12 +49,14 @@ $tabTitles = [
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="Expires" content="-1">
     <title>Home control</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" href="css/bootstrap.min.css">
     <!-- link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" type="text/css" rel="stylesheet" -->
     <link rel="stylesheet" type="text/css" media="screen" href="css/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" media="screen" href="css/custom-<?php echo $theme;?>.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/custom-<?php echo $theme;?>.css<?php echo '?' . time(); // Add to avoid cache?>">
     <link rel="stylesheet" type="text/css" media="screen" href="css/hccalendar.css">
 </head>
 <body>
@@ -135,7 +137,7 @@ foreach($tabs as $key => $tab) {
 <script src="js/moment.min.js"></script>
 <!-- script src="js/chart.js/Chart.min.js"></script -->
 <script src="js/apexcharts/apexcharts.min.js"></script>
-<script src="js/main.js"></script>
+<script src="js/main.js<?php echo '?' . time(); // Add to avoid cache?>"></script>
 <script>mainLoop();</script>
 <!-- script>getHeatPumpchart();</script -->
 </body>

@@ -367,6 +367,7 @@ $(".weather-display-icons").on("click", function(e) {
 $(".system-tab img").on("click", function() {
     var cmd = $(this).attr("id");
     if(cmd == "refresh-browser") {
+        window.location = window.location.href+'?eraseCache=true';
         window.location.reload(true);
     } else {
         var data = {"cmd": $(this).attr("id")};
