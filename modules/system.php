@@ -31,7 +31,8 @@ $pathToSystemIcons = "/img/system-icons/{$theme}/";
 
 <div class="row" style="height: 40px;">
 <div class="col text-center">
-<?php echo $l->Get("system_ipaddr");?>: <span id="ip-address"></span>
+<?php echo $l->Get("system_ipaddr_label");?>: <span id="ip-address"></span> 
+<?php echo $l->Get("system_connection_status_label");?>: <span id="connection-status"></span>
 </div><!-- .col -->
 </div><!-- .row -->
 

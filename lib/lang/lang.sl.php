@@ -56,4 +56,5 @@ $lang['system_refresh']      = 'Osveži';
 $lang['system_exit_browser'] = 'Zapri brskalnik';
 $lang['system_reboot']       = 'Ponovni zagon';
 $lang['system_shutdown']     = 'Izklop';
-$lang['system_ipaddr']       = 'IP';
+$lang['system_ipaddr_label'] = 'IP';
+$lang['system_connection_status_label'] = 'Povezava';

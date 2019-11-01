@@ -56,3 +56,5 @@ $lang['system_refresh']      = 'Refresh';
 $lang['system_exit_browser'] = 'Close browser';
 $lang['system_reboot']       = 'Reboot';
 $lang['system_shutdown']     = 'Shutdown';
+$lang['system_ipaddr']       = 'IP';
+$lang['system_connection_status_label'] = 'Connection';

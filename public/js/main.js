@@ -253,6 +253,23 @@ function mainLoop() {
                 $(".system-tab #ip-address").html(data);
             });
         }
+
+        // Check connectivity
+        if(currentMinute % 3 == 0) {
+            $.post(
+                '../api/system_commands.php', 
+                {"cmd": "test-connection"}, 
+                function(data) {
+                    if(data == '0') {
+                        connectionStatus = 'FAIL';
+                    } else if(data == '1') {
+                        connectionStatus = 'OK';
+                    } else {
+                        connectionStatus = 'UNKNOWN';
+                    }
+                $(".system-tab #connection-status").html(connectionStatus);
+            });
+        }        
         
 
         isfirstRun = false;
