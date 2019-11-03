@@ -278,16 +278,12 @@ function mainLoop() {
                 {"cmd": "uptime"}, 
                 function(data) {
                     data = JSON.parse(data);
-                    // console.log(data);
-                    if(data.years != undefined && data.years > 0) {
-                        $(".system-tab #uptime-years").html(data.years);
-                    }
+                    console.log(data);
                     $(".system-tab #uptime-years").html(data.years != undefined && data.years > 0 ? data.years : '0');
                     $(".system-tab #uptime-months").html(data.months != undefined && data.months > 0 ? data.months : '0');
                     $(".system-tab #uptime-days").html(data.days != undefined && data.days > 0 ? data.days : '0');
                     $(".system-tab #uptime-hours").html(data.hours != undefined && data.hours > 0 ? data.hours : '0');
                     $(".system-tab #uptime-minutes").html(data.minutes != undefined && data.minutes > 0 ? data.minutes : '0');
-
             });
         }
         

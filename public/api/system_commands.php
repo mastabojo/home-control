@@ -4,6 +4,8 @@ if(!isset($_POST['cmd']) || empty($_POST['cmd'])) {
 }
 
 include_once dirname(__DIR__, 2) . '/env.php';
+include_once dirname(__DIR__, 2) . '/lib/functions.php';
+
 $connectionTestAddress = isset($CONNECTION_CHECK_IP_ADDRESS) ? $CONNECTION_CHECK_IP_ADDRESS : '8.8.8.8';
 
 $commandKey = $_POST['cmd'];
@@ -15,7 +17,8 @@ $allowedCommands = [
     'shutdown'     => 'sudo /usr/bin/pkill chromium && sudo /sbin/halt',
     'get-ip'       => 'hostname -I',
     'test-connection'    => 'ping -c 4 ' . $connectionTestAddress,
-    'uptime'       => 'uptime -p',
+    'uptime'       => 'cat /proc/uptime',
+    // 'uptime'       => 'uptime -p',
 ];
 
 // get rid of all unexpected stuff
@@ -59,22 +62,10 @@ switch($commandKey) {
     case 'uptime':
         $commandOutput = [];
         $output = exec($command);
-        if(empty($output)) {
-            die();
-        }
-        // Get rid of the text 'up '
-        $uptime = substr($output, 3);
-        // Convert string to array and reverse it, so seconds are first
-        $uptimeArr = array_reverse(explode(', ', $uptime));
-        // Fill the data array with values, that exist
-        $data = [];
-        for($i = 0; $i < count($uptimeArr); $i++) {
-            $key = trim(preg_replace('/[0-9]/', '', $uptimeArr[$i]));
-            $val = preg_replace('/[^0-9]/', '', $uptimeArr[$i]);
-            $data[$key] = $val;
-        }
+        // $parsed = parseUptime($output, 'uptime-p');
+        $parsed = parseUptime($output, 'proc-uptime');
         // Return JSON with minutes, hours, days, months, and years keys (whatever exists)
-        die(json_encode($data));
+        die($parsed ? json_encode($parsed) : 'NULL');
         break;
         
     // Command is not in allowed comands list

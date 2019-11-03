@@ -146,6 +146,7 @@ function fillMissingKeys($arr, $targetKeyCount, $initial = 0) {
             $arr[$i] = $previous_temp;
         }
     }
+
     ksort($arr);
 	return $arr;
 }
@@ -160,6 +161,61 @@ function ArrayValueToKey($arr, $key = 0, $val = 1) {
 	}
 	unset($arr);
 	return $newArr;
+}
+
+
+/**
+ * Parse uptime information
+ * Currently only uptime -p is supported
+ * TODO: support other command s (proc/uptime, top...)
+ * 
+ * @param string Uptime information
+ * @param string Command that returned uptime information
+ * @return array Array of parsed values | null
+ */
+function parseUptime($uptime, $source = 'uptime-p') {
+
+	// Returned data
+	$data = ['years' => 0, 'months' => 0, 'days' => 0, 'hours' => 0, 'minutes' => 0];
+
+	switch($source) {
+
+		case 'uptime-p':
+			// example of uptime -p command output: up 1 hour, 2 minutes
+			if(empty($uptime)) {
+				return null;
+			}
+			// Get rid of the text 'up '
+			$uptime = substr($uptime, 3);
+			// Convert string to array and reverse it, so minutes are first
+			$uptimeArr = array_reverse(explode(', ', $uptime));
+			// Fill the data array with values, that exist
+			for($i = 0; $i < count($uptimeArr); $i++) {
+				// Find  appropriate key corresponding to the $data array keys (if singular append 's' to it)
+				$key = trim(preg_replace('/[0-9]/', '', $uptimeArr[$i]));
+				$key = substr($key, -1) != 's' ? $key . 's' : $key;
+				// Find value
+				$val = preg_replace('/[^0-9]/', '', $uptimeArr[$i]);
+				// Set the $data array element
+				$data[$key] = $val;
+			}
+			return $data;
+			break;
+		
+		case 'proc-uptime':
+			// example of cat /proc/uptime command output: 6257.30 23276.94 - 1st number is number of uptime in seconds
+			$uptime = explode(' ',$uptime);
+			$uptime = explode('.', $uptime[0]);
+			$uptimeSeconds = $uptime[0];
+			$data['minutes'] = round(((($uptimeSeconds % 31556926) % 86400) % 3600) / 60);
+			$data['hours'] = round((($uptimeSeconds % 31556926) % 86400) / 3600);
+			$data['days'] = round(($uptimeSeconds % 31556926) / 86400);
+			return $data;
+			break;
+
+		default:
+			return null;
+	}
 }
 
 /**
