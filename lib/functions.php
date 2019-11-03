@@ -20,7 +20,7 @@ function getDB($host, $database, $user, $pass) {
         return new PDO($dsn, $user, $pass, $options);
     } catch (PDOException $e) {
         // throw new PDOException($e->getMessage(), (int)$e->getCode());
-        error_log("Could not connect ot database $database");
+        logError("Could not connect ot database $database");
         return false;
     }
 }
@@ -219,10 +219,19 @@ function parseUptime($uptime, $source = 'uptime-p') {
 }
 
 /**
+ * Function for event logging
+ */
+function logEvent($message) {
+	$file = dirname(__DIR__) . '/log/event.log';
+	$s = '[' . date("d.m.Y H:i:s") . "] $message";
+	file_put_contents($file, $s, FILE_APPEND);
+}
+
+/**
  * Function for error logging
  */
 function logError($message, $comment = null) {
-	error_log($message . ($comment ? " [$comment]" : ''));
+	error_log('HCC_EROR: ' . $message . ($comment ? " [$comment]" : ''));
 }
 
 // Debugging

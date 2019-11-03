@@ -25,7 +25,7 @@ $allowedCommands = [
 if(array_key_exists($commandKey, $allowedCommands)) {
     $command = $allowedCommands[$commandKey];
 } else {
-    error_log("System command not allowed: $command");
+    logEvent("System command not allowed: $command");
     exit();        
 }
 
@@ -35,7 +35,7 @@ switch($commandKey) {
     case 'exit-browser':
     case 'reboot':
     case 'shutdown':
-        error_log("System command executed ($command)");
+        logEvent("System command executed ($command)");
         exec($command);
         die();
         break;
@@ -55,7 +55,11 @@ switch($commandKey) {
         } else {
             $result = '0';
         }
-        error_log("System command executed ($command)" . " (ping $connectionTestAddress with result: " . ($result == '1' ? 'OK' : 'FAILURE'));
+        if($result == '0') {
+            logEvent("System command failed ($command)");
+        } else {
+            logEvent("System command successful ($command)");
+        }
         die($result);
         break;
 
@@ -70,6 +74,6 @@ switch($commandKey) {
         
     // Command is not in allowed comands list
     default:
-        error_log("Unknown system command requested: $command");
+        logEvent("Unknown system command requested: $command");
         exit();
 }
