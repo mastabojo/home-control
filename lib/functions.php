@@ -223,7 +223,7 @@ function parseUptime($uptime, $source = 'uptime-p') {
  */
 function logEvent($message) {
 	$file = dirname(__DIR__) . '/log/event.log';
-	$s = '[' . date("d.m.Y H:i:s") . "] $message";
+	$s = '[' . date("d.m.Y H:i:s") . "] $message\n";
 	file_put_contents($file, $s, FILE_APPEND);
 }
 
@@ -289,6 +289,7 @@ function DF($var, $append = true) {
 			$s .= var_export($var, 1);
 			break;
 	}
+	$s .= "\n";
 	if($append) {
 		file_put_contents($debugFile, $s, FILE_APPEND);
 	} else {

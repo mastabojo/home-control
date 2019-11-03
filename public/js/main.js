@@ -272,7 +272,7 @@ function mainLoop() {
         }
 
         // Get uptime
-        if((currentMinute % 2 == 0 && currentSecond % 2 == 0) || isfirstRun) {
+        if((currentMinute % 2 == 0 && currentSecond % 32 == 0) || isfirstRun) {
             $.post(
                 '../api/system_commands.php', 
                 {"cmd": "uptime"}, 

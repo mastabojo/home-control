@@ -57,8 +57,6 @@ switch($commandKey) {
         }
         if($result == '0') {
             logEvent("System command failed ($command)");
-        } else {
-            logEvent("System command successful ($command)");
         }
         die($result);
         break;
