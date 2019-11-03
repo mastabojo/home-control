@@ -207,9 +207,9 @@ function parseUptime($uptime, $source = 'uptime-p') {
 			$uptime = explode(' ',$uptime);
 			$uptime = explode('.', $uptime[0]);
 			$uptimeSeconds = $uptime[0];
-			$data['minutes'] = round(((($uptimeSeconds % 31556926) % 86400) % 3600) / 60);
-			$data['hours'] = round((($uptimeSeconds % 31556926) % 86400) / 3600);
-			$data['days'] = round(($uptimeSeconds % 31556926) / 86400);
+			$data['minutes'] = floor(((($uptimeSeconds % 31556926) % 86400) % 3600) / 60);
+			$data['hours'] = floor((($uptimeSeconds % 31556926) % 86400) / 3600);
+			$data['days'] = floor(($uptimeSeconds % 31556926) / 86400);
 			return $data;
 			break;
 
