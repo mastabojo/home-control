@@ -255,7 +255,7 @@ function mainLoop() {
         }
 
         // Check connectivity
-        if((currentMinute % 3 == 0 && currentSecond % 3 == 0) || isfirstRun) {
+        if((currentMinute % 3 == 0 && currentSecond % 43 == 0) || isfirstRun) {
             $.post(
                 '../api/system_commands.php', 
                 {"cmd": "test-connection"}, 

@@ -25,6 +25,12 @@ $lang['tab_names']['cameras']  = 'Cameras';
 $lang['tab_names']['system']   = 'System';
 
 /**
+ * Common stuff
+ */
+$lang['common-total'] = 'Total';
+$lang['common-price'] = 'Price';
+
+/**
  * Time and date related
  */
 $lang['day_names']         = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
@@ -50,6 +56,15 @@ $lang['last_weather_data'] = 'Last data';
 $lang['lights_room_01'] = 'Living room';
 $lang['lights_room_02'] = 'Stairs';
 $lang['lights_room_03'] = 'Entrance';
+
+/**
+ * Heating
+ */
+$lang['heating-consumption']         = 'Consumption';
+$lang['heating-daily-consumption']   = 'Daily consumption';
+$lang['heating-monthly-consumption'] = 'Monthly consumption';
+$lang['heating-low-tariff-abbr']     = 'LT';
+$lang['heating-high-tariff-abbr']    = 'HT';
 
 /**
  * System
