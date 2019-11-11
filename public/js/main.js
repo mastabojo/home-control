@@ -23,6 +23,14 @@ getMoonPhaseInfo();
 
 // Heat pump chart options
 var hpChartOptions = {
+    title: {
+        text: 'KWh',
+        align: 'right',
+        style: {
+            fontSize:  '14px',
+            color:  "rgba(255, 255, 255, 0.6)"
+          },
+    },
     chart: {
         type: 'bar',
         width: '766px',
@@ -32,7 +40,9 @@ var hpChartOptions = {
         },
         animations: {
             enabled: false
-        }
+        },
+        fontFamily: 'Ubuntu-Light, Helvetica, sans-serif',
+        background: "rgba(255, 255, 255, 0.05)"
     },
     colors: ["rgba(255, 255, 255, 0.6)"],
     plotOptions: {
@@ -45,7 +55,22 @@ var hpChartOptions = {
         data: []
     }],
     xaxis: {
-        categories: []
+        categories: [],
+        labels: {
+            show: true,
+            style: {
+                colors: "rgba(255, 255, 255, 0.6)"
+            }
+        }
+    },
+    yaxis: {
+        show: true,
+        labels: {
+            show: true,
+            style: {
+                color: "rgba(255, 255, 255, 0.6)"
+            }
+        }
     },
     dataLabels: {
         enabled: false
@@ -54,7 +79,7 @@ var hpChartOptions = {
         show: true,
         yaxis: {
             lines: { 
-                show: false
+                show: false,
             }
         }
     }
@@ -72,7 +97,7 @@ function mainLoop() {
         var currentTime = moment().format('H:mm:ss');
         var currentDate = moment().format('ddd, D.M.YYYY');
         var currentTimeShort = moment().format('H:mm');
-        var currentDateShort = moment().format('dddd, D.M.YYYY');
+        var currentDateShort = moment().format('D.M.YYYY');
         // var dayOfWeek = moment().day();
         var currentHour = parseInt(moment().format('H'));
         var currentMinute = parseInt(moment().format('m'));
@@ -185,6 +210,9 @@ function mainLoop() {
 
             // Update heat pump chart
             hpChart.updateOptions({
+                title: {
+                    text: 'Poraba ' + currentDateShort,
+                },
                 // Different bar colors in one series is not supported in Apexcharts
                 // colors: barColors,
                 colors: highTariffColor,
