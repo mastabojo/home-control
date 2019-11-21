@@ -1,8 +1,38 @@
 <?php
 $baseDir = dirname(__DIR__, 2);
-
 include_once $baseDir . '/env.php';
 include_once $baseDir . '/lib/functions.php';
+
+/* 
+ * Ceck for parameters
+ * Either both parameters or none shall be supplied 
+ * Param 1: display date (what date are we interested in - in mysql format yyyy-mm-dd)
+ * Param 2: display period (what period is displayed - daily, monthly, yearly)
+ */
+$allowedPeriods = ['daily', 'monthly', 'yearly'];
+$allowedDateFormat = '/^([0-9]{2,4})-([0-1][0-9])-([0-3][0-9])$/';
+if(
+    php_sapi_name() == 'cli' && 
+    isset($argv[1]) && 
+    isset($argv[2]) && 
+    preg_match($allowedDateFormat, $argv[1]) === 1 && 
+    in_array($argv[2], $allowedPeriods)) {
+        $date = $argv[1];
+        $period =  $argv[2];
+    } 
+elseif(
+    php_sapi_name() != 'cli' && 
+    isset($_POST['dispDate']) && 
+    isset($_POST['dispPeriod']) && 
+    preg_match($allowedDateFormat, $_POST['dispDate']) === 1 &&
+    in_array($_POST['dispPeriod'], $allowedPeriods)) {
+        $date = $_POST['dispDate'];
+        $period =  $_POST['dispPeriod'];
+    }
+else {
+    $date = date("Y-m-d");
+    $period = 'daily';
+}
 
 $DB = getDB($DB_HOST, $DB_NAME, $DB_USER, $DB_PASS);
 
@@ -17,12 +47,6 @@ $highTariffEnd = isset($ELECTRIC_POWER_HIGH_TARIFF_END) ? $ELECTRIC_POWER_HIGH_T
 $ST = 'et';
 $LT = 'mt';
 $HT = 'vt';
-
-if(php_sapi_name() == 'cli') {
-    $date = isset($argv[1]) && !empty($argv[1]) ? $argv[1] : date('Y-m-d');
-} else {
-    $date = isset($_GET['date']) ? $_GET['date'] : date('Y-m-d');
-}
 
 $month = date('m', strtotime($date));
 $previuousMonth = date('n', strtotime($date)) > 1 ? str_pad(date('n', strtotime($date)) - 1, 2, '0', STR_PAD_LEFT)  : '12';

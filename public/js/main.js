@@ -15,11 +15,14 @@ var shuttersTimerEnabled = true;
 var shuttersUpTime = "6:21:00";
 var shuttersDownTime = "18:30:00";
 
-// Is this the first run of the loop (to draw things immediately)
-var isfirstRun = true;
+// Date for displaying heat pump daily/monthly/yearly chart [YYYY-MM-DD] (default current date)
+var hpChartDisplayDate = moment().format('YYYY-MM-DD');
 
-// Get info on moon phases
-getMoonPhaseInfo();
+// Period for displaying heat pump chart (daily/monthly/yearly) (default daily)
+var hpChartDisplayPeriod = 'daily';
+
+// Should reload be forced on this run of the loop (to draw things immediately)
+var forceReload = true;
 
 // Heat pump chart options
 var hpChartOptions = {
@@ -109,7 +112,7 @@ function mainLoop() {
         $('#span-date').text(currentDate);
 
         // every minute update main time and date display
-        if(currentSecond == 0 || isfirstRun) {
+        if(currentSecond == 0 || forceReload) {
             // Heat pump pane - TEMPORARY: current time and date
             $('#heat-pump-pane #span-main-time').text(currentTimeShort);
             $('#heat-pump-pane #span-main-date').text(currentDateShort);
@@ -141,7 +144,7 @@ function mainLoop() {
         }
 
         // Read temperature and humidity
-        if(currentSecond % 3 == 0 || isfirstRun) {
+        if(currentSecond % 3 == 0 || forceReload) {
             $.get("../api/getTempAndHumidity.php?source=db", function(data) {
                 data = JSON.parse(data);
                 $("#temperature-value").html(data.temperature + '&deg;');
@@ -156,10 +159,13 @@ function mainLoop() {
         }
 
         // get heat pump consumption info from local storage and display it somewhere
-        if(currentSecond % 50 == 0 || isfirstRun) {
+        if(currentSecond % 50 == 0 || forceReload) {
 
             // get heat pump data
-            $.get("api/getHpConsumptionData.php", function(data) {
+            $.post(
+                "api/getHpConsumptionData.php", 
+                {dispDate: hpChartDisplayDate, dispPeriod: hpChartDisplayPeriod},
+                function(data) {
                 hpData = JSON.parse(data);
             });
 
@@ -175,58 +181,44 @@ function mainLoop() {
             $("#heating-current-monthly-consumption td:nth-child(4)").text(hpData.monthly_consumption.total.toFixed(2));
             $("#heating-current-monthly-consumption td:nth-child(5)").text(hpData.monthly_consumption.totalCost.toFixed(2) + "€");
             
-            // localStorage.setItem('heating-hpData', JSON.stringify(hpData.consumption));
-
-            var lowTariffColor = 'rgba(255, 255, 255, 0.3)';
-            var highTariffColor = 'rgba(255, 255, 255, 0.6)';
-            var dailyBarColors = [];
-            var dailyLabels = [];
-            for(var h = 0; h < 24; h++) {
-                dailyBarColors[h] = (h < (hpData.high_tariff_boundaries[0] - 1) || h >= (hpData.high_tariff_boundaries[1] - 1)) ? lowTariffColor : highTariffColor;
-                dailyLabels[h] = h + 1;
-            }
-            var monthlyLabels = [];
-            for(var m = 0; m < moment().daysInMonth(); m++) {
-                monthlyLabels[m] = m + 1;
-            }
-
-            var chartType = 'daily';
+             var chartType = 'daily';
             // Define options for supported chart types
             switch(chartType) {
                 case 'daily':
-                    var chartTitle = "Dnevna poraba";
-                    var chartData = hpData.hourly_data_diffs;
-                    var chartLabels = dailyLabels;
-                    var barColors = dailyBarColors;
                     var chartStacked = false;
+                    var chartTitle = moment(hpChartDisplayDate).format('D.M.YYYY');
+                    var chartLabels = [];
+                    for(var h = 0; h < 24; h++) {
+                        // dailybarColorsArr[h] = (h < (hpData.high_tariff_boundaries[0] - 1) || h >= (hpData.high_tariff_boundaries[1] - 1)) ? lowTariffColor : highTariffColor;
+                        chartLabels[h] = h + 1;
+                    }
+                    var chartData = hpData.hourly_data_diffs;
+                    var barColorsArr = ['rgba(255, 255, 255, 0.6)'];
                     break;
                 case 'monthly':
-                    var chartTitle = "Mesečna poraba";
-                    var chartData = hpData.monthly_consumption;
-                    var chartLabels = monthlyLabels;
                     var chartStacked = true;
+                    var chartTitle = moment(hpChartDisplayDate).format('M.YYYY');
+                    var chartLabels = [];
+                    for(var m = 0; m < moment().daysInMonth(); m++) {
+                        chartLabels[m] = m + 1;
+                    }
+                    var chartData = hpData.monthly_consumption;
+                    var barColorsArr = ['rgba(255, 255, 255, 0.6)', 'rgba(255, 255, 255, 0.3)'];                   
                     break;
             }
 
             // Update heat pump chart
             hpChart.updateOptions({
-                title: {
-                    text: 'Poraba ' + currentDateShort,
-                },
-                // Different bar colors in one series is not supported in Apexcharts
-                // colors: barColors,
-                colors: highTariffColor,
-                series: [{
-                    data: chartData
-                }],
-                xaxis: {
-                    categories: chartLabels
-                }
+                chart: {stacked: chartStacked},
+                title: {text: chartTitle},
+                colors: barColorsArr,
+                series: [{data: chartData}],
+                xaxis: {categories: chartLabels}
             });
         }
 
         // do these task every n seconds
-        if(currentSecond % 50 == 0 || isfirstRun) {
+        if(currentSecond % 50 == 0 || forceReload) {
 
             // CPU data
             $.get("../api/getCpuData.php", function(data) {
@@ -268,12 +260,12 @@ function mainLoop() {
         }
 
         // Twice a day update moon phase info
-        if(String(currentTime) == "3:00:15" || String(currentTime) == "15:00:15") {
+        if(String(currentTime) == "3:00:15" || String(currentTime) == "15:00:15" || forceReload) {
             getMoonPhaseInfo();
         }
 
         // Get IP address
-        if(currentSecond % 56 == 0 || isfirstRun) {
+        if(currentSecond % 56 == 0 || forceReload) {
             $.post(
                 '../api/system_commands.php', 
                 {"cmd": "get-ip"}, 
@@ -283,7 +275,7 @@ function mainLoop() {
         }
 
         // Check connectivity
-        if((currentMinute % 3 == 0 && currentSecond % 43 == 0) || isfirstRun) {
+        if((currentMinute % 3 == 0 && currentSecond % 43 == 0) || forceReload) {
             $.post(
                 '../api/system_commands.php', 
                 {"cmd": "test-connection"}, 
@@ -300,13 +292,12 @@ function mainLoop() {
         }
 
         // Get uptime
-        if((currentMinute % 2 == 0 && currentSecond % 32 == 0) || isfirstRun) {
+        if((currentMinute % 2 == 0 && currentSecond % 32 == 0) || forceReload) {
             $.post(
                 '../api/system_commands.php', 
                 {"cmd": "uptime"}, 
                 function(data) {
                     data = JSON.parse(data);
-                    console.log(data);
                     $(".system-tab #uptime-years").html(data.years != undefined && data.years > 0 ? data.years : '0');
                     $(".system-tab #uptime-months").html(data.months != undefined && data.months > 0 ? data.months : '0');
                     $(".system-tab #uptime-days").html(data.days != undefined && data.days > 0 ? data.days : '0');
@@ -316,7 +307,7 @@ function mainLoop() {
         }
         
 
-        isfirstRun = false;
+        forceReload = false;
 
     }, 1000);
 }
@@ -422,6 +413,43 @@ $(".weather-display-icons").on("click", function(e) {
     var selectedProvider = e.target.id;
     // set src attribute of iframe
     $("#weather-display").attr("src", weatherProviders[selectedProvider]);
+});
+
+// Heating pane - heat pump chart period selection
+$("#hpchart-period-select button.btn-period-fixed").on("click", function() {
+    $(this).siblings(".btn-period-fixed").removeClass("active");
+    $(this).addClass("active");
+});
+
+// Heating pane - heat pump chart period shift forward or rewind one unit
+$("#hpchart-period-select button.btn-period-shift").on("click", function() {
+    diff = $(this).hasClass("shift-back") ? -1 : 1;
+    period = $("#hpchart-period-select").find(".btn-period-fixed.active").prop("name");
+    switch(period) {
+        case 'daily': hpChartDisplayDate = moment(hpChartDisplayDate).add(diff, "days").format("YYYY-MM-DD"); break;
+        case 'monthly': hpChartDisplayDate = moment(hpChartDisplayDate).add(diff, "months").format("YYYY-MM-DD"); break;
+        case 'yearly': hpChartDisplayDate = moment(hpChartDisplayDate).add(diff, "years").format("YYYY-MM-DD"); break;
+    }
+    forceReload = true;
+});
+
+// On clicking on day buttons uncheck other buttons (not necessary on month and year selectors)
+$("#modalHpChartPeriod #day-selector .btn-group label").on("click", function() {
+    // Uncheck all buttons
+    $.each($("#day-selector").find("label.btn"), function() {
+        $(this).prop("checked", false);
+        $(this).removeClass("active");
+    })
+});
+
+$("#modalHpChartPeriod .modal-footer button#hpchart-period-ok").on("click", function() {
+    var selectedDay = $("#modalHpChartPeriod #day-selector .btn-group input:checked").val();
+    var selectedMonth = $("#modalHpChartPeriod #month-selector .btn-group input:checked").val();
+    var selectedYear = $("#modalHpChartPeriod #year-selector .btn-group input:checked").val();
+    hpChartDisplayDate = selectedYear + "-" + selectedMonth + "-" + selectedDay;
+    // Hide modal dialog
+    $('#modalHpChartPeriod').modal('hide');
+    forceReload = true;
 });
 
 // System pane - 
