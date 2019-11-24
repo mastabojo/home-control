@@ -15,14 +15,15 @@ $lang['login_button'] = 'Login';
 /**
  * Tabs
  */
-$lang['tab_names']['home']     = 'Home';
-$lang['tab_names']['shutters'] = 'Shutters';
-$lang['tab_names']['lights']   = 'Lights';
-$lang['tab_names']['calendar'] = 'Calendar';
-$lang['tab_names']['weather']  = 'Weather';
-$lang['tab_names']['heating']  = 'Heating';
-$lang['tab_names']['cameras']  = 'Cameras';
-$lang['tab_names']['system']   = 'System';
+$lang['tab_names']['home']        = 'Home';
+$lang['tab_names']['shutters']    = 'Shutters';
+$lang['tab_names']['lights']      = 'Lights';
+$lang['tab_names']['calendar']    = 'Calendar';
+$lang['tab_names']['environment'] = 'Environment';
+$lang['tab_names']['weather']     = 'Weather';
+$lang['tab_names']['heating']     = 'Heating';
+$lang['tab_names']['cameras']     = 'Cameras';
+$lang['tab_names']['system']      = 'System';
 
 /**
  * Common stuff
@@ -56,6 +57,12 @@ $lang['last_weather_data'] = 'Last data';
 $lang['lights_room_01'] = 'Living room';
 $lang['lights_room_02'] = 'Stairs';
 $lang['lights_room_03'] = 'Entrance';
+
+/**
+ * Environment
+ */
+$lang['environment-temperature-label'] = 'Temperature';
+$lang['environment-humidity-label']    = 'Humidity';
 
 /**
  * Heating

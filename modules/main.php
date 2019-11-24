@@ -26,6 +26,7 @@ $tabs = [
     'shutters',
     'lights',
     'calendar',
+    'environment',
     'weather',
     'heating',
     // 'cameras',
@@ -37,6 +38,7 @@ $tabTitles = [
     'shutters' => strtolower($l->Get("tab_names", "shutters")),
     'lights' => strtolower($l->Get("tab_names", "lights")),
     'calendar' => strtolower($l->Get("tab_names", "calendar")),
+    'environment' => strtolower($l->Get("tab_names", "environment")),
     'weather' => strtolower($l->Get("tab_names", "weather")),
     'heating' => strtolower($l->Get("tab_names", "heating")),
     // 'cameras' => strtolower($l->Get("tab_names", "cameras")),
@@ -69,7 +71,7 @@ $tabTitles = [
 foreach($tabs as $key => $tab) {
     $active = $key == 0 ? ' active show' : '';
     echo '<li class="nav-item ">';
-    echo "<a class=\"nav-link{$active} border-0\" id=\"{$tab}-tab\" data-toggle=\"tab\" ";
+    echo "<a class=\"nav-link{$active} border-0\" id=\"{$tab}-tab-link\" data-toggle=\"tab\" ";
     echo "href=\"#{$tab}\" role=\"tab\" aria-controls=\"{$tab}\" aria-selected=\"true\">";
 
     if($tabTitleIcons) {

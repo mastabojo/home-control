@@ -15,14 +15,15 @@ $lang['login_button'] = 'Prijavi se';
 /**
  * Tabs
  */
-$lang['tab_names']['home']     = 'Začetek';
-$lang['tab_names']['shutters'] = 'Rolete';
-$lang['tab_names']['lights']   = 'Luči';
-$lang['tab_names']['calendar'] = 'Koledar';
-$lang['tab_names']['weather']  = 'Vreme';
-$lang['tab_names']['heating']  = 'Ogrevanje';
-$lang['tab_names']['cameras']  = 'Kamere';
-$lang['tab_names']['system']   = 'Sistem';
+$lang['tab_names']['home']        = 'Začetek';
+$lang['tab_names']['shutters']    = 'Rolete';
+$lang['tab_names']['lights']      = 'Luči';
+$lang['tab_names']['calendar']    = 'Koledar';
+$lang['tab_names']['environment'] = 'Okolje';
+$lang['tab_names']['weather']     = 'Vreme';
+$lang['tab_names']['heating']     = 'Ogrevanje';
+$lang['tab_names']['cameras']     = 'Kamere';
+$lang['tab_names']['system']      = 'Sistem';
 
 /**
  * Common stuff
@@ -56,6 +57,12 @@ $lang['last_weather_data'] = 'Zadnji podatki';
 $lang['lights_room_01'] = 'Dnevni prostor';
 $lang['lights_room_02'] = 'Hodnik';
 $lang['lights_room_03'] = 'Vhod';
+
+/**
+ * Environment
+ */
+$lang['environment-temperature-label'] = 'Temperatura';
+$lang['environment-humidity-label']    = 'Vlažnost';
 
 /**
  * Heating

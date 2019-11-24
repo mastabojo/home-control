@@ -151,6 +151,10 @@ function mainLoop() {
                 $("#humidity-value").html(data.humidity + '&#37;');
                 $("#temp-and-humidity-last-updated").html(data.read_time);
 
+                $("#environment-temeprature-01").html(data.temperature + '&deg;');
+                $("#environment-humidity-01").html(data.humidity + '&#37;');
+                $("#environment-temp-and-humidity-last-updated").html(data.read_time);
+
                 // Notify if temperature and humidity were not refreshed for longer time (i.e. 30 min)
                 if(moment().diff(moment(data.read_time_iso), 'minutes') > 30) {
                     $("#temp-and-humidity-last-updated").css("color", "#EB4E4E");
