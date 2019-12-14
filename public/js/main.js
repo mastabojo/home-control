@@ -148,6 +148,10 @@ function mainLoop() {
             $.get("../api/getTempAndHumidity.php?source=db", function(data) {
                 data = JSON.parse(data);
 
+                $("#temperature-value").html(data.temperature + '&deg;');
+                $("#humidity-value").html(data.humidity + '&#37;');
+                $("#temp-and-humidity-last-updated").html(data.read_time);
+
                 $("#environment-temeperature-01 > svg > path.gauge-needle").css("transform", "rotate(" + getGaugeRotationAngle(data.temperature, [-5, 35], 240) + "deg)");
                 $("#environment-temeperature-01 > svg > text.gauge-value-display-text").text(data.temperature);
 
