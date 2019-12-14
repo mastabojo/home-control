@@ -152,9 +152,13 @@ function mainLoop() {
                 $("#humidity-value").html(data.humidity + '&#37;');
                 $("#temp-and-humidity-last-updated").html(data.read_time);
 
+                // transform-origin needed on some older version of Chromium (e.g. 60.xx), not needen on newer ones (e.g. 78.xx) 
+                $("#environment-temeperature-01 > svg > path.gauge-needle").css("transform-origin", "50% 100%");
                 $("#environment-temeperature-01 > svg > path.gauge-needle").css("transform", "rotate(" + getGaugeRotationAngle(data.temperature, [-5, 35], 240) + "deg)");
                 $("#environment-temeperature-01 > svg > text.gauge-value-display-text").text(data.temperature);
 
+                // transform-origin needed on some older version of Chromium (e.g. 60.xx), not needen on newer ones (e.g. 78.xx) 
+                $("#environment-humidity-01 > svg > path.gauge-needle").css("transform-origin", "50% 100%");
                 $("#environment-humidity-01 > svg > path.gauge-needle").css("transform", "rotate(" + getGaugeRotationAngle(data.humidity, [0, 100], 240) + "deg)");
                 $("#environment-humidity-01 > svg > text.gauge-value-display-text").text(data.humidity);
 
