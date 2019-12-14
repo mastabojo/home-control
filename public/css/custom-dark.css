@@ -179,3 +179,16 @@ span.updated-display {
     font-size: 16px;
     font-weight: 400;
 }
+
+.svg-gauge {width: 80%; height: 80%;}
+.svg-gauge .gauge-background {fill: none; stroke: none; stroke-width: 0}
+.svg-gauge .gauge-bar-0 {fill: none; stroke: rgba(184, 184, 184, .55); stroke-width: 21.6}
+.svg-gauge .gauge-bar-1 {fill: none; stroke: rgba(184, 184, 184, .7); stroke-width: 21.6}
+.svg-gauge .gauge-bar-2 {fill: none; stroke: rgba(184, 184, 184, .4); stroke-width: 21.6}
+.svg-gauge .gauge-inner-bar {fill: none; stroke: rgba(184, 184, 184, .4); stroke-width: 1.44}
+/* .svg-gauge .gauge-scale-values {} */
+.svg-gauge .gauge-scale-value {fill: rgba(184, 184, 184, .8)}
+.svg-gauge .gauge-needle {fill: rgba(184, 184, 184, .8);transform-origin: 50% 50%;}
+.svg-gauge .gauge-value-display {fill: rgba(24, 24, 24, .5); stroke: rgba(184, 184, 184, 0.6); stroke-width: 5; rx: 6}
+.svg-gauge .gauge-value-display-text {text-anchor: middle; alignment-baseline: central; font-size: 54px; fill: rgba(184, 184, 184, .8)}
+.svg-gauge .gauge-value-display-unit {text-anchor: middle; fill: rgba(184, 184, 184, .8)}

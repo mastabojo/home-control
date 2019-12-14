@@ -147,12 +147,13 @@ function mainLoop() {
         if(currentSecond % 3 == 0 || forceReload) {
             $.get("../api/getTempAndHumidity.php?source=db", function(data) {
                 data = JSON.parse(data);
-                $("#temperature-value").html(data.temperature + '&deg;');
-                $("#humidity-value").html(data.humidity + '&#37;');
-                $("#temp-and-humidity-last-updated").html(data.read_time);
 
-                $("#environment-temeprature-01").html(data.temperature + '&deg;');
-                $("#environment-humidity-01").html(data.humidity + '&#37;');
+                $("#environment-temeperature-01 > svg > path.gauge-needle").css("transform", "rotate(" + getGaugeRotationAngle(data.temperature, [-5, 35], 240) + "deg)");
+                $("#environment-temeperature-01 > svg > text.gauge-value-display-text").text(data.temperature);
+
+                $("#environment-humidity-01 > svg > path.gauge-needle").css("transform", "rotate(" + getGaugeRotationAngle(data.humidity, [0, 100], 240) + "deg)");
+                $("#environment-humidity-01 > svg > text.gauge-value-display-text").text(data.humidity);
+
                 $("#environment-temp-and-humidity-last-updated").html(data.read_time);
 
                 // Notify if temperature and humidity were not refreshed for longer time (i.e. 30 min)
@@ -467,3 +468,24 @@ $(".system-tab img").on("click", function() {
         $.post('../api/system_commands.php', data);       
     }
 });
+
+/*
+if($gaugeValue < $gauge1StartAndEndValues[0]) {
+    $rotationAngleFromStart = -12;
+} else if($gaugeValue > $gauge1StartAndEndValues[1]) {
+    $rotationAngleFromStart = $gagugeBarAngle + 12;
+} else {
+    $rotationAngleFromStart = ($gagugeBarAngle) * (($gaugeValue - $gauge1StartAndEndValues[0]) / ($gauge1StartAndEndValues[1] - $gauge1StartAndEndValues[0]));
+}
+$transformationAngle = $rotationAngleFromStart - 90 + (180 - $gagugeBarAngle) / 2;
+*/
+function getGaugeRotationAngle(value, range, barAngle) {
+    if(value < range[0]) {
+        var rotationAngleFromStart = -12;
+    } else if(value > range[1]) {
+        var rotationAngleFromStart = barAngle + 12;
+    } else {
+        var rotationAngleFromStart = (barAngle) * ((value - range[0]) / (range[1] - range[0]));
+    }
+    return rotationAngleFromStart - 90 + (180 - barAngle) / 2;
+}

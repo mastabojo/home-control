@@ -1,0 +1,23 @@
+<svg width="200" height="200" viewBox="0 0 200 200" class="svg-gauge" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<rect x="0" y="0" width="200" height="200" class="gauge-background" />
+<path d="M 152.01880562887 21.705403373251 A 94 94 0 0 0 18.593612044263 147" class="gauge-bar-0" style="stroke-width: 12" />
+<path d="M 192.99159929852 86.268195315133 A 94 94 0 0 0 152.01880562887 21.705403373251" class="gauge-bar-1" style="stroke-width: 12" />
+<path d="M 181.40638795574 147 A 94 94 0 0 0 192.99159929852 86.268195315133" class="gauge-bar-2" style="stroke-width: 12" />
+<path d="M 151.61511406555 129.8 A 59.6 59.6 0 1 0 48.384885934447 129.8" class="gauge-inner-bar" style="fill: none; stroke-width: 0.8" />
+<g class="gauge-scale-values">
+<text x="33.056236287463" y="141.65" class="gauge-scale-value" style="font-size: 10; text-anchor: middle">-10</text>
+<text x="22.830779365631" y="107.49459527478" class="gauge-scale-value" style="font-size: 10; text-anchor: middle">-5</text>
+<text x="29.021894938155" y="72.383034085173" class="gauge-scale-value" style="font-size: 10; text-anchor: middle">0 </text>
+<text x="50.312517771231" y="43.784764546903" class="gauge-scale-value" style="font-size: 10; text-anchor: middle">5</text>
+<text x="82.173393191609" y="27.78363150418" class="gauge-scale-value" style="font-size: 10; text-anchor: middle">10</text>
+<text x="117.82660680839" y="27.78363150418" class="gauge-scale-value" style="font-size: 10; text-anchor: middle">15</text>
+<text x="149.68748222877" y="43.784764546903" class="gauge-scale-value" style="font-size: 10; text-anchor: middle">20</text>
+<text x="170.97810506185" y="72.383034085173" class="gauge-scale-value" style="font-size: 10; text-anchor: middle">25</text>
+<text x="177.16922063437" y="107.49459527478" class="gauge-scale-value" style="font-size: 10; text-anchor: middle">30</text>
+<text x="166.94376371254" y="141.65" class="gauge-scale-value" style="font-size: 10; text-anchor: middle">35</text>
+</g>
+<path d="M 92 100 L 100 34.2 L 108 100 Z" class="gauge-needle" transform="rotate(-66.666666666667, 50%, 50%)" />
+<rect x="60" y="140" width="80" height="40" class="gauge-value-display" style="stroke: rgba(184, 184, 184, 0.6); stroke-width: 5; rx: 6" />
+<text x="100" y="160" class="gauge-value-display-text" style="text-anchor: middle; alignment-baseline: central; font-size: 30">0 </text>
+<text x="124" y="158" class="gauge-value-display-unit" style="font-size: 12; text-anchor: middle">0 </text>
+</svg>
