@@ -1,18 +1,29 @@
 <?php
+// Check if post parameter exists
 if(!isset($_POST["sw"])) {
     die('ERROR1');
 }
 
+include_once dirname(__DIR__, 2) . DIRECTORY_SEPARATOR . 'env.php';
+
 $sw = 'switch_' . $_POST["sw"];
 
+// Check if URL exist in env
+if(
+    !isset($SWITCH_O1_URL)
+) {
+    die('ERROR2');
+}
+
 $switchAddresses = [
-    'switch_01' => '192.168.2.185/Relay1',
-    'switch_02' => '192.168.2.185/Relay1',
-    'switch_03' => '192.168.2.185/Relay1',
+    'switch_01' => $SWITCH_O1_URL,
+    'switch_02' => $SWITCH_O1_URL,
+    'switch_03' => $SWITCH_O1_URL,
 ];
 
+// Check if valid switch parameter was sent in post request
 if(!in_array($sw, array_keys($switchAddresses))) {
-    die('ERROR2');
+    die('ERROR3');
 }
 
 $curl = curl_init();

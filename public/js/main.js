@@ -439,13 +439,15 @@ $(".weather-display-icons").on("click", function(e) {
 // Lights and other switches
 $("#light-switch-02").on("click", function() {
     var swId = $(this).data("ident");
+    console.log(swId);
     $.post(
         "../api/handleHttpSwitches.php",
         {"sw":swId},
         function(data) {
-             // Here change the switch style to provide feedback
-             // data == 0 -> switch is OFF
-             // data == 1 -> switch is ON
+            // console.log(data);
+            // Here change the switch style to provide feedback
+            // data == 0 -> switch is OFF
+            // data == 1 -> switch is ON
         });
 });
 
