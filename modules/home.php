@@ -89,25 +89,30 @@ foreach($wfcst as $key => $fc) {
 </div><!-- .row -->
 
 <div class="row" style="height: 186px;">
+
 <div id="blinds-pane" class="home-panes col-sm border rounded border-dark mr-1 mt-1">
 
 <!-- Shutters - row 1 (roll left/right/both up) -->
 <div class="row no-gutters align-items-end">
 <div class="col text-center">
-<img src="img/shutter-icons/<?php echo $theme; ?>/icon-sht-divider-1-on.svg" class="shutter-divider" id="shutter-divider-1">
-<img src="img/shutter-icons/<?php echo $theme; ?>/icon-sht-up-1-auto-off.svg" class="shutter-action" id="shutter-auto-left-up">
-<img src="img/shutter-icons/<?php echo $theme; ?>/icon-sht-up-1-auto-off.svg" class="shutter-action" id="shutter-auto-right-up">
-<img src="img/shutter-icons/<?php echo $theme; ?>/icon-sht-up-2-auto-off.svg" class="shutter-action" id="shutter-auto-both-up">
+
+<div class="icon-wrapper shutter-divider" data-ident="1"><?php include "img/shutter-icons/$theme/icon-sht-divider-1.svg";?></div>
+<div class="icon-wrapper shutter-action" data-ident="shutter-auto-left-up"><?php include "img/shutter-icons/$theme/icon-sht-up-1-auto.svg";?></div>
+<div class="icon-wrapper shutter-action" data-ident="shutter-auto-right-up"><?php include "img/shutter-icons/$theme/icon-sht-up-1-auto.svg";?></div>
+<div class="icon-wrapper shutter-action" data-ident="shutter-auto-both-up"><?php include "img/shutter-icons/$theme/icon-sht-up-2-auto.svg";?></div>
+
 </div><!-- .col -->
 </div><!-- .row -->
 
 <!-- Shutters - row 2 (roll left/right/both down) -->
 <div class="row no-gutters align-items-start">
 <div class="col text-center">
-<img src="img/shutter-icons/<?php echo $theme; ?>/icon-sht-divider-2-off.svg" class="shutter-divider" id="shutter-divider-2">
-<img src="img/shutter-icons/<?php echo $theme; ?>/icon-sht-down-1-auto-off.svg" class="shutter-action" id="shutter-auto-left-down">
-<img src="img/shutter-icons/<?php echo $theme; ?>/icon-sht-down-1-auto-off.svg" class="shutter-action" id="shutter-auto-right-down">
-<img src="img/shutter-icons/<?php echo $theme; ?>/icon-sht-down-2-auto-off.svg" class="shutter-action" id="shutter-auto-both-down">
+
+<div class="icon-wrapper shutter-divider" data-ident="2"><?php include "img/shutter-icons/$theme/icon-sht-divider-2.svg";?></div>
+<div class="icon-wrapper shutter-action" data-ident="shutter-auto-left-down"><?php include "img/shutter-icons/$theme/icon-sht-down-1-auto.svg";?></div>
+<div class="icon-wrapper shutter-action" data-ident="shutter-auto-right-down"><?php include "img/shutter-icons/$theme/icon-sht-down-1-auto.svg";?></div>
+<div class="icon-wrapper shutter-action" data-ident="shutter-auto-both-down"><?php include "img/shutter-icons/$theme/icon-sht-down-2-auto.svg";?></div>
+
 </div><!-- .col -->
 </div><!-- .row -->
 

@@ -1,0 +1,15 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+   width="70"
+   height="50"
+   viewBox="0 0 70 50"
+   class="svg-shutter shutter-action">
+  <g class="artwork mode-off" style="fill:none; stroke-width:2;">
+    <rect x="2" y="2" width="66" height="46" style="fill:none" />
+    <path d="M 7 24 L 20 18 L 33 24" transform="rotate(180 20 25)" />
+    <path d="M 7 30 L 20 24 L 33 30" transform="rotate(180 20 25)" />
+    <path d="M 37 24 L 50 18 L 63 24" transform="rotate(180 50 25)" />
+    <path d="M 37 30 L 50 24 L 63 30" transform="rotate(180 50 25)" />
+  </g>
+</svg>

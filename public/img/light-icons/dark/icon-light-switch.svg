@@ -1,16 +1,18 @@
 <svg
   xmlns="http://www.w3.org/2000/svg"
   xmlns:xlink="http://www.w3.org/1999/xlink"
-  width="60"
-  height="60"
-  viewBox="0 0 50 50"
+  width="68"
+  height="68"
+  viewBox="0 0 60 60"
   class="svg-light-switch">
   <g class="artwork mode-off">
     <circle
-      cx="25" cy="25" r="24" />
+      cx="25" cy="25" r="24"
+      style="fill: none;" />
+    <circle
+      cy="25" cx="25" r="12"
+      style="fill: none;"  />
     <path
       d="m 25 10 v 12" />
-    <circle
-      cy="25" cx="25" r="12" />
   </g>
 </svg>

@@ -346,42 +346,33 @@ function updateLocalStorage(callBack) {
     });
 }
 
+// Make first time divider for shuutters active
+$("#blinds-pane .shutter-divider").first().find(".artwork").removeClass("mode-off").addClass("mode-on");
+
 // set shutters time divider 
 // 1 - shutters travel whole way
 // 2 - shutters travel half way
-$("#blinds-pane img.shutter-divider").on("click", function() {
-    // Divider to be used
-    var clickedDivider = $(this).attr("src").split("-")[4];
-    $(".shutter-divider").each(function(i) {
-        tempArr = $(this).attr("src").split("-");
-        tempDivider = tempArr[4];
-        if(tempDivider == clickedDivider) {
-            tempArr[5] = "on.svg";
-        } else {
-            tempArr[5] = "off.svg";
-        }
-        $(this).attr("src", tempArr.join("-"));
-    });
+$("#blinds-pane .shutter-divider").on("click", function() {
+    // Set mode-on class on clicked eSVG element's artwork
+    $("#blinds-pane .shutter-divider").find(".svg-shutter").find(".artwork").removeClass("mode-on").addClass("mode-off");
+    $(this).find(".svg-shutter").find(".artwork").addClass("mode-on");
 });
 
 // operate shutters (blinds)
-$("#blinds-pane img.shutter-action").on("click", function() {
-    var clicked = $(this);
-    attrSrcOff = $(this).attr("src");
-    attrSrcOn = attrSrcOff.replace("-off", "-on");
-    // Get time divider
-    timeDivider = 1;
-    $(".shutter-divider").each(function(i) {
-        tempArr = $(this).attr("src").split("-");
-        if(tempArr[5].split(".")[0] == "on") {
-            timeDivider = tempArr[4];
-        }
-    });
-    // simulate on and off
-    clicked.attr("src", attrSrcOn);
-    setTimeout(function() {$(clicked).attr("src", attrSrcOff);}, 1000);
-    // Send post data
-    var data = {"action": $(this).attr("id"), "timeDivider": timeDivider};
+$("#blinds-pane .shutter-action").on("click", function() {
+    // Get action
+    var action = $(this).data("ident");
+    // Get time divider (find a SVG group with class mode-on, get its parent parent ident)
+    var timeDivider = $(".shutter-divider").find(".svg-shutter").find(".mode-on").parent().parent().data("ident");
+
+    // Animate clicked icon for some seconds
+    var elementToAnimate = $(this).find(".svg-shutter").find(".artwork");
+    elementToAnimate.addClass("animated10");
+    setTimeout(function() {
+        $("#blinds-pane .shutter-action").find(".svg-shutter").find(".artwork").removeClass("animated10");
+    }, 8000);
+
+    var data = {"action": action, "timeDivider": timeDivider};
     $.post('../api/doshutters.php', data);
 });
 
@@ -422,6 +413,8 @@ function getMoonPhaseInfo() {
         }
     });
 }
+
+
 
 // Weather pane - load weather display from selected provider into iframe
 $(".weather-display-icons").on("click", function(e) {

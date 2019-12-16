@@ -12,9 +12,41 @@
 
 .mode-off {
     stroke:#dddddd;
+    fill:#dddddd;
 }
 
 .mode-on {
-    stroke:#ffe787
-    ;
+    stroke:#ffe787;
+    fill:#ffe787;
 }
+
+@keyframes blink-icon-10 {
+    0% {stroke: #ffe787; opacity: 1; stroke-width: 2;}
+    10% {stroke: #ffe787; opacity: 0.3; stroke-width: 3;}
+    20% {stroke: #ffe787; opacity: 1; stroke-width: 2;}
+    30% {stroke: #ffe787; opacity: 0.3; stroke-width: 3;}
+    40% {stroke: #ffe787; opacity: 1; stroke-width: 2;}
+    50% {stroke: #ffe787; opacity: 0.3; stroke-width: 3;}
+    60% {stroke: #ffe787; opacity: 1; stroke-width: 2;}    
+    70% {stroke: #ffe787; opacity: 0.3; stroke-width: 3;}
+    80% {stroke: #ffe787; opacity: 1; stroke-width: 2;}
+    90% {stroke: #ffe787; opacity: 0.3; stroke-width: 3;}
+    100% {stroke: #ffe787; opacity: 1; stroke-width: 2;}
+}
+
+.animated10 {
+    animation: blink-icon-10 10s ease;
+}
+
+.svg-gauge {width: 80%; height: 80%;}
+.svg-gauge .gauge-background {fill: none; stroke: none; stroke-width: 0}
+.svg-gauge .gauge-bar-0 {fill: none; stroke: rgba(184, 184, 184, .55); stroke-width: 21.6}
+.svg-gauge .gauge-bar-1 {fill: none; stroke: rgba(184, 184, 184, .7); stroke-width: 21.6}
+.svg-gauge .gauge-bar-2 {fill: none; stroke: rgba(184, 184, 184, .4); stroke-width: 21.6}
+.svg-gauge .gauge-inner-bar {fill: none; stroke: rgba(184, 184, 184, .4); stroke-width: 1.44}
+/* .svg-gauge .gauge-scale-values {} */
+.svg-gauge .gauge-scale-value {fill: rgba(184, 184, 184, .8)}
+.svg-gauge .gauge-needle {fill: rgba(184, 184, 184, .8);transform-origin: 50% 50%;}
+.svg-gauge .gauge-value-display {fill: rgba(24, 24, 24, .5); stroke: rgba(184, 184, 184, 0.6); stroke-width: 5; rx: 6}
+.svg-gauge .gauge-value-display-text {text-anchor: middle; alignment-baseline: central; font-size: 54px; fill: rgba(184, 184, 184, .8)}
+.svg-gauge .gauge-value-display-unit {text-anchor: middle; fill: rgba(184, 184, 184, .8)}

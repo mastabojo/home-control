@@ -1,0 +1,12 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+   width="40"
+   height="50"
+   viewBox="0 0 40 50"
+   class="svg-shutter shutter-divider">
+  <g class="artwork mode-off" style="stroke-width:2;">
+    <rect x="2" y="2" width="36" height="46" style="fill:none" />
+    <rect x="2" y="2" width="36" height="23" />
+  </g>
+</svg>
