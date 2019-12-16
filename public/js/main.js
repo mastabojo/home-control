@@ -2,6 +2,10 @@
 / Main Javascript file
 */
 
+// Chromium version
+var ua = navigator.userAgent;
+var uaVersion = ua.indexOf("Chromium/") ? ua.substring(ua.indexOf("Chromium/") + 9, ua.indexOf("Chromium/") + 11) : undefined;
+
 // check interval for current weather data (in minutes)
 var checkPeriodWeatherCurrent = 20;
 
@@ -152,13 +156,17 @@ function mainLoop() {
                 $("#humidity-value").html(data.humidity + '&#37;');
                 $("#temp-and-humidity-last-updated").html(data.read_time);
 
-                // transform-origin needed on some older version of Chromium (e.g. 60.xx), not needen on newer ones (e.g. 78.xx) 
-                $("#environment-temeperature-01 > svg > path.gauge-needle").css("transform-origin", "50% 100%");
+                // transform-origin needed on some older version of Chromium (e.g. 60.xx), not needen on newer ones (e.g. 78.xx)
+                if(uaVersion <= 68) {
+                    $("#environment-temeperature-01 > svg > path.gauge-needle").css("transform-origin", "50% 100%");
+                }                
                 $("#environment-temeperature-01 > svg > path.gauge-needle").css("transform", "rotate(" + getGaugeRotationAngle(data.temperature, [-5, 35], 240) + "deg)");
                 $("#environment-temeperature-01 > svg > text.gauge-value-display-text").text(data.temperature);
 
                 // transform-origin needed on some older version of Chromium (e.g. 60.xx), not needen on newer ones (e.g. 78.xx) 
-                $("#environment-humidity-01 > svg > path.gauge-needle").css("transform-origin", "50% 100%");
+                if(uaVersion <= 68) {
+                    $("#environment-humidity-01 > svg > path.gauge-needle").css("transform-origin", "50% 100%");
+                }  
                 $("#environment-humidity-01 > svg > path.gauge-needle").css("transform", "rotate(" + getGaugeRotationAngle(data.humidity, [0, 100], 240) + "deg)");
                 $("#environment-humidity-01 > svg > text.gauge-value-display-text").text(data.humidity);
 
@@ -426,6 +434,19 @@ $(".weather-display-icons").on("click", function(e) {
     var selectedProvider = e.target.id;
     // set src attribute of iframe
     $("#weather-display").attr("src", weatherProviders[selectedProvider]);
+});
+
+// Lights and other switches
+$("#light-switch-02").on("click", function() {
+    var swId = $(this).data("ident");
+    $.post(
+        "../api/handleHttpSwitches.php",
+        {"sw":swId},
+        function(data) {
+             // Here change the switch style to provide feedback
+             // data == 0 -> switch is OFF
+             // data == 1 -> switch is ON
+        });
 });
 
 // Heating pane - heat pump chart period selection
