@@ -59,6 +59,7 @@ $tabTitles = [
     <!-- link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" type="text/css" rel="stylesheet" -->
     <link rel="stylesheet" type="text/css" media="screen" href="css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" media="screen" href="css/custom-<?php echo $theme;?>.css<?php echo '?' . time(); // Add to avoid cache?>">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/svg.css">
     <link rel="stylesheet" type="text/css" media="screen" href="css/hccalendar.css">
 </head>
 <body>

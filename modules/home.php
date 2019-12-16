@@ -130,17 +130,23 @@ foreach($wfcst as $key => $fc) {
 
 <!-- lights - col 1 -->
 <div class="col text-center">
-<img src="img/light-icons/<?php echo $theme; ?>/icon-light-off.svg" id="light-switch-01" data-ident="01">
+<span id="light-switch-03" class="span-light-switch" data-ident="01">
+<?php include "img/light-icons/$theme/icon-light-switch.svg";?>
+</span>
 </div><!-- .col -->
 
 <!-- lights - col 2 -->
 <div class="col text-center">
-<img src="img/light-icons/<?php echo $theme; ?>/icon-light-off.svg" id="light-switch-02" data-ident="02">
+<span id="light-switch-03" class="span-light-switch" data-ident="02">
+<?php include "img/light-icons/$theme/icon-light-switch.svg";?>
+</span>
 </div><!-- .col -->
 
 <!-- lights - col 3 -->
 <div class="col text-center">
-<img src="img/light-icons/<?php echo $theme; ?>/icon-light-off.svg" id="light-switch-03" data-ident="03">
+<span id="light-switch-03" class="span-light-switch" data-ident="03">
+<?php include "img/light-icons/$theme/icon-light-switch.svg";?>
+</span>
 </div><!-- .col -->
 
 </div><!-- .row -->

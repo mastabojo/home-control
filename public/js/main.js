@@ -437,17 +437,22 @@ $(".weather-display-icons").on("click", function(e) {
 });
 
 // Lights and other switches
-$("#light-switch-02").on("click", function() {
+$(".span-light-switch").on("click", function() {
     var swId = $(this).data("ident");
-    console.log(swId);
+    var sw = $(this).children().first();
     $.post(
         "../api/handleHttpSwitches.php",
-        {"sw":swId},
+        {"sw": swId},
         function(data) {
-            // console.log(data);
-            // Here change the switch style to provide feedback
-            // data == 0 -> switch is OFF
-            // data == 1 -> switch is ON
+            // data == 0 -> switch is OFF, data == 1 -> switch is ON
+            var svgArtwork = sw.find(".artwork");
+            if(data == "1") {
+                svgArtwork.removeClass("mode-off");
+                svgArtwork.addClass("mode-on");
+            } else {
+                svgArtwork.removeClass("mode-on");
+                svgArtwork.addClass("mode-off");
+            }
         });
 });
 

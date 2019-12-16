@@ -1,0 +1,20 @@
+/*
+ * SVG classes are defined here
+ * TODO: separate into theme folders
+ */
+
+.svg-light-switch {
+    opacity:1;
+    fill:none;
+    stroke-width:2;
+    stroke-opacity:1
+}
+
+.mode-off {
+    stroke:#dddddd;
+}
+
+.mode-on {
+    stroke:#ffe787
+    ;
+}

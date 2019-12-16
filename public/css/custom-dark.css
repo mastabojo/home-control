@@ -153,8 +153,8 @@ span.updated-display {
     height: 50%;
 }
 
-#lights-pane .row img {
-    width: 60px;
+#lights-pane .row span {
+    padding-top: 10px;
 }
 
 #weather-display {

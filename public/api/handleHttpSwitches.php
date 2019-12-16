@@ -16,9 +16,9 @@ if(
 }
 
 $switchAddresses = [
-    'switch_01' => $SWITCH_O1_URL,
+    'switch_01' => $SWITCH_O2_URL,
     'switch_02' => $SWITCH_O1_URL,
-    'switch_03' => $SWITCH_O1_URL,
+    'switch_03' => $SWITCH_O3_URL,
 ];
 
 // Check if valid switch parameter was sent in post request
