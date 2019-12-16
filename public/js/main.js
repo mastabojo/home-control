@@ -370,7 +370,7 @@ $("#blinds-pane .shutter-action").on("click", function() {
     elementToAnimate.addClass("animated10");
     setTimeout(function() {
         $("#blinds-pane .shutter-action").find(".svg-shutter").find(".artwork").removeClass("animated10");
-    }, 8000);
+    }, 10000);
 
     var data = {"action": action, "timeDivider": timeDivider};
     $.post('../api/doshutters.php', data);

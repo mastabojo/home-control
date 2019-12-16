@@ -147,8 +147,11 @@ span.updated-display {
     font-size: 80%;
 }
 
-#blinds-pane img, #shutters img {
-    padding: 14px;
+#blinds-pane .icon-wrapper, #shutters .icon-wrapper {
+    padding-left: 14px;
+    padding-right: 14px;
+    padding-bottom: 6px;
+    display: inline-block;
     cursor: pointer;
 }
 
@@ -181,9 +184,4 @@ span.updated-display {
 #heating-total-daily-consumption-unit {
     font-size: 16px;
     font-weight: 400;
-}
-
-#home .icon-wrapper, #shutters .icon-wrapper {
-    padding: 14px;
-    display: inline-block;
 }
