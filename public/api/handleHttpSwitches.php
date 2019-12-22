@@ -10,15 +10,17 @@ $sw = 'switch_' . $_POST["sw"];
 
 // Check if URL exist in env
 if(
-    !isset($SWITCH_O1_URL)
+    !isset($SWITCH_01_O1_URL) ||
+    !isset($SWITCH_01_O2_URL) ||
+    !isset($SWITCH_01_STATE_URL)
 ) {
     die('ERROR2');
 }
 
 $switchAddresses = [
-    'switch_01' => $SWITCH_O2_URL,
-    'switch_02' => $SWITCH_O1_URL,
-    'switch_03' => $SWITCH_O3_URL,
+    'switch_01_01' => $SWITCH_01_O1_URL,
+    'switch_01_02' => $SWITCH_01_O2_URL,
+    'switch_01_state' => $SWITCH_01_STATE_URL
 ];
 
 // Check if valid switch parameter was sent in post request
@@ -33,7 +35,9 @@ curl_setopt_array($curl, [
     CURLOPT_POST => 1,
     CURLOPT_POSTFIELDS => ['id' => '']
 ]);
-$response = curl_exec($curl);
+$response = curl_exec($curl);   
 curl_close();
 
-echo $response == '0' || $response == '1' ? $response : '0';
+$allowedResponses = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15'];
+echo in_array($response, $allowedResponses) ? $response : '0';  
+    

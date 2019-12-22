@@ -25,6 +25,9 @@ var hpChartDisplayDate = moment().format('YYYY-MM-DD');
 // Period for displaying heat pump chart (daily/monthly/yearly) (default daily)
 var hpChartDisplayPeriod = 'daily';
 
+// Light switch 2 URL
+var lightSwitch2Url = "192.168.2.185/Relay2"; 
+
 // Should reload be forced on this run of the loop (to draw things immediately)
 var forceReload = true;
 
@@ -326,7 +329,20 @@ function mainLoop() {
                     $(".system-tab #uptime-minutes").html(data.minutes != undefined && data.minutes > 0 ? data.minutes : '0');
             });
         }
-        
+
+        // check the light switches status and update icons (needed due to periodical reboot of NodeMCU devices constolling relays)
+        // if(currentMinute % 1 == 0 || forceReload) {
+        if(currentSecond % 5 == 0 || forceReload) {
+            $.post("../api/handleHttpSwitches.php", 
+            {"sw": "01_state"},
+            function(data) {
+                // Set states for light switch 01 
+                setLightSwitchStates("01", data);
+                // Theese switches will follow once installed
+                // setLightSwitchStates("02", data);
+                // setLightSwitchStates("03", data);
+            });
+        }
 
         forceReload = false;
 
@@ -414,8 +430,6 @@ function getMoonPhaseInfo() {
     });
 }
 
-
-
 // Weather pane - load weather display from selected provider into iframe
 $(".weather-display-icons").on("click", function(e) {
     var weatherProviders = {
@@ -431,14 +445,17 @@ $(".weather-display-icons").on("click", function(e) {
 
 // Lights and other switches
 $(".span-light-switch").on("click", function() {
-    var swId = $(this).data("ident");
-    var sw = $(this).children().first();
+    var iconId = $(this).attr("id");
+    // Switch ID
+    var swId =  $(this).data("switch");
+    // Relay ID (0 -4)
+    var relId = $(this).data("relay");
     $.post(
         "../api/handleHttpSwitches.php",
-        {"sw": swId},
+        {"sw": swId + '_' + relId},
         function(data) {
             // data == 0 -> switch is OFF, data == 1 -> switch is ON
-            var svgArtwork = sw.find(".artwork");
+            var svgArtwork = swSvg.find(".artwork");
             if(data == "1") {
                 svgArtwork.removeClass("mode-off");
                 svgArtwork.addClass("mode-on");
@@ -448,6 +465,31 @@ $(".span-light-switch").on("click", function() {
             }
         });
 });
+
+/**
+ * Set icon state CSS class (on or of)
+ * @param string Object of icon clicked
+ * @param string Relay ID of switch ([1-4] - up to 4 relays in one switch) 
+ * @param string state of relay (0 - off | 1 - on)
+ */
+
+function setLightSwitchStates(switchId, state) {
+    // Classes for states depending on relays on/off combination
+    var stateClasses = {
+        "0": {"01": "mode-off", "02": "mode-off"},
+        "1": {"01": "mode-on",  "02": "mode-off"},
+        "2": {"01": "mode-off", "02": "mode-on"},
+        "3": {"01": "mode-on",  "02": "mode-on"}
+    };
+    $(".span-light-switch[data-switch='" + switchId +"']").each(function(index, spanEl) {
+        var iconSpan = $(this).find(".artwork");
+        var relayId = $(this).data("relay");
+        // Remove both classes first
+        iconSpan.removeClass("mode-on").removeClass("mode-off")
+        // Add classes according to current state
+        iconSpan.addClass(stateClasses[state][relayId]);
+    });
+}
 
 // Heating pane - heat pump chart period selection
 $("#hpchart-period-select button.btn-period-fixed").on("click", function() {
