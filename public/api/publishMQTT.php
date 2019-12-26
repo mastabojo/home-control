@@ -1,11 +1,19 @@
 <?php
 
-// DEBUG
-// $_POST["sw"] = "01_01";
+// ERROR MESSAGES
+$errorMsg = [
+    'postparams' => 'ERROR: Missing parameters',
+    'mqttparams' => 'ERROR: No MQTT parameters defined',
+    'postparamstruct' => 'ERROR: Structure of parameters is incorrect',
+    'entitiescount' => 'ERROR: Number of entities (relays) no defined',
+    'fileread' => 'ERROR: Can not read file',
+    'filewrite' => 'ERROR:  Can not write file',
+    'entitykey' => 'ERROR: Entitiy key not existing',
+];
 
 // Check if post parameters exists
 if(!isset($_POST["sw"])) {
-    die('ERROR1');
+    die($errorMsg['postparams']);
 }
 
 include_once dirname(__DIR__, 2) . DIRECTORY_SEPARATOR . 'env.php';
@@ -21,7 +29,7 @@ if(
     !isset($TOPIC_SWITCHES) ||
     !isset($SAVED_STATE_FILE)
     ) {
-    die('ERROR2');
+    die($errorMsg['mqttparams']);
 }
 
 $savedStateFile = dirname(__DIR__, 2) . DIRECTORY_SEPARATOR . $SAVED_STATE_FILE;
@@ -47,7 +55,7 @@ $messagePartsArr = explode("_", $_POST["sw"]);
     !isset($messagePartsArr[1]) ||
     preg_match('/[0-9][0-9]/', $messagePartsArr[0]) !== 1 ||
     preg_match('/[0-9][0-9]/', $messagePartsArr[1]) !== 1) {
-    die('ERROR3');
+    die($errorMsg['postparamstruct']);
 }
 
 $witchId = $messagePartsArr[0];
@@ -57,14 +65,14 @@ $entityId = $messagePartsArr[1];
  * Check if number of entities in a switch exists
  */
 if(!isset($SWITCH_ENTITIES[$witchId])) {
-    die('ERROR4');
+    die($errorMsg['entitiescount']);
 }
 
 /**
  * Open the file with last status of various app and device settings
  */
 if(($lastStatus = file_get_contents($savedStateFile)) === false) {
-    die('ERROR5');
+    die($errorMsg['fileread']);
 }
 
 $statusArr = json_decode($lastStatus, true);
@@ -78,7 +86,7 @@ $identityKey = intval($entityId) - 1;
 if(isset($switchStateDecoded[$identityKey])) {
     $switchStateDecoded[$identityKey] = $switchStateDecoded[$identityKey] == 0 ? 1 : 0;
 } else {
-    die('ERROR6');
+    die($errorMsg['entitykey']);
 }
 
 // Encode back to decimal value
@@ -95,7 +103,7 @@ publish_message($newSwitchState, $topic, $MQTT_BROKER_ADDRESS, $mqttPort, $MQTT_
 // Update and save status 
 $statusArr['switches'][$witchId] = $newSwitchState;
 if(file_put_contents($savedStateFile, json_encode($statusArr, JSON_PRETTY_PRINT)) === false) {
-    die('ERROR6');
+    die($errorMsg['filewrite']);
 }
 
 /** MQTT functions */
