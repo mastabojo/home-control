@@ -450,12 +450,16 @@ $(".span-light-switch").on("click", function() {
     var swId =  $(this).data("switch");
     // Relay ID (0 -4)
     var relId = $(this).data("relay");
+
+    console.log(swId + '_' + relId);
+
     $.post(
-        "../api/handleHttpSwitches.php",
+        // 
+        "../api/publishMQTT.php",
         {"sw": swId + '_' + relId},
         function(data) {
             // data == 0 -> switch is OFF, data == 1 -> switch is ON
-            var svgArtwork = swSvg.find(".artwork");
+            var svgArtwork = $(this).find(".artwork");
             if(data == "1") {
                 svgArtwork.removeClass("mode-off");
                 svgArtwork.addClass("mode-on");

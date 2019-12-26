@@ -163,6 +163,57 @@ function ArrayValueToKey($arr, $key = 0, $val = 1) {
 	return $newArr;
 }
 
+/**
+ * Decodes element states from binary representation of state (up to 4 entities supported)
+ * 
+ * This function will return decoded state of relays in a switch. A switch has a state of it's relays
+ * encoded in one number as depicted below:
+ *  * ---------
+ * Entities
+ * 4321
+ * ---------
+ * 0000 -  0 (all entities off)
+ * 0001 -  1 (entitiy 1 on, entitiy 2 off, entitiy 3 off, entitiy 4 off)
+ * 0010 -  2 (entitiy 1 off, entitiy 2 on, entitiy 3 off, entitiy 4 off)
+ * 0011 -  3 (entitiy 1 on, entitiy 2 on, entitiy 3 off, entitiy 4 off)
+ * 0100 -  4 (entitiy 1 off, entitiy 2 off, entitiy 3 on, entitiy 4 off)
+ * 1000 -  8 ...
+ * 0101 -  5
+ * 0110 -  6
+ * 1001 -  9
+ * 1010 - 10
+ * 1100 - 12
+ * 0111 -  7
+ * 1011 - 11
+ * 1101 - 13
+ * 1110 - 14
+ * 1111 - 15
+ * 
+ * @param int Current encoded numeric state for all entities in current switch
+ * @param int Number of entities in a switch
+ * @return array array of decoded states for all entities (array lenght is chopped to number of entities value)
+ */
+function decodeSwitchEntityStates($encodedState, $stateCount) {
+	$allStatesArr = [
+		0 => [0, 0, 0, 0],
+		1 => [0, 0, 0, 1],
+		2 => [0, 0, 1, 0],
+		3 => [0, 0, 1, 1],
+		4 => [0, 1, 0, 0],
+		5 => [0, 1, 0, 1],
+		6 => [0, 1, 1, 0],
+		7 => [0, 1, 1, 1],
+		8 => [1, 0, 0, 0],
+		9 => [1, 0, 0, 1],
+	   10 => [1, 0, 1, 0],
+	   11 => [1, 0, 1, 1],
+	   12 => [1, 1, 0, 0],
+	   13 => [1, 1, 0, 1],
+	   14 => [1, 1, 1, 0],
+	   15 => [1, 1, 1, 1]
+   ];
+   return array_slice($allStatesArr[$encodedState], $stateCount);
+}
 
 /**
  * Parse uptime information
@@ -236,7 +287,7 @@ function logError($message, $comment = null) {
 
 // Debugging
 function D($var, $comment = false, $die = true) {
-	echo php_sapi_name() == 'cli' ? '' : '<pre>';
+	echo php_sapi_name() == 'cli' ? "" : '<pre>';
 	echo php_sapi_name() == 'cli' ? "$comment\n" : "$comment<br>";
 	switch(gettype($var)) {
 		case 'string':
@@ -247,10 +298,11 @@ function D($var, $comment = false, $die = true) {
 		case 'array':
 		case 'object' :
 		default :
-			print_r($var);
+			var_export($var);
+			// print_r($var);
 			break;
 	}
-	echo php_sapi_name() == 'cli' ? '' : '</pre>';
+	echo php_sapi_name() == 'cli' ? "\n\n" : '</pre>';
 	if($die) {
 		die();
 	}
@@ -274,7 +326,7 @@ function DE($var, $comment = false) {
 }
 
 // Debug into text file
-function DF($var, $append = true) {
+function DF($var, $append = false) {
 	$debugFile = dirname(__DIR__) . '/log/debug.txt';
 	$s = '[' . date("d.m.Y H:i:s") . "] ====\n";
 	switch(gettype($var)) {

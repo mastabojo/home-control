@@ -1,4 +1,11 @@
 <?php
+/*
+ * -----------------------------
+ * THIS WILL BE REPLACED BY MQTT 
+ * - publishMQTT.PHP
+ * -----------------------------
+ */
+
 // Check if post parameter exists
 if(!isset($_POST["sw"])) {
     die('ERROR1');
