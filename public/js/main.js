@@ -330,8 +330,12 @@ function mainLoop() {
             });
         }
 
+        /*
+         * CHANGE THIS TO MQTT SUBSCRIBE
+         */
         // check the light switches status and update icons (needed due to periodical reboot of NodeMCU devices constolling relays)
         // if(currentMinute % 1 == 0 || forceReload) {
+        /*
         if(currentSecond % 5 == 0 || forceReload) {
             $.post("../api/handleHttpSwitches.php", 
             {"sw": "01_state"},
@@ -343,7 +347,7 @@ function mainLoop() {
                 // setLightSwitchStates("03", data);
             });
         }
-
+        */
         forceReload = false;
 
     }, 1000);
@@ -454,7 +458,7 @@ $(".span-light-switch").on("click", function() {
     console.log(swId + '_' + relId);
 
     $.post(
-        // 
+        // "../api/handleHttpSwitches.php", 
         "../api/publishMQTT.php",
         {"sw": swId + '_' + relId},
         function(data) {
