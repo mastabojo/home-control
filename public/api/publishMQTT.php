@@ -110,7 +110,7 @@ publish_message($newSwitchState, $topic, $MQTT_BROKER_ADDRESS, $mqttPort, $MQTT_
 
 // Update and save status 
 $statusArr['switches'][$witchId] = $newSwitchState;
-if(file_put_contents($savedStateFile, json_encode($statusArr, JSON_PRETTY_PRINT)) === false) {
+if(file_put_contents($savedStateFile, json_encode($statusArr)) === false) {
     logError($errorMsg['filewrite']);
     die(0);
 }

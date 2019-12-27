@@ -433,9 +433,9 @@ $(".weather-display-icons").on("click", function(e) {
 $(".span-light-switch").on("click", function() {
     var switchIcon = $(this);
     // Switch ID
-    var swId =  $(this).data("switch");
+    var swId =  switchIcon.data("switch");
     // Relay ID (0 -4)
-    var relId = $(this).data("relay");
+    var relId = switchIcon.data("relay");
     $.post(
         "../api/publishMQTT.php",
         {"sw": swId + '_' + relId},

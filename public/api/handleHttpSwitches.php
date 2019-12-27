@@ -1,7 +1,7 @@
 <?php
 /*
  * -----------------------------
- * THIS WILL BE REPLACED BY MQTT 
+ * THIS HAS BEEN REPLACED BY MQTT 
  * - publishMQTT.PHP
  * -----------------------------
  */

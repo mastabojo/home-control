@@ -270,6 +270,21 @@ function parseUptime($uptime, $source = 'uptime-p') {
 }
 
 /**
+ * Returns a value for given key for multidimensional array
+ */
+function getArrayKeyValue($sourceArr, $searchKey) {
+    foreach($sourceArr as $key => $val) {
+        if(!is_array($val)) {
+            if($key == $searchKey) {
+                return $val;
+            }        
+        } else {
+            return getArrayKeyValue($val, $searchKey);
+        }
+    }
+}
+
+/**
  * Function for event logging
  */
 function logEvent($message) {
