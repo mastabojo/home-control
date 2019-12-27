@@ -54,9 +54,9 @@ $lang['last_weather_data'] = 'Zadnji podatki';
 /**
  * Lights
  */
-$lang['lights_room_01'] = 'Dnevni prostor';
-$lang['lights_room_02'] = 'Stopnišče';
-$lang['lights_room_03'] = 'Vhod';
+$lang['lights_room_01'] = 'Stopnišče - zid';
+$lang['lights_room_02'] = 'Stopnišče - strop';
+$lang['lights_room_03'] = 'V pripravi';
 
 /**
  * Environment

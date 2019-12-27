@@ -330,24 +330,6 @@ function mainLoop() {
             });
         }
 
-        /*
-         * CHANGE THIS TO MQTT SUBSCRIBE
-         */
-        // check the light switches status and update icons (needed due to periodical reboot of NodeMCU devices constolling relays)
-        // if(currentMinute % 1 == 0 || forceReload) {
-        /*
-        if(currentSecond % 5 == 0 || forceReload) {
-            $.post("../api/handleHttpSwitches.php", 
-            {"sw": "01_state"},
-            function(data) {
-                // Set states for light switch 01 
-                setLightSwitchStates("01", data);
-                // Theese switches will follow once installed
-                // setLightSwitchStates("02", data);
-                // setLightSwitchStates("03", data);
-            });
-        }
-        */
         forceReload = false;
 
     }, 1000);
@@ -449,21 +431,17 @@ $(".weather-display-icons").on("click", function(e) {
 
 // Lights and other switches
 $(".span-light-switch").on("click", function() {
-    var iconId = $(this).attr("id");
+    var switchIcon = $(this);
     // Switch ID
     var swId =  $(this).data("switch");
     // Relay ID (0 -4)
     var relId = $(this).data("relay");
-
-    console.log(swId + '_' + relId);
-
     $.post(
-        // "../api/handleHttpSwitches.php", 
         "../api/publishMQTT.php",
         {"sw": swId + '_' + relId},
         function(data) {
             // data == 0 -> switch is OFF, data == 1 -> switch is ON
-            var svgArtwork = $(this).find(".artwork");
+            var svgArtwork = switchIcon.find(".artwork");
             if(data == "1") {
                 svgArtwork.removeClass("mode-off");
                 svgArtwork.addClass("mode-on");

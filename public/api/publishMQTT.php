@@ -11,6 +11,9 @@ $errorMsg = [
     'entitykey' => 'ERROR: Entitiy key not existing',
 ];
 
+// This will be retruned to originator of ajax call (a light switch) to set the visual state feedback
+$response = 0;
+
 // Check if post parameters exists
 if(!isset($_POST["sw"])) {
     die($errorMsg['postparams']);
@@ -55,7 +58,8 @@ $messagePartsArr = explode("_", $_POST["sw"]);
     !isset($messagePartsArr[1]) ||
     preg_match('/[0-9][0-9]/', $messagePartsArr[0]) !== 1 ||
     preg_match('/[0-9][0-9]/', $messagePartsArr[1]) !== 1) {
-    die($errorMsg['postparamstruct']);
+    logError($errorMsg['postparamstruct']);
+    die(0);
 }
 
 $witchId = $messagePartsArr[0];
@@ -65,14 +69,16 @@ $entityId = $messagePartsArr[1];
  * Check if number of entities in a switch exists
  */
 if(!isset($SWITCH_ENTITIES[$witchId])) {
-    die($errorMsg['entitiescount']);
+    logError($errorMsg['entitiescount']);
+    die(0);
 }
 
 /**
  * Open the file with last status of various app and device settings
  */
 if(($lastStatus = file_get_contents($savedStateFile)) === false) {
-    die($errorMsg['fileread']);
+    logError($errorMsg['fileread']);
+    die(0);
 }
 
 $statusArr = json_decode($lastStatus, true);
@@ -82,11 +88,13 @@ $currentSwitchState = isset($statusArr['switches'][$witchId]) ? $statusArr['swit
 $switchStateDecoded = decodeSwitchEntityStates($currentSwitchState, $SWITCH_ENTITIES[$witchId]);
 
 // Toggle the state of current entity
-$identityKey = intval($entityId) - 1;
-if(isset($switchStateDecoded[$identityKey])) {
-    $switchStateDecoded[$identityKey] = $switchStateDecoded[$identityKey] == 0 ? 1 : 0;
+$entityIdKey = intval($entityId) - 1;
+if(isset($switchStateDecoded[$entityIdKey])) {
+    $switchStateDecoded[$entityIdKey] = $switchStateDecoded[$entityIdKey] == 0 ? 1 : 0;
+    $response = $switchStateDecoded[$entityIdKey];
 } else {
-    die($errorMsg['entitykey']);
+    logError($errorMsg['entitykey']);
+    die(0);
 }
 
 // Encode back to decimal value
@@ -103,7 +111,8 @@ publish_message($newSwitchState, $topic, $MQTT_BROKER_ADDRESS, $mqttPort, $MQTT_
 // Update and save status 
 $statusArr['switches'][$witchId] = $newSwitchState;
 if(file_put_contents($savedStateFile, json_encode($statusArr, JSON_PRETTY_PRINT)) === false) {
-    die($errorMsg['filewrite']);
+    logError($errorMsg['filewrite']);
+    die(0);
 }
 
 /** MQTT functions */
@@ -138,9 +147,10 @@ function connect($r) {
  
 function publish() {
     global $client;
-    echo "Message published:";
+    global $response;
+    echo $response;
 }
  
 function disconnect() {
-    echo "Disconnected|";
+    // echo "Disconnected|";
 }

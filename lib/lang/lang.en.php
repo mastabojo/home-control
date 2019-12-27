@@ -54,9 +54,9 @@ $lang['last_weather_data'] = 'Last data';
 /**
  * Lights
  */
-$lang['lights_room_01'] = 'Living room';
-$lang['lights_room_02'] = 'Stairs';
-$lang['lights_room_03'] = 'Entrance';
+$lang['lights_room_01'] = 'Stairs - wall';
+$lang['lights_room_02'] = 'Stairs - ceiling';
+$lang['lights_room_03'] = 'In progress';
 
 /**
  * Environment
