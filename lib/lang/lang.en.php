@@ -78,6 +78,7 @@ $lang['heating-high-tariff-abbr']    = 'HT';
  */
 $lang['system_refresh']      = 'Refresh';
 $lang['system_exit_browser'] = 'Close browser';
+$lang['system_restart-network'] = 'Restart network';
 $lang['system_reboot']       = 'Reboot';
 $lang['system_shutdown']     = 'Shutdown';
 $lang['system_ipaddr']       = 'IP';

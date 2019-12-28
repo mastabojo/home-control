@@ -17,6 +17,17 @@ $pathToSystemIcons = "/img/system-icons/{$theme}/";
 <?php echo $l->Get("system_exit_browser");?>
 </div><!-- .col -->
 
+
+
+<div class="col text-center">
+<img id="restart-network" src="<?php echo $pathToSystemIcons;?>btn-restart-network.svg"><br>
+<?php echo $l->Get("system_restart-network");?>
+</div><!-- .col -->
+
+
+
+
+
 <div class="col text-center">
 <img id="reboot" src="<?php echo $pathToSystemIcons;?>btn-reboot.svg"><br>
 <?php echo $l->Get("system_reboot");?>

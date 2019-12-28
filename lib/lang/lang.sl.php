@@ -78,6 +78,7 @@ $lang['heating-high-tariff-abbr']    = 'VT';
  */
 $lang['system_refresh']      = 'Osveži';
 $lang['system_exit_browser'] = 'Zapri brskalnik';
+$lang['system_restart-network'] = 'Mreža';
 $lang['system_reboot']       = 'Ponovni zagon';
 $lang['system_shutdown']     = 'Izklop';
 $lang['system_ipaddr_label'] = 'IP';

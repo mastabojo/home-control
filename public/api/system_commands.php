@@ -7,6 +7,7 @@ include_once dirname(__DIR__, 2) . '/env.php';
 include_once dirname(__DIR__, 2) . '/lib/functions.php';
 
 $connectionTestAddress = isset($CONNECTION_CHECK_IP_ADDRESS) ? $CONNECTION_CHECK_IP_ADDRESS : '8.8.8.8';
+$networkPort = 'wlan0';
 
 $commandKey = $_POST['cmd'];
 
@@ -16,9 +17,10 @@ $allowedCommands = [
     'reboot'       => 'sudo /usr/bin/pkill chromium && sudo /sbin/reboot now',
     'shutdown'     => 'sudo /usr/bin/pkill chromium && sudo /sbin/halt',
     'get-ip'       => 'hostname -I',
-    'test-connection'    => 'ping -c 4 ' . $connectionTestAddress,
     'uptime'       => 'cat /proc/uptime',
     // 'uptime'       => 'uptime -p',
+    'test-connection'   => 'ping -c 4 ' . $connectionTestAddress,
+    'restart-network'   => "/sbin/ifdown '$networkPort' && sleep 5 && /sbin/ifup --force '$networkPort'",
 ];
 
 // get rid of all unexpected stuff
@@ -35,6 +37,7 @@ switch($commandKey) {
     case 'exit-browser':
     case 'reboot':
     case 'shutdown':
+    case 'restart-network':
         logEvent("System command executed ($command)");
         exec($command);
         die();
@@ -61,6 +64,7 @@ switch($commandKey) {
         die($result);
         break;
 
+    // Command returns result of parsing output 
     case 'uptime':
         $commandOutput = [];
         $output = exec($command);
