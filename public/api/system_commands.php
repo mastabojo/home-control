@@ -20,7 +20,9 @@ $allowedCommands = [
     'uptime'       => 'cat /proc/uptime',
     // 'uptime'       => 'uptime -p',
     'test-connection'   => 'ping -c 4 ' . $connectionTestAddress,
-    'restart-network'   => "/sbin/ifdown '$networkPort' && sleep 5 && /sbin/ifup --force '$networkPort'",
+    // Following command does not work anymore
+    // 'restart-network'   => "/sbin/ifdown '$networkPort' && sleep 5 && /sbin/ifup --force '$networkPort'",
+    'restart-network'   => "wpa_cli -i $networkPort reconfigure", // The command 
 ];
 
 // get rid of all unexpected stuff
