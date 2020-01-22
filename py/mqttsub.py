@@ -1,5 +1,7 @@
 ### NOT USED
 
+### This script was replaxed with PHP subscribing script
+
 # Install with pip install paho-mqtt
 import paho.mqtt.client as mqtt
 
