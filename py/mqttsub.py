@@ -1,11 +1,13 @@
+### NOT USED
+
 # Install with pip install paho-mqtt
 import paho.mqtt.client as mqtt
 
 DEBUG = True
-MQTT_SERVER = "hcc.local"
+MQTT_SERVER = "MQTTSERVER"
 MQTT_PORT = "1883"
-MQTT_USER = "hccdevice"
-MQTT_PASS = "gasilciRadiZalivajo"
+MQTT_USER = "MQTTUSER"
+MQTT_PASS = "******"
 MQTT_TOPIC = "test/#"
 
 # The callback for when the client receives a connect response from the server.
