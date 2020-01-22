@@ -132,7 +132,7 @@ $DB = getDB($DB_HOST, $DB_NAME, $DB_USER, $DB_PASS);
 
 // Check if the entry for this param_name exists in the table
 $q = "SELECT id FROM app_state WHERE param_name=:paramname";
-$qp = [':paramname' => $witchId];
+$qp = [':paramname' => 'switch_' . $witchId];
 $stmt = $DB->prepare($q);
 try {
     $stmt->execute($qp);
@@ -146,13 +146,13 @@ try {
 if(isset($res) && isset($res[0])) {
     $entityId = $res[0];
     $q = "UPDATE app_state SET param_value=:paramvalue WHERE param_name=:paramname;";
-    $qp = [':paramvalue' => $newSwitchState, ':paramname' => $witchId];
+    $qp = [':paramvalue' => $newSwitchState, ':paramname' => 'switch_' . $witchId];
 } 
 
 // Table entry for the entity (parameter_name) does not exist - do INSERT
 else {
-    $q = "INSERT INTO app_state (param_name, param_value, param_comment) VALUES (:paramvalue, :paramname, 'Inserted thru MQTT message');";
-    $qp = [':paramvalue' => $newSwitchState, ':paramname' => $witchId];
+    $q = "INSERT INTO app_state (param_name, param_value, param_comment) VALUES (:paramname, :paramvalue, 'Inserted thru MQTT message');";
+    $qp = [':paramvalue' => $newSwitchState, ':paramname' => 'switch_' . $witchId];
 }
 
 // Get the query do its work
