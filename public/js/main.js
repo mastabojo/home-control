@@ -25,9 +25,6 @@ var hpChartDisplayDate = moment().format('YYYY-MM-DD');
 // Period for displaying heat pump chart (daily/monthly/yearly) (default daily)
 var hpChartDisplayPeriod = 'daily';
 
-// Light switch 2 URL
-var lightSwitch2Url = "192.168.2.185/Relay2"; 
-
 // Should reload be forced on this run of the loop (to draw things immediately)
 var forceReload = true;
 

@@ -167,6 +167,18 @@ $qry[$table] .= "CREATE TABLE `$table` (
     'updated_at' datetime DEFAULT NULL
    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
 
+// Create app_state table
+$table = 'app_state';
+$qry[$table]  = $dropTablesIfExists ? "DROP TABLE IF EXISTS $table;\n" : '';
+$qry[$table] .= "CREATE TABLE `$table` (
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `param_name` varchar(60) NOT NULL COMMENT 'Parameter name',
+    `param_value` varchar(254) NOT NULL COMMENT 'Parameter value',
+    `param_comment` varchar(510) NOT NULL COMMENT 'Parameter comment - explanation',
+ PRIMARY KEY (`id`)
+   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
+
+
 // Create selected tables
 foreach($qry as $key => $q) {
     // create only selected tables present in the $createTables array
