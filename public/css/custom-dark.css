@@ -106,12 +106,12 @@ span.updated-display {
 }
 
 #heat-pump-pane #span-main-time {
-    font-size:85px;
+    font-size:70px;
     font-weight: light;
 }
 
 #heat-pump-pane #span-main-date {
-    font-size:25px;
+    font-size:24px;
     font-weight: light;
 }
 

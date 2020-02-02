@@ -263,6 +263,37 @@ function mainLoop() {
             $("span#home-shutters-auto-down").text(moment(shuttersDownTime, "H:mm:ss").format("H:mm"));
         }
 
+        // do this not too often (maybe twice a day)
+        if(currentSecond % 5 == 0 || forceReload) {
+            // update sunrise-sunset bar
+            if(localStorage.getItem('sunrise') != null && localStorage.getItem('sunset') != null) {
+                // get x coordinates for sunrise and sunset times
+                var barWidthInPixels = 384;
+                var barWidthInMinutes = 24 * 60;
+                var sunriseTime = localStorage.getItem('sunrise');
+                var sunsetTime = localStorage.getItem('sunset');
+
+                var sunriseMinutes = parseInt(moment(sunriseTime, "H:mm:ss").format("H")) * 60 + parseInt(moment(sunriseTime, "H:mm:ss").format("m"));
+                var sunsetMinutes = parseInt(moment(sunsetTime, "H:mm:ss").format("H")) * 60 + parseInt(moment(sunsetTime, "H:mm:ss").format("m"));
+                var sunriseX = barWidthInPixels * sunriseMinutes / barWidthInMinutes;
+                var sunsetX = barWidthInPixels * sunsetMinutes / barWidthInMinutes;
+                // update svg elements in sunrise-sunset bar
+                $("#sunrise-sunset-bar").find("#sunrise-sunset-bar-box1").attr("width", sunriseX);
+                $("#sunrise-sunset-bar").find("#sunrise-sunset-bar-box2").attr("x", sunriseX);
+                $("#sunrise-sunset-bar").find("#sunrise-sunset-bar-box2").attr("width", sunsetX - sunriseX);
+                $("#sunrise-sunset-bar").find("#sunrise-sunset-bar-box3").attr("x", sunsetX);
+                $("#sunrise-sunset-bar").find("#sunrise-sunset-bar-box3").attr("width", barWidthInPixels - sunsetX);
+                $("#sunrise-sunset-bar").find("#sunrise-time").attr("x", sunriseX);
+                $("#sunrise-sunset-bar").find("#sunset-time").attr("x", sunsetX);
+                $("#sunrise-sunset-bar").find("#sunrise-time").text(moment(sunriseTime, "H:mm:ss").format("H:m"));
+                $("#sunrise-sunset-bar").find("#sunset-time").text(moment(sunsetTime, "H:mm:ss").format("H:m"));
+            } else {
+                // hide the sunrise-sunset bar if no data available
+                $("#sunrise-sunset-bar").hide();
+            }
+        }
+
+
         // open / close shutters on set times
         if(shuttersTimerEnabled && String(currentTime) == shuttersUpTime) {
             $.post('../api/doshutters.php', {"action": "shutter-auto-both-up", "timeDivider": 1});

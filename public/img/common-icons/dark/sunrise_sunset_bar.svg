@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<svg
+    width="384"
+    height="18"
+    viewBox="0 0 384 18"
+    id="sunrise-sunset-bar">
+
+    <rect
+        id="sunrise-sunset-bar-box1"
+        class="sunrise-sunset-bar-box"
+        x="0"
+        y="12"
+        width="96"
+        height="5"
+        style="fill:#808080;stroke:none;"/>
+    <rect
+        id="sunrise-sunset-bar-box2"
+        class="sunrise-sunset-bar-box"
+        x="96"
+        y="12"
+        width="192"
+        height="5"
+        style="fill:#dddddd;stroke:none;" />
+    <rect
+        id="sunrise-sunset-bar-box3"
+        class="sunrise-sunset-bar-box"
+        x="288"
+        y="12"        
+        width="96"
+        height="5"
+        style="fill:#808080;stroke:none;" />
+    <text
+        id="sunrise-time"
+        class="sunrise-sunset-bar-time"
+        x="96"
+        y="4"
+        style="font-size:11px;text-anchor:middle;text-anchor:middle;alignment-baseline:central;fill:#fff;">
+        6:00</text>
+    <text
+        id="sunset-time"
+        class="sunrise-sunset-bar-time"
+        x="288"
+        y="4"
+        style="font-size:11px;text-anchor:middle;text-anchor:middle;alignment-baseline:central;fill:#fff;">
+        18:00</text>
+</svg>

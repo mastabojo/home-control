@@ -85,6 +85,22 @@ foreach($wfcst as $key => $fc) {
 </div><!-- .col -->
 </div><!-- .row -->
 
+
+
+
+<div class="row">
+<div class="col text-center">
+
+<?php include "img/common-icons/$theme/sunrise_sunset_bar.svg";?>
+
+</div><!-- .col -->
+</div><!-- .row -->
+
+
+
+
+
+
 </div><!-- #heat-pump-pane -->
 </div><!-- .row -->
 
