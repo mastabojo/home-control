@@ -285,8 +285,8 @@ function mainLoop() {
                 $("#sunrise-sunset-bar").find("#sunrise-sunset-bar-box3").attr("width", barWidthInPixels - sunsetX);
                 $("#sunrise-sunset-bar").find("#sunrise-time").attr("x", sunriseX);
                 $("#sunrise-sunset-bar").find("#sunset-time").attr("x", sunsetX);
-                $("#sunrise-sunset-bar").find("#sunrise-time").text(moment(sunriseTime, "H:mm:ss").format("H:m"));
-                $("#sunrise-sunset-bar").find("#sunset-time").text(moment(sunsetTime, "H:mm:ss").format("H:m"));
+                $("#sunrise-sunset-bar").find("#sunrise-time").text(moment(sunriseTime, "H:mm:ss").format("H:mm"));
+                $("#sunrise-sunset-bar").find("#sunset-time").text(moment(sunsetTime, "H:mm:ss").format("H:mm"));
             } else {
                 // hide the sunrise-sunset bar if no data available
                 $("#sunrise-sunset-bar").hide();
