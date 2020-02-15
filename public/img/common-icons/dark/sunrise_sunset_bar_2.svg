@@ -6,7 +6,7 @@
    id="sunrise-sunset-bar-2">
 
   <rect
-     id="sunrise-sunset-bar-box1"
+     id="sunrise-sunset-bar-box2"
      class="sunrise-sunset-bar-box"
      x="0"
      y="12"
@@ -20,17 +20,17 @@
      y="1"
      x="0"
      class="sunrise-sunset-bar-box"
-     id="sunrise-sunset-bar-box2" />
+     id="sunrise-sunset-bar-box1" />
 
   <text
      style="font-size:11px;text-anchor:right;text-anchor:middle;alignment-baseline:right;fill:#fff;"
-     id="night-lenght"
+     id="day-lenght"
      y="8.4344749"
      x="298.51846"
      class="sunrise-sunset-bar-time">12:00</text>
 
   <text
-     id="day-lenght"
+     id="night-lenght"
      class="sunrise-sunset-bar-time"
      x="298.51846"
      y="18.027996"
