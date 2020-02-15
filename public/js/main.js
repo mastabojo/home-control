@@ -267,9 +267,32 @@ function mainLoop() {
         }
 
         // do this not too often
-        if(currentHour % 3 == 0 && currentMinute % 19 == 0 && currentSecond % 5 == 0 || forceReload) {
+   if(currentHour % 3 == 0 && currentMinute % 19 == 0 && currentSecond % 5 == 0 || forceReload) {
             // update sunrise-sunset bar
             if(localStorage.getItem('sunrise') != null && localStorage.getItem('sunset') != null) {
+                // 1st variant - day and night bar on top of each other
+                var barWidthInPixels = 280;
+                var sunriseMinutes = parseInt(moment(sunriseTime, "H:mm:ss").format("H")) * 60 + parseInt(moment(sunriseTime, "H:mm:ss").format("m"));
+                var sunsetMinutes = parseInt(moment(sunsetTime, "H:mm:ss").format("H")) * 60 + parseInt(moment(sunsetTime, "H:mm:ss").format("m"));
+                var dayLenghtMinutes = sunsetMinutes - sunriseMinutes;
+                var nightLenghtMinutes = (24 * 60) - dayLenghtMinutes;
+                var dayLenght = Math.floor(dayLenghtMinutes / 60) + ':' + dayLenghtMinutes % 60;
+                var nightLenght = Math.floor(nightLenghtMinutes / 60) + ':' + nightLenghtMinutes % 60;
+                if(dayLenghtMinutes > nightLenghtMinutes) {
+                    dayBarWidth = barWidthInPixels;
+                    nightBarWidth = barWidthInPixels * (nightLenghtMinutes / dayLenghtMinutes);
+                } else {
+                    nightBarWidth = barWidthInPixels;
+                    dayBarWidth = barWidthInPixels * (dayLenghtMinutes / nightLenghtMinutes);                   
+                }
+                $("#sunrise-sunset-bar-2").find("#sunrise-sunset-bar-box1").attr("width", dayBarWidth);
+                $("#sunrise-sunset-bar-2").find("#sunrise-sunset-bar-box2").attr("width", nightBarWidth);
+                $("#sunrise-sunset-bar-2").find("#sunrise-time").text(moment(sunriseTime, "H:mm:ss").format("H:mm"));
+                $("#sunrise-sunset-bar-2").find("#sunset-time").text(moment(sunsetTime, "H:mm:ss").format("H:mm"));
+                $("#sunrise-sunset-bar-2").find("#day-lenght").text(dayLenght);
+                $("#sunrise-sunset-bar-2").find("#night-lenght").text(nightLenght);
+                /*
+                // 2nd variant - day and night bars in one line
                 // get x coordinates for sunrise and sunset times
                 var barWidthInPixels = 384;
                 var barWidthInMinutes = 24 * 60;
@@ -287,6 +310,7 @@ function mainLoop() {
                 $("#sunrise-sunset-bar").find("#sunset-time").attr("x", sunsetX);
                 $("#sunrise-sunset-bar").find("#sunrise-time").text(moment(sunriseTime, "H:mm:ss").format("H:mm"));
                 $("#sunrise-sunset-bar").find("#sunset-time").text(moment(sunsetTime, "H:mm:ss").format("H:mm"));
+                */
             } else {
                 // hide the sunrise-sunset bar if no data available
                 $("#sunrise-sunset-bar").hide();
@@ -381,9 +405,6 @@ function mainLoop() {
                     svgArtwork.addClass("mode-on");
                 });
         };
-
-        console.log("SUNRISE TIME:");
-        console.log(parseInt(moment(sunriseTime, "H:mm:ss").format("H")) + ' - ' + parseInt(moment(sunriseTime, "H:mm:ss").format("m")));
 
         forceReload = false;
 

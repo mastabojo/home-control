@@ -91,7 +91,8 @@ foreach($wfcst as $key => $fc) {
 <div class="row">
 <div class="col text-center">
 
-<?php include "img/common-icons/$theme/sunrise_sunset_bar.svg";?>
+<?php /* include "img/common-icons/$theme/sunrise_sunset_bar.svg";*/?>
+<?php include "img/common-icons/$theme/sunrise_sunset_bar_2.svg";?>
 
 </div><!-- .col -->
 </div><!-- .row -->

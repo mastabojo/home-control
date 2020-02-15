@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="384"
+   height="18"
+   viewBox="0 0 384 18"
+   id="sunrise-sunset-bar-2">
+
+  <rect
+     id="sunrise-sunset-bar-box1"
+     class="sunrise-sunset-bar-box"
+     x="0"
+     y="12"
+     width="280"
+     height="5"
+     style="fill:#808080;stroke:none;" />
+  <rect
+     style="fill:#dddddd;stroke:none;"
+     height="5"
+     width="280"
+     y="1"
+     x="0"
+     class="sunrise-sunset-bar-box"
+     id="sunrise-sunset-bar-box2" />
+
+  <text
+     style="font-size:11px;text-anchor:right;text-anchor:middle;alignment-baseline:right;fill:#fff;"
+     id="night-lenght"
+     y="8.4344749"
+     x="298.51846"
+     class="sunrise-sunset-bar-time">12:00</text>
+
+  <text
+     id="day-lenght"
+     class="sunrise-sunset-bar-time"
+     x="298.51846"
+     y="18.027996"
+     style="font-size:11px;text-anchor:right;text-anchor:middle;alignment-baseline:right;fill:#fff;">12:00</text>
+
+  <text
+     style="font-size:11px;text-anchor:right;text-anchor:middle;alignment-baseline:right;fill:#fff;"
+     id="sunset-time"
+     y="18.027996"
+     x="366.51846"
+     class="sunrise-sunset-bar-time">12:00</text>
+  <text
+     id="sunrise-time"
+     class="sunrise-sunset-bar-time"
+     x="366.51846"
+     y="8.4344749"
+     style="font-size:11px;text-anchor:right;text-anchor:middle;alignment-baseline:right;fill:#fff;">12:00</text>
+    
+  <g
+     id="sunset-sunrise-icon"
+     transform="matrix(0.89544178,0,0,0.89544178,16.011326,3.0219632)"
+     style="stroke-width:1.11676717">
+    <path
+       id="path846"
+       d="m 365.57465,10.696243 a 8.8574564,8.8574564 0 0 0 -4.42873,-7.6707819 8.8574564,8.8574564 0 0 0 -8.85745,0 8.8574564,8.8574564 0 0 0 -4.42873,7.6707819 z"
+       style="fill:none;stroke:#ffffff;stroke-width:1.11676717;" />
+    <path
+       style="fill:none;stroke:#ffffff;stroke-width:1.11676717;"
+       d="m 354.1281,1.0921223 -0.93509,-3.489807"
+       id="path857" />
+    <path
+       id="path859"
+       d="M 363.79073,3.6812206 366.34544,1.126498"
+       style="fill:none;stroke:#ffffff;stroke-width:1.11676717;" />
+    <path
+       style="fill:none;stroke:#ffffff;stroke-width:1.11676717px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 366.37982,8.1656578 3.48981,-0.9350921"
+       id="path861" />
+    <path
+       id="path863"
+       d="m 343.10372,10.754756 27.22987,-8e-6"
+       style="fill:none;stroke:#ffffff;stroke-width:1.11676717;" />
+    <path
+       id="path867"
+       d="M 347.05457,8.1656501 343.56476,7.2305733"
+       style="fill:none;stroke:#ffffff;stroke-width:1.11676717;" />
+    <path
+       style="fill:none;stroke:#ffffff;stroke-width:1.11676717;"
+       d="M 349.64367,3.6812129 347.08894,1.126498"
+       id="path869" />
+    <path
+       id="path871"
+       d="m 359.30629,1.0921223 0.93509,-3.489807"
+       style="fill:none;stroke:#ffffff;stroke-width:1.11676717;" />
+    <path
+       style="fill:none;stroke:#ffffff;stroke-width:1.11676717;"
+       d="m 348.92737,13.096881 15.58258,-8e-6"
+       id="path879" />
+    <path
+       id="path881"
+       d="m 353.31602,15.439006 6.80528,-7e-6"
+       style="fill:none;stroke:#ffffff;stroke-width:1.11676717;" />
+  </g>
+</svg>
