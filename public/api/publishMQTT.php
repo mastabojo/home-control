@@ -1,7 +1,7 @@
 <?php
 /**
  * Publishes message to MQTT from Ajax call
- * Writes state to the app_state tabel in the database
+ * Writes state to the app_state table in the database
  * Currently supports switches
  */
 
@@ -24,7 +24,7 @@ $errorMsg = [
 // This will be retruned to originator of ajax call (a light switch) to set the visual state feedback
 $response = 0;
 
-// Check if post parameters exists
+// Check if post parameters defining the switch exists (required)
 if(!isset($_POST["sw"])) {
     logError($errorMsg['postparams']);
     exit();
@@ -77,6 +77,14 @@ $messagePartsArr = explode("_", $_POST["sw"]);
 $witchId = $messagePartsArr[0];
 $entityId = $messagePartsArr[1];
 
+// State of the switch can be optionaly sent with request
+// if sent, switch is set to the state, if not switch is toggled from previous state
+if(isset($_POST['state']) && ($_POST['state'] == 'on' || $_POST['state'] == 'off')) {
+    $reqState = $_POST['state'] == 'on' ? 1 : 0;
+} else {
+    $reqState = null;
+}
+
 /**
  * Check if number of entities in a switch exists
  */
@@ -95,7 +103,11 @@ if(($lastStatus = file_get_contents($savedStateFile)) === false) {
 
 $statusArr = json_decode($lastStatus, true);
 
-$currentSwitchState = isset($statusArr['switches'][$witchId]) ? $statusArr['switches'][$witchId] : 0;
+if($reqState != null) {
+    $currentSwitchState = $reqState;
+} else {
+    $currentSwitchState = isset($statusArr['switches'][$witchId]) ? $statusArr['switches'][$witchId] : 0;
+}
 
 $switchStateDecoded = decodeSwitchEntityStates($currentSwitchState, $SWITCH_ENTITIES[$witchId]);
 

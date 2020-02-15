@@ -111,6 +111,9 @@ function mainLoop() {
         var currentSecond = parseInt(moment().format('s'));
         var dayNames = {'00' : "Ned", '01' : "Pon", '02' : "Tor", '03' : "Sre", '04' : "Čet", '05' : "Pet", '06' : "Sob"};
 
+        var sunriseTime = localStorage.getItem('sunrise');
+        var sunsetTime = localStorage.getItem('sunset');
+
         // Status pane - current time and date
         $('#status-pane #span-time').text(currentTime);
         $('#span-date').text(currentDate);
@@ -263,16 +266,13 @@ function mainLoop() {
             $("span#home-shutters-auto-down").text(moment(shuttersDownTime, "H:mm:ss").format("H:mm"));
         }
 
-        // do this not too often (maybe twice a day)
-        if(currentSecond % 5 == 0 || forceReload) {
+        // do this not too often
+        if(currentHour % 3 == 0 && currentMinute % 19 == 0 && currentSecond % 5 == 0 || forceReload) {
             // update sunrise-sunset bar
             if(localStorage.getItem('sunrise') != null && localStorage.getItem('sunset') != null) {
                 // get x coordinates for sunrise and sunset times
                 var barWidthInPixels = 384;
                 var barWidthInMinutes = 24 * 60;
-                var sunriseTime = localStorage.getItem('sunrise');
-                var sunsetTime = localStorage.getItem('sunset');
-
                 var sunriseMinutes = parseInt(moment(sunriseTime, "H:mm:ss").format("H")) * 60 + parseInt(moment(sunriseTime, "H:mm:ss").format("m"));
                 var sunsetMinutes = parseInt(moment(sunsetTime, "H:mm:ss").format("H")) * 60 + parseInt(moment(sunsetTime, "H:mm:ss").format("m"));
                 var sunriseX = barWidthInPixels * sunriseMinutes / barWidthInMinutes;
@@ -357,6 +357,33 @@ function mainLoop() {
                     $(".system-tab #uptime-minutes").html(data.minutes != undefined && data.minutes > 0 ? data.minutes : '0');
             });
         }
+
+        // Switch light 01 off at sunrise
+        if(currentHour == parseInt(moment(sunriseTime, "H:mm:ss").format("H")) && currentMinute % 2 == parseInt(moment(sunriseTime, "H:mm:ss").format("m")) && currentSecond == 0) {
+            $.post(
+                "../api/publishMQTT.php",
+                {"sw": "01_01", "state": "off"},
+                function(data) {
+                    var svgArtwork = switchIcon.find(".artwork");
+                    svgArtwork.removeClass("mode-on");
+                    svgArtwork.addClass("mode-off");
+                });
+        };
+
+        // Switch light 01 on at sunset
+        if(currentHour == parseInt(moment(sunsetTime, "H:mm:ss").format("H")) && currentMinute % 2 == parseInt(moment(sunsetTime, "H:mm:ss").format("m")) && currentSecond == 0) {
+            $.post(
+                "../api/publishMQTT.php",
+                {"sw": "01_01", "state": "on"},
+                function(data) {
+                    var svgArtwork = switchIcon.find(".artwork");
+                    svgArtwork.removeClass("mode-off");
+                    svgArtwork.addClass("mode-on");
+                });
+        };
+
+        console.log("SUNRISE TIME:");
+        console.log(parseInt(moment(sunriseTime, "H:mm:ss").format("H")) + ' - ' + parseInt(moment(sunriseTime, "H:mm:ss").format("m")));
 
         forceReload = false;
 
