@@ -388,9 +388,8 @@ function mainLoop() {
                 "../api/publishMQTT.php",
                 {"sw": "01_01", "state": "off"},
                 function(data) {
-                    var svgArtwork = switchIcon.find(".artwork");
-                    svgArtwork.removeClass("mode-on");
-                    svgArtwork.addClass("mode-off");
+                    $("#01_01").find(".artwork").removeClass("mode-on");
+                    $("#01_01").find(".artwork").addClass("mode-off");
                 });
         };
 
@@ -400,9 +399,8 @@ function mainLoop() {
                 "../api/publishMQTT.php",
                 {"sw": "01_01", "state": "on"},
                 function(data) {
-                    var svgArtwork = switchIcon.find(".artwork");
-                    svgArtwork.removeClass("mode-off");
-                    svgArtwork.addClass("mode-on");
+                    $("#01_01").find(".artwork").removeClass("mode-off");
+                    $("#01_01").find(".artwork").addClass("mode-on");
                 });
         };
 
