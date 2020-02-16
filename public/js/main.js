@@ -383,7 +383,7 @@ function mainLoop() {
         }
 
         // Switch light 01 off at sunrise
-        if(currentHour == parseInt(moment(sunriseTime, "H:mm:ss").format("H")) && currentMinute % 2 == parseInt(moment(sunriseTime, "H:mm:ss").format("m")) && currentSecond == 0) {
+        if(currentHour == parseInt(moment(sunriseTime, "H:mm:ss").format("H")) && currentMinute == parseInt(moment(sunriseTime, "H:mm:ss").format("m")) && currentSecond == 0) {
             $.post(
                 "../api/publishMQTT.php",
                 {"sw": "01_01", "state": "off"},
@@ -394,7 +394,7 @@ function mainLoop() {
         };
 
         // Switch light 01 on at sunset
-        if(currentHour == parseInt(moment(sunsetTime, "H:mm:ss").format("H")) && currentMinute % 2 == parseInt(moment(sunsetTime, "H:mm:ss").format("m")) && currentSecond == 0) {
+        if(currentHour == parseInt(moment(sunsetTime, "H:mm:ss").format("H")) && currentMinute == parseInt(moment(sunsetTime, "H:mm:ss").format("m")) && currentSecond == 0) {
             $.post(
                 "../api/publishMQTT.php",
                 {"sw": "01_01", "state": "on"},
