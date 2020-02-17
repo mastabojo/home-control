@@ -1,5 +1,7 @@
 <?php
-session_start();
+if(session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 
 // check if valid user
 if(!isset($_SESSION['user']['userlevel']) || $_SESSION['user']['userlevel'] < 1 || !isset($_SESSION['user']['loggedin'])) {
