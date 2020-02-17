@@ -26,8 +26,8 @@ class HcCalendar {
     */
     public function show() 
     {
-        $year  == null;
-        $month == null;
+        $year  = null;
+        $month = null;
          
         if(null == $year && isset($_GET['year'])) {
             $year = $_GET['year'];

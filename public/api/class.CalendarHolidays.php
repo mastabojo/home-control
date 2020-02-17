@@ -46,9 +46,6 @@ class CalendarHolidays
      */
     public function setHolidayDates($dates = null, $year = null)
     {
-        include_once "class.Lang.php";
-        $lng = new Lang($this->language);
-
         $dates = $dates != null ? $dates : $this->fixedHolidayDatesSi;
         $year = $year != null ?  $year : date("Y");
         
