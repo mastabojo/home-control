@@ -22,7 +22,7 @@ $h->setLangObj($l);
 $holidayDates = $h->getHolidayDates();
 
 foreach($holidayDates as $hDate => $hData) {
-    $events[$hDate][0]['event_text'] = $hData['text'];
+    $events[$hDate][0]['event_text'] = isset($hData['text']) ? $hData['text'] : '';
     $events[$hDate][0]['event_non_workday'] = $hData['non_workday'];
 }
 
