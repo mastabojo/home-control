@@ -276,8 +276,8 @@ function mainLoop() {
                 var sunsetMinutes = parseInt(moment(sunsetTime, "H:mm:ss").format("H")) * 60 + parseInt(moment(sunsetTime, "H:mm:ss").format("m"));
                 var dayLenghtMinutes = sunsetMinutes - sunriseMinutes;
                 var nightLenghtMinutes = (24 * 60) - dayLenghtMinutes;
-                var dayLenght = Math.floor(dayLenghtMinutes / 60) + ':' + dayLenghtMinutes % 60;
-                var nightLenght = Math.floor(nightLenghtMinutes / 60) + ':' + nightLenghtMinutes % 60;
+                var dayLenght = padNumber(Math.floor(dayLenghtMinutes / 60), 2, '0') + ':' + padNumber(dayLenghtMinutes % 60, 2, "0");
+                var nightLenght = padNumber(Math.floor(nightLenghtMinutes / 60), 2, "0") + ':' + padNumber(nightLenghtMinutes % 60, 2, "0");
                 if(dayLenghtMinutes > nightLenghtMinutes) {
                     dayBarWidth = barWidthInPixels;
                     nightBarWidth = barWidthInPixels * (nightLenghtMinutes / dayLenghtMinutes);
@@ -287,8 +287,8 @@ function mainLoop() {
                 }
                 $("#sunrise-sunset-bar-2").find("#sunrise-sunset-bar-box1").attr("width", dayBarWidth);
                 $("#sunrise-sunset-bar-2").find("#sunrise-sunset-bar-box2").attr("width", nightBarWidth);
-                $("#sunrise-sunset-bar-2").find("#sunrise-time").text(moment(sunriseTime, "H:mm:ss").format("H:mm"));
-                $("#sunrise-sunset-bar-2").find("#sunset-time").text(moment(sunsetTime, "H:mm:ss").format("H:mm"));
+                $("#sunrise-sunset-bar-2").find("#sunrise-time").text(moment(sunriseTime, "H:mm:ss").format("HH:mm"));
+                $("#sunrise-sunset-bar-2").find("#sunset-time").text(moment(sunsetTime, "H:mm:ss").format("HH:mm"));
                 $("#sunrise-sunset-bar-2").find("#day-lenght").text(dayLenght);
                 $("#sunrise-sunset-bar-2").find("#night-lenght").text(nightLenght);
                 /*
@@ -619,4 +619,9 @@ function getGaugeRotationAngle(value, range, barAngle) {
         var rotationAngleFromStart = (barAngle) * ((value - range[0]) / (range[1] - range[0]));
     }
     return rotationAngleFromStart - 90 + (180 - barAngle) / 2;
+}
+
+function padNumber(number, lenght, padChar) {
+    var numString = number + "";
+    return numString.padStart(lenght, padChar);
 }
