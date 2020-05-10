@@ -14,7 +14,12 @@ $allowedActions = [
     'shutter-manual-left-down', 'shutter-manual-right-down', 'shutter-manual-both-down'
 ];
 
-if(!isset($_POST['action']) || !in_array($_POST['action'], $allowedActions)) {
+if(!isset($_POST['action'])) {
+    logError("Cmmand for shutters not set");
+    exit();
+}
+
+if(!in_array($_POST['action'], $allowedActions)) {
     logError("Wrong command for shutters: " . addslashes($_POST['action']));
     exit();
 }
