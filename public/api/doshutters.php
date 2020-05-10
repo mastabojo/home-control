@@ -15,7 +15,7 @@ $allowedActions = [
 ];
 
 if(!isset($_POST['action']) || !in_array($_POST['action'], $allowedActions)) {
-    logError("Wrong command for shutters");
+    logError("Wrong command for shutters: " . addslashes($_POST['action']));
     exit();
 }
 
