@@ -164,12 +164,12 @@ class WeatherARSO extends Weather
     protected function isUrlReachable($url)
     {
         // Temporary disabled
-        return true;
+        // return true;
 
         $resURL = curl_init(); 
         curl_setopt($resURL, CURLOPT_URL, $url); 
         curl_setopt($resURL, CURLOPT_BINARYTRANSFER, 1); 
-        curl_setopt($resURL, CURLOPT_HEADERFUNCTION, 'curlHeaderCallback'); 
+        // curl_setopt($resURL, CURLOPT_HEADERFUNCTION, 'curlHeaderCallback'); 
         curl_setopt($resURL, CURLOPT_FAILONERROR, 1); 
         curl_exec ($resURL); 
         $intReturnCode = curl_getinfo($resURL, CURLINFO_HTTP_CODE); 
